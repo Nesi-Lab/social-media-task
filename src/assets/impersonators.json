@@ -1,0 +1,279 @@
+{
+    "blocks": {
+        "watching": [
+            {"rater": "b", "ratee": "a", "score": 2, "num_watching": 47},
+            {"rater": "a", "ratee": "b", "score": 3, "num_watching": 11},
+            {"rater": "b", "ratee": "c", "score": 3, "num_watching": 47},
+            {"rater": "b", "ratee": "d", "score": 2, "num_watching": 40},
+            {"rater": "b", "ratee": "e", "score": 1, "num_watching": 13},
+            {"rater": "b", "ratee": "f", "score": 2, "num_watching": 8},
+            {"rater": "b", "ratee": "g", "score": 1, "num_watching": 51},
+            {"rater": "b", "ratee": "h", "score": 4, "num_watching": 40},
+            {"rater": "b", "ratee": "i", "score": 2, "num_watching": 44},
+            {"rater": "b", "ratee": "j", "score": 2, "num_watching": 11},
+            {"rater": "b", "ratee": "k", "score": 4, "num_watching": 46},
+            {"rater": "b", "ratee": "l", "score": 1, "num_watching": 12},
+            {"rater": "b", "ratee": "m", "score": 3, "num_watching": 8},
+            {"rater": "b", "ratee": "n", "score": 2, "num_watching": 15},
+            {"rater": "b", "ratee": "o", "score": 3, "num_watching": 57}
+        ],
+        "rating": {
+            "f": [
+                {"ratee": "a", "num_watching": 40},
+                {"ratee": "b", "num_watching": 41},
+                {"ratee": "c", "num_watching": 49},
+                {"ratee": "d", "num_watching": 7},
+                {"ratee": "e", "num_watching": 55},
+                {"ratee": "f", "num_watching": 7},
+                {"ratee": "g", "num_watching": 9},
+                {"ratee": "h", "num_watching": 13},
+                {"ratee": "i", "num_watching": 59},
+                {"ratee": "j", "num_watching": 43},
+                {"ratee": "k", "num_watching": 58},
+                {"ratee": "l", "num_watching": 10},
+                {"ratee": "m", "num_watching": 10},
+                {"ratee": "n", "num_watching": 13},
+                {"ratee": "o", "num_watching": 12}
+            ],
+            "m": [
+                {"ratee": "a", "num_watching": 10},
+                {"ratee": "b", "num_watching": 9},
+                {"ratee": "c", "num_watching": 11},
+                {"ratee": "d", "num_watching": 49},
+                {"ratee": "e", "num_watching": 55},
+                {"ratee": "f", "num_watching": 11},
+                {"ratee": "g", "num_watching": 58},
+                {"ratee": "h", "num_watching": 42},
+                {"ratee": "i", "num_watching": 13},
+                {"ratee": "j", "num_watching": 56},
+                {"ratee": "k", "num_watching": 41},
+                {"ratee": "l", "num_watching": 46},
+                {"ratee": "m", "num_watching": 46},
+                {"ratee": "n", "num_watching": 10},
+                {"ratee": "o", "num_watching": 10}
+            ]
+        },
+        "rated": {
+            "f": {
+                "acc": {
+                    "trial": [
+                        {"rater": "a", "score": 3, "num_watching": 44},
+                        {"rater": "b", "score": 2, "num_watching": 12},
+                        {"rater": "c", "score": 4, "num_watching": 48},
+                        {"rater": "d", "score": 4, "num_watching": 11},
+                        {"rater": "e", "score": 4, "num_watching": 14},
+                        {"rater": "f", "score": 1, "num_watching": 10},
+                        {"rater": "g", "score": 4, "num_watching": 14},
+                        {"rater": "h", "score": 0, "num_watching": 14},
+                        {"rater": "i", "score": 3, "num_watching": 15},
+                        {"rater": "j", "score": 4, "num_watching": 51},
+                        {"rater": "k", "score": 3, "num_watching": 54},
+                        {"rater": "l", "score": 4, "num_watching": 56},
+                        {"rater": "m", "score": 0, "num_watching": 10},
+                        {"rater": "n", "score": 1, "num_watching": 41},
+                        {"rater": "o", "score": 4, "num_watching": 54}
+                    ],
+                    "summary": {
+                        "ratee_mean_score": 3.2, 
+                        "raters": [
+                            {"raters": [0, 1], "num_watching": 58},
+                            {"raters": [2, 5], "num_watching": 54},
+                            {"raters": [3, 7], "num_watching": 53},
+                            {"raters": [4, 13], "num_watching": 10},
+                            {"raters": [6, 8], "num_watching": 14},
+                            {"raters": [9, 10], "num_watching": 10},
+                            {"raters": [11, 14], "num_watching": 48}
+                        ]
+                    }
+                },
+                "rej": {
+                    "trial": [
+                        {"rater": "a", "score": 1, "num_watching": 15},
+                        {"rater": "b", "score": 3, "num_watching": 50},
+                        {"rater": "c", "score": 2, "num_watching": 14},
+                        {"rater": "d", "score": 0, "num_watching": 8},
+                        {"rater": "e", "score": 2, "num_watching": 40},
+                        {"rater": "f", "score": 1, "num_watching": 53},
+                        {"rater": "g", "score": 2, "num_watching": 7},
+                        {"rater": "h", "score": 3, "num_watching": 59},
+                        {"rater": "i", "score": 1, "num_watching": 51},
+                        {"rater": "j", "score": 2, "num_watching": 7},
+                        {"rater": "k", "score": 2, "num_watching": 60},
+                        {"rater": "l", "score": 1, "num_watching": 14},
+                        {"rater": "m", "score": 4, "num_watching": 60},
+                        {"rater": "n", "score": 0, "num_watching": 14},
+                        {"rater": "o", "score": 1, "num_watching": 56}
+                    ],
+                    "summary": {
+                        "ratee_mean_score": 1.9, 
+                        "raters": [
+                            {"raters": [0, 1], "num_watching": 42},
+                            {"raters": [2, 3], "num_watching": 11},
+                            {"raters": [4, 7], "num_watching": 15},
+                            {"raters": [5, 12], "num_watching": 52},
+                            {"raters": [6, 8], "num_watching": 14},
+                            {"raters": [9, 10], "num_watching": 56},
+                            {"raters": [11, 14], "num_watching": 9}
+                        ]
+                    }
+                }
+            },
+            "m": {
+                "acc": {
+                    "trial": [
+                        {"rater": "a", "score": 4, "num_watching": 57},
+                        {"rater": "b", "score": 1, "num_watching": 10},
+                        {"rater": "c", "score": 3, "num_watching": 46},
+                        {"rater": "d", "score": 0, "num_watching": 56},
+                        {"rater": "e", "score": 4, "num_watching": 11},
+                        {"rater": "f", "score": 3, "num_watching": 13},
+                        {"rater": "g", "score": 3, "num_watching": 12},
+                        {"rater": "h", "score": 0, "num_watching": 55},
+                        {"rater": "i", "score": 1, "num_watching": 47},
+                        {"rater": "j", "score": 3, "num_watching": 41},
+                        {"rater": "k", "score": 3, "num_watching": 11},
+                        {"rater": "l", "score": 2, "num_watching": 8},
+                        {"rater": "m", "score": 3, "num_watching": 13},
+                        {"rater": "n", "score": 3, "num_watching": 49},
+                        {"rater": "o", "score": 4, "num_watching": 7}
+                    ],
+                    "summary": {
+                        "ratee_mean_score": 2.9, 
+                        "raters": [
+                            {"raters": [0, 1], "num_watching": 46},
+                            {"raters": [2, 3], "num_watching": 14},
+                            {"raters": [4, 8], "num_watching": 54},
+                            {"raters": [5, 11], "num_watching": 10},
+                            {"raters": [6, 9], "num_watching": 13} ,
+                            {"raters": [10, 12], "num_watching": 48},
+                            {"raters": [13, 14],  "num_watching": 7}
+                        ]
+                    }
+                },
+                "rej": {
+                    "trial": [
+                        {"rater": "a", "score": 2, "num_watching": 11},
+                        {"rater": "b", "score": 3, "num_watching": 42},
+                        {"rater": "c", "score": 0, "num_watching": 57},
+                        {"rater": "d", "score": 2, "num_watching": 7},
+                        {"rater": "e", "score": 3, "num_watching": 47},
+                        {"rater": "f", "score": 1, "num_watching": 14},
+                        {"rater": "g", "score": 2, "num_watching": 46},
+                        {"rater": "h", "score": 3, "num_watching": 50}, 
+                        {"rater": "i", "score": 1, "num_watching": 10},
+                        {"rater": "j", "score": 2, "num_watching": 11},
+                        {"rater": "k", "score": 1, "num_watching": 59},
+                        {"rater": "l", "score": 1, "num_watching": 8},
+                        {"rater": "m", "score": 0, "num_watching": 13},
+                        {"rater": "n", "score": 1, "num_watching": 42},
+                        {"rater": "o", "score": 1, "num_watching": 55}
+                    ],
+                    "summary": {
+                        "ratee_mean_score": 2.2, 
+                        "raters": [
+                            {"raters": [0, 1], "num_watching": 7},
+                            {"raters": [3, 2], "num_watching": 48},
+                            {"raters": [5, 4], "num_watching": 44},
+                            {"raters": [6, 7], "num_watching": 13},
+                            {"raters": [8, 9], "num_watching": 45},
+                            {"raters": [10, 11], "num_watching": 44},
+                            {"raters": [13, 14], "num_watching": 13}
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "bios": {
+        "a": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "here is a super long bio that should wrap here is a super long bio that should wrap",
+            "mean_score": 2.5
+        }, 
+        "b": {
+            "gender": "m",
+            "town": "Pawtucket",
+            "bio": "Sorry for eating your homework :(",
+            "mean_score": 4
+        }, 
+        "c": {
+            "gender": "f",
+            "town": "Newport",
+            "bio": "I like long walks in the park!",
+            "mean_score": 3.1
+        },
+        "d": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "here is a super long bio that should wrap",
+            "mean_score": 1.9
+        },
+        "e": {
+            "gender": "m",
+            "town": "Providence",
+            "bio": "<3 Inspirational quote",
+            "mean_score": 2.5
+        },
+        "f": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 3.2
+        },
+        "g": {
+            "gender": "m",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 3.5
+        },
+        "h": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "i": {
+            "gender": "m",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "j": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "k": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "l": {
+            "gender": "m",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "m": {
+            "gender": "m",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "n": {
+            "gender": "f",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        },
+        "o": {
+            "gender": "m",
+            "town": "Providence",
+            "bio": "bio here",
+            "mean_score": 2.5
+        }
+    }
+}
