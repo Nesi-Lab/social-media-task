@@ -1,7 +1,6 @@
 import { impersonatorImgs } from '../assets/imgs'
 
 export function prevNext(props, save = (async function () { })) {
-    console.log(props.curr)
     async function onPrev() {
         save().then(() => props.prev(props.curr))
     }
@@ -34,25 +33,25 @@ export function addOrUpdateTable(tableName, uniqueColumnName, row, eb) {
     eb.sync()
 }
 
-export function slider(names = [""]) {
+export function slider(overrideName = null, names = {"": 50}, update = null) {
     const range = (name) => [
-        (<span>{name}</span>),
-        (<input type="range" id={name} min="1" max="100" style={{ marginLeft: "20px", marginRight: "20px", width: "calc(100% - 40px)" }} />)
+        (<label htmlFor={name}>{name}</label>),
+        (<input type="range" id={overrideName ? overrideName : name} min="1" max="100" defaultValue={names[name]} onChange={update} style={{ marginLeft: "20px", marginRight: "20px", width: "calc(100% - 40px)" }} />)
     ]
-    const labels = (<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridGap: "10px"}}>
-        <span style={{ fontSize: "smaller", textAlign: "left"}}>Not at all</span>
+    const labels = (<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridGap: "10px" }}>
+        <span style={{ fontSize: "smaller", textAlign: "left" }}>Not at all</span>
         <span style={{ fontSize: "smaller", textAlign: "center" }}>Somewhat</span>
         <span style={{ fontSize: "smaller", textAlign: "right" }}>A lot</span>
     </div>)
     return (<div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gridGap: "20px 20px" }}>
         <span></span> {names.length > 1 ? labels : (<span></span>)}
-        {names.map(range)}
+        {Object.keys(names).map(range)}
         <span></span> {labels}
     </div>)
 }
 
-export function getTime() {
-    const today = new Date()
+export function getTime(date = null) {
+    const today = date? date : new Date()
     let h = today.getHours()
     let m = today.getMinutes()
     if (h < 10) { h = "0" + h }
@@ -85,7 +84,8 @@ export function trialProps() {
         return {
             img: impersonatorImgs[id],
             bio: bios[id].bio,
-            score: bios[id].mean_score
+            score: bios[id].mean_score,
+            id: id
         }
     }
 
@@ -143,7 +143,7 @@ export function trialProps() {
             }),
             summaries: allInfo.summary.raters.map(e => {
                 return {
-                    participant: {score: allInfo.summary.ratee_mean_score},
+                    participant: { score: allInfo.summary.ratee_mean_score },
                     left: lookupImp(allInfo.trial[e.raters[0]].rater),
                     right: lookupImp(allInfo.trial[e.raters[1]].rater),
                     watching: e.num_watching

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
+import ReactDOMServer from 'react-dom/server'
+import { useEasybase } from 'easybase-react'
 
 import { eye, x } from '../assets/imgs'
 import { rateText, interpretationText, watchText } from '../assets/text'
 import Feeling from './feeling'
-import { slider } from '../lib/utils'
+import { slider, getTime } from '../lib/utils'
 
 const timerSecs = {
     "anticipation": 3,
@@ -17,7 +19,7 @@ const quadrantStyle = {
     height: "250px",
     padding: "20px",
     paddingTop: "15px",
-    margin: "20px",
+    margin: "25px",
     textAlign: "center"
 }
 
@@ -69,7 +71,7 @@ export default function Block(allProps) {
     //     next and curr?
     // }
     const props = allProps.props
-    const participant = { img: allProps.curr.img, bio: allProps.curr.bio }
+    const participant = { img: allProps.curr.img, bio: allProps.curr.bio, id: "participant" }
 
     // add participant into props where appropriate
     if (props.blockInfo.type == "rating") {
@@ -90,6 +92,7 @@ export default function Block(allProps) {
     const [clickable, setClickable] = useState(props.blockInfo.type == "rating")
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
+    const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
 
     if (currBlock != props.blockInfo.number && finished) {
         // we started a new block and need to reset the state
@@ -101,9 +104,53 @@ export default function Block(allProps) {
         setCurrBlock(props.blockInfo.number)
     }
 
-    console.log("render", props.blockInfo, trialInd, screenType)
+    const {
+        Frame,
+        sync,
+        configureFrame,
+        updateRecordImage,
+        addRecord,
+        isUserSignedIn,
+        useFrameEffect
+    } = useEasybase()
 
-    function nextTrial() {
+    async function saveRow(rec) {
+        const record = {
+            insertAtEnd: true,
+            newRecord: rec,
+            tableName: "TRIALS"
+        }
+        if (isUserSignedIn()) {
+            if (!(await addRecord(record)).success) {
+                console.log("failed to add trial record, trying again...")
+                console.log(await addRecord(record))
+            }
+            if (!configureFrame({ tableName: "TRIALS" }).success) {
+                console.log("failed to configure frame")
+            }
+            if (!(await sync()).success) { console.log("failed to sync") }
+        }
+    }
+
+    function nextTrial(interpretationScore = null) {
+        if (!isSummary) {
+            const today = new Date()
+            const record = {
+                type: props.blockInfo.type,
+                block: props.blockInfo.number,
+                round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
+                trial: trialInd + 1,
+                "rater-id": props.trials[trialInd].rater.id,
+                "ratee-id": props.trials[trialInd].ratee.id,
+                score: (props.blockInfo.type == "rating") ? selectedThumb : props.trials[trialInd].score,
+                "num-watching": props.trials[trialInd].watching,
+                "save-time": getTime(today),
+                "save-datetime": today.getTime().toString()
+            }
+            if (interpretationScore) { record["interpretation-score"] = interpretationScore }
+            saveRow(record)
+        }
+
         const screenList = isSummary ? props.summaries : props.trials
         if (trialInd + 1 == screenList.length) {
             if (props.blockInfo.type != "rated" || isSummary) {
@@ -121,7 +168,6 @@ export default function Block(allProps) {
     }
 
     useEffect(() => {
-
         // edit current screen document
         [1, 2, 3, 4].forEach(e => {
             const elt = document.getElementById("thumb-" + e)
@@ -133,6 +179,12 @@ export default function Block(allProps) {
                 }
             }
         })
+        if (screenType == "anticipation") {
+            ["X", "rateBox"].forEach(e => {
+                const elt = document.getElementById(e)
+                if (elt != null) { elt.style.display = "none" }
+            })
+        }
         if (!isSummary && screenType == "feedback" && props.blockInfo.type != "rating" && props.trials[trialInd].score != 0) {
             highlightThumb("thumb-" + props.trials[trialInd].score)
         }
@@ -157,19 +209,24 @@ export default function Block(allProps) {
 
     }, [trialInd, screenType, isSummary, clickable])
 
-    function person(p, score = null) {
+    function rateBox(score) {
+        const makeRateBox = inner => <p style={{ width: "140px", padding: "8px", position: "absolute", top: "104px", left: "47px", backgroundColor: "#3C3C3C", borderRadius: "10px" }}>{inner}</p>
+        return score == 0 ?
+            makeRateBox("NO RATING PROVIDED") :
+            makeRateBox([<span style={{ fontSize: "larger" }}>Rating: </span>, <span style={{ color: color(score), fontSize: "larger" }}>{score}</span>])
+    }
+
+    function person(p, isRatee, score = null) {
         const drawX = score != null && screenType == "feedback" && (score == 1 || score == 2)
-        const X = (<img src={x} style={{ height: "185px", width: "185px", position: "absolute", top: "7px", left: "35px" }} />)
+        const X = (<img src={x} style={{ height: "185px", width: "185px", position: "absolute", top: "7px", left: "35px", }} />)
 
         const drawRateBox = score != null && screenType == "feedback"
-        const makeRateBox = inner => <p style={{ width: "140px", padding: "8px", position: "absolute", top: "104px", left: "47px", backgroundColor: "#3C3C3C", borderRadius: "10px" }}>{inner}</p>
-        const rateBox = score == 0 ? makeRateBox("NO RATING PROVIDED") : makeRateBox([<span style={{ fontSize: "larger" }}>Rating: </span>, <span style={{ color: color(score), fontSize: "larger" }}>{score}</span>])
 
         return (<div style={quadrantStyle}>
             <div style={{ position: "relative", top: "0", left: "0" }}>
                 <img src={p.img} style={{ height: "200px", width: "200px", borderRadius: "50%", position: "relative", top: "0", left: "0" }} />
-                {drawX ? X : null}
-                {drawRateBox ? rateBox : null}
+                <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
+                <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
             </div>
             <p style={{ marginTop: 0, fontSize: "smaller" }}>{p.bio}</p>
         </div>)
@@ -200,18 +257,25 @@ export default function Block(allProps) {
         style.color = color(score)
         style.border = "2px solid #6a6d80"
         setClickable(false)
+        setSelectedThumb(score)
     }
 
     function handleThumbClick(e) {
         if (clickable) {
             highlightThumb(e.target.id)
+            const score = e.target.id.split("-")[1]
+            if (score == 1 || score == 2) {
+                document.getElementById("X").style.display = "inline"
+            }
+            document.getElementById("rateBox").style.display = "inline"
+            document.getElementById("rateBox").innerHTML = ReactDOMServer.renderToString(rateBox(score))
             setClickable(false)
             setScreenType("feedback")
         }
     }
 
     function handleInterpretationClick(e) {
-        nextTrial()
+        nextTrial(document.getElementById("interpretation").value)
     }
 
     function watchSummary(n) {
@@ -236,20 +300,20 @@ export default function Block(allProps) {
             if (screenType != "interpretation") {
                 return (<div style={{ display: "grid", gridTemplateColumns: "auto auto", margin: "30px" }}>
                     {watch(props.trials[trialInd].watching)}
-                    {person(props.trials[trialInd].ratee, props.trials[trialInd].score)}
-                    {person(props.trials[trialInd].rater)}
+                    {person(props.trials[trialInd].ratee, true, props.trials[trialInd].score)}
+                    {person(props.trials[trialInd].rater, false)}
                     {rate()}
                 </div>)
             } else {
                 return (<div style={{ textAlign: "center" }}>
                     {interpretationText}
                     <img src={props.trials[trialInd].rater.img} style={{ height: "250px", width: "250px", borderRadius: "50%", margin: "30px" }} />
-                    {slider()}
+                    {slider("interpretation")}
                     <button style={{ marginTop: "60px" }} onClick={handleInterpretationClick}>Next</button>
                 </div>)
             }
         } else {
-            return (<div style={{textAlign: "center"}}>
+            return (<div style={{ textAlign: "center" }}>
                 {watchSummary(props.summaries[trialInd].watching)}
                 <div style={{ display: "flex", flexDirection: "row" }}>
                     {personSummary(props.summaries[trialInd].left)}
