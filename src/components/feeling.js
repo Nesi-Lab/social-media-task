@@ -26,7 +26,7 @@ export default function Feeling(props) {
         useFrameEffect
     } = useEasybase()
 
-    function handleSliderChange() {
+    async function handleSliderChange() {
         setVals(Object.keys(vals).reduce((a, c) => {
             return { ...a, [c]: document.getElementById(c).value }
         }, {}))
@@ -38,9 +38,6 @@ export default function Feeling(props) {
             console.log("failed to configure frame")
         }
         if (!(await sync()).success) { console.log("failed to sync") }
-
-        console.log(Frame())
-        console.log(Frame().map(e => e.location))
 
         const row = Object.keys(vals).reduce(
             (a, c) => { return { ...a, [c.toLowerCase()]: vals[c] } },

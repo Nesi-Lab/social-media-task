@@ -149,6 +149,7 @@ export default function Block(allProps) {
             }
             if (interpretationScore) { record["interpretation-score"] = interpretationScore }
             saveRow(record)
+            console.log(record)
         }
 
         const screenList = isSummary ? props.summaries : props.trials
@@ -212,7 +213,7 @@ export default function Block(allProps) {
     function rateBox(score) {
         const makeRateBox = inner => <p style={{ width: "140px", padding: "8px", position: "absolute", top: "104px", left: "47px", backgroundColor: "#3C3C3C", borderRadius: "10px" }}>{inner}</p>
         return score == 0 ?
-            makeRateBox("NO RATING PROVIDED") :
+            makeRateBox(<span style={{fontSize: "large"}}>NO RATING PROVIDED</span>) :
             makeRateBox([<span style={{ fontSize: "larger" }}>Rating: </span>, <span style={{ color: color(score), fontSize: "larger" }}>{score}</span>])
     }
 

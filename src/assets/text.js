@@ -75,7 +75,7 @@ export const feelingText = (<div>
 
 export const feelingList = ["Joyful", "Miserable", "Cheerful", "Mad", "Afraid", "Happy", "Sad", "Scared", "Lively", "Anxious", "Embarrassed", "Proud", "Annoyed"]
 
-export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "30px" }}>
+export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "30px", fontSize: "25px" }}>
     How much would you like to be friends with this person?
 </p>)
 
@@ -108,8 +108,8 @@ export const blockBeginningText = [
     </div>),
 
     (<div>
-        <h1>Now it’s your turn!</h1>,
-        <p>In Round 3, you’ll get to see what other users think of you!</p>,
+        <h1>Now it’s your turn!</h1>
+        <p>In Round 3, you’ll get to see what other users think of you!</p>
         <p>Connect will randomly pair you with other users, and they will rate how much they’d like to be friends with you.</p>
     </div>)
 ]

@@ -54,7 +54,7 @@ export default function User(props) {
     return (
       <div>
         {userID}
-        <input value={usernameValue} onChange={
+        <input type="text" style={{display: "block", margin: "0 auto"}} value={usernameValue} onChange={
           e => setUsernameValue(e.target.value)
         } />
         { prevNext(props, signInUp)}

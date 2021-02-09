@@ -154,13 +154,14 @@ export default function Profile(props) {
     if (screen == "uploadPhoto") {
         return (<div>
             {profileText[0]}
-            <div style={{ display: "flex", flexDirection: "row" }}>
-                <div style={{ ...quadrantStyle, height: "250px", width: "330px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
+                <div style={{ ...quadrantStyle, height: "250px", width: "250px" }}>
                     <img id="participantImg" src={participantImg} style={{ height: "250px", width: "250px", borderRadius: "50%", display: participantImg == "#" ? "none" : "inline" }} />
                 </div>
                 <div>
                     {profileText[1]}
-                    <input type='file' onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
+                    <label htmlFor="fileUpload" class="upload">Upload Image</label>
+                    <input type='file' id="fileUpload" style={{display: "none"}} onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
                 </div>
             </div>
             {participantImg == "#" ?
