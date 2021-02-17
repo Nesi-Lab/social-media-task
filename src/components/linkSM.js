@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 
 import { socialMediaImgs, check, loading } from '../assets/imgs'
 import { socialMediaText } from '../assets/text'
-import { prevNext, addOrUpdateTable } from '../lib/utils'
+import { prevNext } from '../lib/utils'
 
 function makeOption(socialMedia) {
     const img = socialMediaImgs[socialMedia]
     return (<div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
         <input type="checkbox" id={socialMedia} name={socialMedia} value={socialMedia} />
-        <label htmlFor={socialMedia}><img src={img} style={{ width: "75px", margin: "10px" }} /></label>
-        <input type="text" placeholder={socialMedia == "fb" ? "Email/phone" : "Username"} style={{ width: "180px" }} />
+        <label htmlFor={socialMedia}><img src={img} alt="social media icon" style={{ width: "75px", margin: "10px" }} /></label>
+        <input type="text" placeholder={socialMedia === "fb" ? "Email/phone" : "Username"} style={{ width: "180px" }} />
         <br />
     </div>)
 }
@@ -23,7 +23,6 @@ export default function LinkSM(props) {
     const [finished, setFinished] = useState(false)
 
     const {
-        Frame,
         sync,
         configureFrame,
         addRecord,
@@ -34,7 +33,7 @@ export default function LinkSM(props) {
         if (isLoad && !finished) {
             const timer = setTimeout(() => {
                 const ind = checked.findIndex(e => !e)
-                if (ind == -1) {
+                if (ind === -1) {
                     setFinished(true)
                 }
                 const copy = [...checked]
@@ -57,7 +56,7 @@ export default function LinkSM(props) {
         )
         setSelected(sel)
         setChecked(sel.map(_ => false))
-        setFinished(sel.length == 0)
+        setFinished(sel.length === 0)
     }
 
     async function save() {
@@ -90,10 +89,10 @@ export default function LinkSM(props) {
             </div>
         </div>)
     } else {
-        const imgs = selected.map((e, i) => (<img src={checked[i] ? check : socialMediaImgs[e]} style={{ width: "75px", margin: "10px" }} />))
+        const imgs = selected.map((e, i) => (<img src={checked[i] ? check : socialMediaImgs[e]} alt="social media icon" style={{ width: "75px", margin: "10px" }} />))
         if (!finished) {
             return (<div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={loading} style={{ width: "75px", margin: "10px" }} />
+                <img src={loading} alt="loading gif" style={{ width: "75px", margin: "10px" }} />
                 {imgs}
             </div>)
         } else {

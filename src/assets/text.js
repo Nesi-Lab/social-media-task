@@ -1,4 +1,4 @@
-export const userID = (<p>Participant ID</p>)
+export const userID = (<p style={{textAlign: "center"}}>Participant ID</p>)
 
 export const introText = [
     (<div>
@@ -51,7 +51,7 @@ export const profileText = [
 
     (<p>Your bio is:</p>),
 
-    (<p>How much does this bio represent who you are? (Other people won't see your answer)</p>),
+    (<p style={{fontSize: "x-large"}}>How much does this bio represent who you are? <br />(Other people won't see your answer)</p>),
 
     (<h1>You're all set!</h1>)
 ]
@@ -67,7 +67,7 @@ export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"]
 // the variable names like "town" in "info.town" correspond to the ids in bioQuestions
 export const makeBio = (info) => (<span><i>I'm from {info.town} </i>{info.emoji}<i> I love to {info.activity}</i></span>)
 
-export const feelingText = (<div>
+export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p>Here are a number of words that describe different feelings and emotions.</p>
     <p>Please indicate how much you feel this way <i>right now</i>, in the present moment.</p>
     <p style={{ color: "red" }}>This information is completely private. Only the researchers will see your ratings.</p>
@@ -75,7 +75,7 @@ export const feelingText = (<div>
 
 export const feelingList = ["Joyful", "Miserable", "Cheerful", "Mad", "Afraid", "Happy", "Sad", "Scared", "Lively", "Anxious", "Embarrassed", "Proud", "Annoyed"]
 
-export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "30px" }}>
+export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "30px", fontSize: "25px" }}>
     How much would you like to be friends with this person?
 </p>)
 
@@ -108,8 +108,8 @@ export const blockBeginningText = [
     </div>),
 
     (<div>
-        <h1>Now it’s your turn!</h1>,
-        <p>In Round 3, you’ll get to see what other users think of you!</p>,
+        <h1>Now it’s your turn!</h1>
+        <p>In Round 3, you’ll get to see what other users think of you!</p>
         <p>Connect will randomly pair you with other users, and they will rate how much they’d like to be friends with you.</p>
     </div>)
 ]
@@ -120,4 +120,10 @@ export const betweenBlocksText = [
 
 export const endingText = [
     (<h1>You're all done.</h1>)
+]
+
+export const sliderLabels = [
+    (<span style={{ fontSize: "smaller", textAlign: "left" }}>Not at all</span>),
+    (<span style={{ fontSize: "smaller", textAlign: "center" }}>Somewhat</span>),
+    (<span style={{ fontSize: "smaller", textAlign: "right" }}>A lot</span>)
 ]

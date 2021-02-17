@@ -16,16 +16,13 @@ export default function User(props) {
     signOut,
     signUp,
     getUserAttributes,
-    setUserAttribute,
-    Frame,
-    configureFrame,
-    sync
+    setUserAttribute
   } = useEasybase();
 
 
   useEffect(() => {
     getUserAttributes().then(setUserAttributes)
-  }, [setUserAttributes])
+  }, [setUserAttributes, getUserAttributes])
 
   async function signInUp() {
     const signInResponse = await signIn(usernameValue, universalPassword)
@@ -54,7 +51,7 @@ export default function User(props) {
     return (
       <div>
         {userID}
-        <input value={usernameValue} onChange={
+        <input type="text" style={{display: "block", margin: "0 auto"}} value={usernameValue} onChange={
           e => setUsernameValue(e.target.value)
         } />
         { prevNext(props, signInUp)}

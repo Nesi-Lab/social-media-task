@@ -1,15 +1,21 @@
 import { useEasybase } from 'easybase-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { feelingText, feelingList } from '../assets/text'
-import { getTime, prevNext, slider } from '../lib/utils'
+import { getTime, multiSlider } from '../lib/utils'
+var pick = require('lodash.pick');
 
 export default function Feeling(props) {
 
     // const [curr, setCurr] = useState(props.loc)
     const [vals, setVals] = useState(Object.fromEntries(feelingList.map(e => [e, "50"])))
+    const [screenNum, setScreenNum] = useState(0)
 
-    // if (curr != props.loc) {
+    const splitInd = Math.floor(feelingList.length / 2) + 1
+    const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]))
+    const valsSubset = pick(vals, feelingsToDisplay)
+
+    // if (curr !== props.loc) {
     //     // we started a new feelings screen and need to reset the state
     //     console.log("new screen")
     //     setVals(Object.fromEntries(feelingList.map(e => [e, "50"])))
@@ -18,18 +24,15 @@ export default function Feeling(props) {
     // }
 
     const {
-        Frame,
         sync,
         configureFrame,
         addRecord,
-        isUserSignedIn,
-        useFrameEffect
+        isUserSignedIn
     } = useEasybase()
 
-    function handleSliderChange() {
-        setVals(Object.keys(vals).reduce((a, c) => {
-            return { ...a, [c]: document.getElementById(c).value }
-        }, {}))
+    async function handleSliderChange(e) {
+        const changed = e.target.id
+        setVals({...vals, [changed]: document.getElementById(changed).value})
     }
 
     async function save() {
@@ -38,9 +41,6 @@ export default function Feeling(props) {
             console.log("failed to configure frame")
         }
         if (!(await sync()).success) { console.log("failed to sync") }
-
-        console.log(Frame())
-        console.log(Frame().map(e => e.location))
 
         const row = Object.keys(vals).reduce(
             (a, c) => { return { ...a, [c.toLowerCase()]: vals[c] } },
@@ -63,11 +63,22 @@ export default function Feeling(props) {
         }
     }
 
+    function changeScreen() {
+        setScreenNum(screenNum === 0 ? 1 : 0)
+    }
+
+    async function onNext() {
+        save().then(() => props.next(props.curr))
+    }
+
     return (<div>
         {feelingText}
         <div style={{ marginLeft: "50px", marginRight: "50px" }}>
-            {slider(null, vals, handleSliderChange)}
+            {multiSlider(valsSubset, handleSliderChange)}
         </div>
-        {prevNext(props, save)}
+        <div style={{ textAlign: "center", marginTop: "50px", marginBottom: "50px" }}>
+            <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={screenNum === 0 ? () => props.prev(props.curr) : changeScreen}>Previous</button>
+            <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={screenNum === 0 ? changeScreen : onNext}>Next</button>
+        </div>
     </div>)
 }
