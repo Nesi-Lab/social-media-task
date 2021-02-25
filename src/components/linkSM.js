@@ -7,11 +7,11 @@ import { prevNext } from '../lib/utils'
 
 function makeOption(socialMedia) {
     const img = socialMediaImgs[socialMedia]
-    return (<div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    return (<div className="social-media">
         <input type="checkbox" id={socialMedia} name={socialMedia} value={socialMedia} />
-        <label htmlFor={socialMedia}><img src={img} alt="social media icon" style={{ width: "75px", margin: "10px" }} /></label>
-        <input type="text" placeholder={socialMedia === "fb" ? "Email/phone" : "Username"} style={{ width: "180px" }} />
-        <br />
+        <label htmlFor={socialMedia}><img src={img} alt="social media icon" className="social-media-img" /></label>
+        {/* <input type="text" placeholder={socialMedia === "fb" ? "Email/phone" : "Username"} style={{ width: "180px" }} /> */}
+        {/* <br /> */}
     </div>)
 }
 
@@ -21,6 +21,7 @@ export default function LinkSM(props) {
     const [isLoad, setIsLoad] = useState(false)
     const [checked, setChecked] = useState(null)
     const [finished, setFinished] = useState(false)
+    const [phoneFilled, setPhoneFilled] = useState(false)
 
     const {
         sync,
@@ -78,30 +79,44 @@ export default function LinkSM(props) {
         }
     }
 
+    function handlePhoneTyped(e) {
+        const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
+        if (phoneRegex.test(e.target.value)) { setPhoneFilled(true) }
+    }
+
+
     if (!isLoad) {
-        return (<div>
+        return (<div style={{ textAlign: "center" }}>
             {socialMediaText[0]}
-            {Object.keys(socialMediaImgs).map(makeOption)}
+            <div style={{ margin: "60px" }}>
+                <label htmlFor="phone" style={{ marginRight: "20px" }}>Phone number:</label>
+                <input type="text" placeholder={"(XXX) XXX-XXXX"} autoComplete="off" onInput={handlePhoneTyped} id="phone" style={{ width: "180px" }} />
+                <div className="social-medias">
+                    {Object.keys(socialMediaImgs).map(makeOption)}
+                </div>
+            </div>
             {socialMediaText[1]}
-            <div style={{ textAlign: "center", marginTop: "50px", marginBottom: "50px" }}>
+            <div className="prev-next">
                 <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={onPrev}>Previous</button>
-                <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={setupLoad}>Next</button>
+                {phoneFilled ?
+                    <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={setupLoad}>Next</button> :
+                    null}
             </div>
         </div>)
     } else {
         const imgs = selected.map((e, i) => (<img src={checked[i] ? check : socialMediaImgs[e]} alt="social media icon" style={{ width: "75px", margin: "10px" }} />))
         if (!finished) {
-            return (<div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={loading} alt="loading gif" style={{ width: "75px", margin: "10px" }} />
+            return (<div className="social-media-loading">
+                <img src={loading} alt="loading gif" className="loading-gif" />
                 {imgs}
             </div>)
         } else {
             return (<div>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="social-media-loading">
                     {imgs}
                 </div>
                 {socialMediaText[2]}
-                {prevNext({curr: props.curr, next: props.next}, save)}
+                {prevNext({ curr: props.curr, next: props.next }, save)}
             </div>)
         }
     }

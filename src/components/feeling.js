@@ -73,10 +73,10 @@ export default function Feeling(props) {
 
     return (<div>
         {feelingText}
-        <div style={{ marginLeft: "50px", marginRight: "50px" }}>
+        <div className="feeling-slider">
             {multiSlider(valsSubset, handleSliderChange)}
         </div>
-        <div style={{ textAlign: "center", marginTop: "50px", marginBottom: "50px" }}>
+        <div className="prev-next">
             <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={screenNum === 0 ? () => props.prev(props.curr) : changeScreen}>Previous</button>
             <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={screenNum === 0 ? changeScreen : onNext}>Next</button>
         </div>

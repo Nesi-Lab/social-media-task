@@ -23,9 +23,9 @@ export const introText = [
 ]
 
 export const socialMediaText = [
-    (<p>Please check any social media sites you use. <b>Connect</b> will search your contacts to see if anyone you know is participating...</p>),
+    (<p style={{textAlign: "left"}}>Please enter your phone number and check any social media sites you use. <b>Connect</b> will search your contacts to see if anyone you know is participating...</p>),
     
-    (<p style={{ color: "red" }}>Remember: Connect is totally private. We will <i>never</i> access your personal information, post anything on your account, or notify your contacts.</p>),
+    (<p style={{ color: "red", textAlign: "left" }}>Remember: Connect is totally private. We will <i>never</i> access your personal information, post anything on your account, or notify your contacts.</p>),
     
     (<div>
         <p>There are a total of <span style={{ color: "lightgreen", fontSize: "larger" }}>53</span> users on Connect.</p>
@@ -65,7 +65,8 @@ export const bioQuestions = {
 export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"]
 
 // the variable names like "town" in "info.town" correspond to the ids in bioQuestions
-export const makeBio = (info) => (<span><i>I'm from {info.town} </i>{info.emoji}<i> I love to {info.activity}</i></span>)
+export const makeBio = (info) => (<span><i>{info.town} </i>{info.emoji}<i> {info.activity}</i></span>)
+export const makeBioPlain = (info) => `${info.town} ${info.emoji} ${info.activity}`
 
 export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p>Here are a number of words that describe different feelings and emotions.</p>
@@ -91,8 +92,7 @@ export const watchText = {
 }
 
 export const tutorialText = [
-    (<h1></h1>)
-    // (<h1 style={{textAlign: "left"}}>Here's how it will look...</h1>)
+    (<h1 style={{textAlign: "left"}}>Here's how it will look...</h1>)
 ]
 
 export const blockBeginningText = [

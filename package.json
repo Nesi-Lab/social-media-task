@@ -40,5 +40,6 @@
   },
   "devDependencies": {
     "gh-pages": "^3.1.0"
-  }
+  },
+  "proxy": "http://social-media-game.herokuapp.com/"
 }

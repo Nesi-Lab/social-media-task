@@ -13,23 +13,12 @@ const timerSecs = {
         "feedback": 6,
     },
     "rating": {
-        "feedback": 2,
+        "feedback": 1,
     },
     "rated": {
         "anticipation": 3,
         "feedback": 6,
     }
-}
-
-const quadrantStyle = {
-    backgroundColor: "#091147",
-    borderRadius: "20px",
-    width: "250px",
-    height: "250px",
-    padding: "20px",
-    paddingTop: "15px",
-    margin: "25px",
-    textAlign: "center"
 }
 
 const color = (score) => score < 2.5 ? "red" : "green"
@@ -59,6 +48,7 @@ export default function Block(allProps) {
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
 
+
     if (currBlock !== props.blockInfo.number && finished) {
         // we started a new block and need to reset the state
         setTrialInd(0)
@@ -76,32 +66,6 @@ export default function Block(allProps) {
         isUserSignedIn
     } = useEasybase()
 
-    const thumbStyle = (isUp) => {
-        const img = isUp ? `url(/img/up_thumb.png)` : `url(/img/down_thumb.png)`
-        const marginTop = isUp ? "0px" : "15px"
-        const marginBottom = isUp ? "15px" : "0px"
-        const styles = {
-            backgroundImage: img,
-            backgroundSize: "50px 50px",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            height: "60px",
-            width: "60px",
-            backgroundColor: "transparent",
-            border: "none",
-            marginRight: "10px",
-            marginTop: marginTop,
-            marginBottom: marginBottom,
-            fontSize: "larger",
-            paddingTop: marginBottom,
-            paddingBottom: marginTop,
-            color: "black"
-        }
-        if (props.blockInfo.type === "rating" && screenType === "anticipation") {
-            styles["cursor"] = "pointer"
-        }
-        return styles
-    }
 
     async function saveRow(rec) {
         const record = {
@@ -197,10 +161,10 @@ export default function Block(allProps) {
             return () => clearTimeout(timer)
         }
 
-    }, [trialInd, screenType, isSummary])
+    }, [trialInd, screenType, isSummary, clickable])
 
     function rateBox(score) {
-        const makeRateBox = inner => <p style={{ width: "140px", padding: "8px", position: "absolute", top: "104px", left: "47px", backgroundColor: "#3C3C3C", borderRadius: "10px" }}>{inner}</p>
+        const makeRateBox = inner => <p className="rate-box">{inner}</p>
         return score === 0 ?
             makeRateBox(<span style={{ fontSize: "large" }}>NO RATING PROVIDED</span>) :
             makeRateBox([<span style={{ fontSize: "larger" }}>Rating: </span>, <span style={{ color: color(score), fontSize: "larger" }}>{score}</span>])
@@ -208,35 +172,36 @@ export default function Block(allProps) {
 
     function person(p, isRatee, score = null) {
         const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2)
-        const X = (<img src={x} alt="x" style={{ height: "185px", width: "185px", position: "absolute", top: "7px", left: "35px", }} />)
+        const X = (<img src={x} alt="x" className="x" />)
 
         const drawRateBox = score !== null && screenType === "feedback"
 
-        return (<div style={quadrantStyle}>
-            <div style={{ position: "relative", top: "0", left: "0" }}>
-                <img src={p.img} alt={isRatee ? "ratee" : "rater"} style={{ height: "200px", width: "200px", borderRadius: "50%", position: "relative", top: "0", left: "0" }} />
+        return (<div className="quadrant">
+            <div className="person">
+                <img src={p.img} alt={isRatee ? "ratee" : "rater"} className="person-img" />
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
                 <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
             </div>
-            <p style={{ marginTop: 0, fontSize: "smaller" }}>{p.bio}</p>
+            <p className="person-bio">{p.bio}</p>
         </div>)
     }
 
     function watch(n) {
-        return (<div style={quadrantStyle}>
+        return (<div className="quadrant">
             <img src={eye} alt="eye" style={{ width: "150px" }} />
             {props.blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
         </div>)
     }
 
     function rate() {
-        return (<div style={quadrantStyle}>
+        const antRat = props.blockInfo.type === "rating" && screenType === "anticipation" ? "thumb-anticipation-rating" : ""
+        return (<div className="quadrant">
             {rateText}
-            <div style={{ display: "flex", flexDirection: "row", marginRight: "-10px" }}>
-                <button style={thumbStyle(false)} id="thumb-1" onClick={handleThumbClick}>1</button>
-                <button style={thumbStyle(false)} id="thumb-2" onClick={handleThumbClick}>2</button>
-                <button style={thumbStyle(true)} id="thumb-3" onClick={handleThumbClick}>3</button>
-                <button style={thumbStyle(true)} id="thumb-4" onClick={handleThumbClick}>4</button>
+            <div className="thumbs">
+                <button className={"thumb thumb-down " + antRat} id="thumb-1" onClick={handleThumbClick}>1</button>
+                <button className={"thumb thumb-down " + antRat} id="thumb-2" onClick={handleThumbClick}>2</button>
+                <button className={"thumb thumb-up " + antRat} id="thumb-3" onClick={handleThumbClick}>3</button>
+                <button className={"thumb thumb-up " + antRat} id="thumb-4" onClick={handleThumbClick}>4</button>
             </div>
         </div>)
     }
@@ -269,18 +234,18 @@ export default function Block(allProps) {
     }
 
     function watchSummary(n) {
-        return (<div style={{ display: "grid", gridTemplateColumns: "auto auto auto", margin: "50px", gap: "10px", alignItems: "center", justifyContent: "center" }}>
-            <img src={eye} alt="eye" style={{ width: "200px", height: "100px", marginRight: "20px" }} />
+        return (<div className="watch-summary">
+            <img src={eye} alt="eye" className="summary-eye" />
             {watchText.summary(n)}
         </div>)
     }
 
     function personSummary(p) {
         const drawScore = p.score !== null && screenType === "feedback"
-        const score = (<p style={{ width: "200px", marginTop: "5px" }}>Average rating: <br /><span style={{ fontSize: "larger", color: color(p.score) }}>{p.score}</span></p>)
+        const score = (<p className="summary-score">Average rating: <br /><span style={{ fontSize: "larger", color: color(p.score) }}>{p.score}</span></p>)
 
-        return (<div style={{ textAlign: "center", margin: "20px" }}>
-            <img src={p.img} alt="person summary" style={{ height: "200px", width: "200px", borderRadius: "50%" }} />
+        return (<div className="summary-person">
+            <img src={p.img} alt="person summary" className="summary-person-img" />
             {drawScore ? score : null}
         </div>)
     }
@@ -288,7 +253,7 @@ export default function Block(allProps) {
     if (!finished) {
         if (!isSummary) {
             if (screenType !== "interpretation") {
-                return (<div style={{ display: "grid", gridTemplateColumns: "auto auto", margin: "30px" }}>
+                return (<div className="reg-block">
                     {watch(props.trials[trialInd].watching)}
                     {person(props.trials[trialInd].ratee, true, props.trials[trialInd].score)}
                     {person(props.trials[trialInd].rater, false)}
@@ -297,7 +262,7 @@ export default function Block(allProps) {
             } else {
                 return (<div style={{ textAlign: "center" }}>
                     {interpretationText}
-                    <img src={props.trials[trialInd].rater.img} alt="rater" style={{ height: "250px", width: "250px", borderRadius: "50%", margin: "30px" }} />
+                    <img src={props.trials[trialInd].rater.img} alt="rater" className="interpretation-img" />
                     {slider("interpretation")}
                     <button style={{ marginTop: "60px" }} onClick={handleInterpretationClick}>Next</button>
                 </div>)
@@ -305,7 +270,7 @@ export default function Block(allProps) {
         } else {
             return (<div style={{ textAlign: "center" }}>
                 {watchSummary(props.summaries[trialInd].watching)}
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="summary">
                     {personSummary(props.summaries[trialInd].left)}
                     {personSummary(props.summaries[trialInd].participant)}
                     {personSummary(props.summaries[trialInd].right)}

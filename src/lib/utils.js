@@ -8,7 +8,7 @@ export function prevNext(props, save = (async function () { })) {
     async function onNext() {
         save().then(() => props.next(props.curr))
     }
-    return (<div style={{ textAlign: "center", marginTop: "50px", marginBottom: "50px" }}>
+    return (<div className="prev-next">
         <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={onPrev}>Previous</button>
         <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={onNext}>Next</button>
     </div>)
@@ -34,13 +34,13 @@ export function addOrUpdateTable(tableName, uniqueColumnName, row, eb) {
     eb.sync()
 }
 
-const labels = (<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gridGap: "10px" }}>
+const labels = (<div className="slider-labels">
     {sliderLabels}
 </div>)
 
 export function slider(name) {
     return (<div>
-        <input type="range" id={name} min="1" max="100" defaultValue="50" style={{ marginLeft: "20px", marginRight: "20px", width: "calc(100% - 40px)" }} />
+        <input type="range" id={name} min="1" max="100" defaultValue="50" className="slider" />
         {labels}
     </div>)
 }
@@ -48,9 +48,9 @@ export function slider(name) {
 export function multiSlider(names, update) {
     const range = (name) => [
         (<label htmlFor={name}>{name}</label>),
-        (<input type="range" id={name} min="1" max="100" value={names[name]} onChange={update} style={{ marginLeft: "20px", marginRight: "20px", width: "calc(100% - 40px)" }} />)
+        (<input type="range" id={name} min="1" max="100" value={names[name]} onChange={update} className="slider" />)
     ]
-    return (<div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gridGap: "20px 20px" }}>
+    return (<div className="multi-slider">
         <span></span> {labels}
         {Object.keys(names).map(range)}
         <span></span> {labels}
