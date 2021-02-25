@@ -30,16 +30,9 @@ export default function Feeling(props) {
         isUserSignedIn
     } = useEasybase()
 
-<<<<<<< HEAD
     async function handleSliderChange(e) {
         const changed = e.target.id
         setVals({...vals, [changed]: document.getElementById(changed).value})
-=======
-    async function handleSliderChange() {
-        setVals(Object.keys(vals).reduce((a, c) => {
-            return { ...a, [c]: document.getElementById(c).value }
-        }, {}))
->>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
     }
 
     async function save() {
