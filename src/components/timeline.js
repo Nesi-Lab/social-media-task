@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
-import { useEasybase } from 'easybase-react';
+import { useState } from "react"
 
 import Instruction from './instruction'
 import LinkSM from './linkSM'

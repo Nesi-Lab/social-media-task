@@ -35,7 +35,11 @@ button {
   padding-right: 1rem;
 }
 
+<<<<<<< HEAD
+.upload-button {
+=======
 .upload {
+>>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
   border: 1px solid darkgrey;
   display: inline-block;
   padding: 6px 12px;
@@ -43,6 +47,268 @@ button {
   border-radius: "10px";
 }
 
+<<<<<<< HEAD
+.upload-button:hover {
+  background-color: #1f1f1f;
+}
+
+.thumb {
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 60px;
+  width: 60px;
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+  font-size: larger;
+  color: black;
+}
+
+.thumb-up {
+  background-image: url("assets/src-images/up_thumb.png");
+  margin-top: 0px;
+  margin-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 0px;
+}
+
+.thumb-down {
+  background-image: url("assets/src-images/down_thumb.png");
+  margin-top: 15px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 15px;
+}
+
+.thumb-anticipation-rating {
+  cursor: pointer;
+}
+
+.rate-box {
+  width: 140px;
+  padding: 8px;
+  position: absolute;
+  top: 104px;
+  left: 47px;
+  background-color: #3C3C3C;
+  border-radius: 10px;
+}
+
+.x {
+  height: 185px;
+  width: 185px;
+  position: absolute;
+  top: 7px;
+  left: 35px;
+}
+
+.quadrant {
+  background-color: #091147;
+  border-radius: 20px;
+  width: 250px;
+  height: 250px;
+  padding: 20px;
+  padding-top: 15px;
+  margin: 25px;
+  text-align: center;
+}
+
+.person {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.person-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.person-bio {
+  margin-top: 0;
+  font-size: smaller;
+}
+
+.thumbs {
+  display: flex;
+  flex-direction: row;
+  margin-right: -10px;
+}
+
+.watch-summary {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  margin: 50px;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary-eye {
+  width: 200px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.summary-score {
+  width: 200px;
+  margin-top: 5px;
+}
+
+.summary-person {
+  text-align: center;
+  margin: 20px;
+}
+
+.summary-person-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+.reg-block {
+  display: grid;
+  grid-template-columns: auto auto;
+  margin: 30px;
+}
+
+.interpretation-img {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  margin: 30px;
+}
+
+.summary {
+  display: flex;
+  flex-direction: row;
+}
+
+.feeling-slider {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.prev-next {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.tutorial-slide {
+  max-width: 100%;
+  height: calc(100vh - 230px);
+}
+
+.social-media {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 70px;
+}
+
+.social-media-img {
+  width: 75px;
+  margin: 10px;
+}
+
+.social-medias {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.social-media-loading {
+  display: flex;
+  flex-direction: row;
+}
+
+.loading-gif {
+  width: 75px;
+  margin: 10px;
+}
+
+.profile-quadrant {
+  background-color: #091147;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  margin-left: 0px;
+}
+
+.upload {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.quadrant-square {
+  height: 250px;
+  width: 250px;
+}
+
+.bio-screen {
+  display: flex;
+  flex-direction: row;
+}
+
+.emoji {
+  font-size: xx-large;
+  margin-right: 10px;
+}
+
+.editable-bio {
+  text-align: center;
+  display: inline-block;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid darkgrey;
+}
+
+.display-profile-img {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+}
+
+.display-profile-bio {
+  margin: 0px;
+  font-size: smaller;
+}
+
+.sign-in {
+  display: block;
+  margin: 0 auto;
+}
+
+.slider-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.slider {
+  margin-left: 20px;
+  margin-right: 20px;
+  width: calc(100% - 40px);
+}
+
+.multi-slider {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 20px 20px;
+}
+
+form input[type="text"] {
+  text-transform: lowercase;
+=======
 .upload:hover {
   background-color: #1f1f1f;
+>>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
 }

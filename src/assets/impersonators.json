@@ -1,7 +1,7 @@
 {
     "blocks": {
         "watching": [
-            {"rater": "b", "ratee": "a", "score": 2, "num_watching": 47},
+            {"rater": "b", "ratee": "a", "score": 3, "num_watching": 47},
             {"rater": "a", "ratee": "b", "score": 3, "num_watching": 11},
             {"rater": "b", "ratee": "c", "score": 3, "num_watching": 47},
             {"rater": "b", "ratee": "d", "score": 2, "num_watching": 40},
@@ -188,13 +188,13 @@
         "a": {
             "gender": "f",
             "town": "Providence",
-            "bio": "here is a super long bio that should wrap here is a super long bio that should wrap",
+            "bio": "providence 🏆 running",
             "mean_score": 2.5
         }, 
         "b": {
             "gender": "m",
             "town": "Pawtucket",
-            "bio": "Sorry for eating your homework :(",
+            "bio": "pawtucket 🌸 knitting",
             "mean_score": 4
         }, 
         "c": {

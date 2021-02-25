@@ -1,34 +1,22 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useEasybase } from 'easybase-react';
 
-import { profileText, bioQuestions, emojis, makeBio } from '../assets/text'
+import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text'
 import { prevNext, slider } from '../lib/utils'
-
-const quadrantStyle = {
-    backgroundColor: "#091147",
-    borderRadius: "20px",
-    padding: "20px",
-    margin: "20px",
-    marginLeft: "0px"
-}
 
 export default function Profile(props) {
 
     const {
-        Frame,
         sync,
         configureFrame,
-        updateRecordImage,
         addRecord,
-        isUserSignedIn,
-        useFrameEffect
+        isUserSignedIn
     } = useEasybase()
 
     const [screen, setScreen] = useState("uploadPhoto")
     const [participantImg, setParticipantImg] = useState("#")
     const [participantImgScore, setParticipantImgScore] = useState("")
     const [participantBio, setParticipantBio] = useState({})
-    const [participantBioScore, setParticipantBioScore] = useState("")
 
     const reader = new FileReader()
 
@@ -44,7 +32,7 @@ export default function Profile(props) {
 
     function handleBio(e) {
         const id = e.target.id
-        setParticipantBio({ ...participantBio, [id]: document.getElementById(id).value })
+        setParticipantBio({ ...participantBio, [id]: document.getElementById(id).value.toLowerCase() })
     }
 
     function handleBioEmoji(e) {
@@ -57,13 +45,10 @@ export default function Profile(props) {
     }
 
     function handleBioToUpload(e) {
-        const bioScore = document.getElementById("participantBioScore")
-        if (bioScore) { setParticipantBioScore(bioScore.value) }
         setScreen("uploadPhoto")
     }
 
     function handleBioToDisplay(e) {
-        setParticipantBioScore(document.getElementById("participantBioScore").value)
         setScreen("display")
     }
 
@@ -86,25 +71,26 @@ export default function Profile(props) {
     }
 
     async function saveImg() {
-        if (isUserSignedIn()) {
-            if (!configureFrame({ tableName: "METADATA" }).success) {
-                console.log("failed to configure frame")
-            }
-            if (!(await sync()).success) { console.log("failed to sync") }
-            const imgRecord = Frame().filter(e => e.name == "participant-img")[0]
-            // const imgRecord = { name: "participant-img" }
-            const record = {
-                attachment: participantImg,
-                columnName: "img",
-                record: imgRecord,
-                tableName: "METADATA"
-            }
-            if (!(await updateRecordImage(record)).success) {
-                console.log("failed to add bio image record, trying again...")
-                console.log(await updateRecordImage(record))
-            }
-            if (!(await sync()).success) { console.log("failed to sync") }
-        }
+        // if (isUserSignedIn()) {
+        //     if (!configureFrame({ tableName: "METADATA" }).success) {
+        //         console.log("failed to configure frame")
+        //     }
+        //     if (!(await sync()).success) { console.log("failed to sync") }
+        //     const imgRecord = Frame().filter(e => e.name === "participant-img")[0]
+        //     // const imgRecord = { name: "participant-img" }
+        //     const record = {
+        //         attachment: participantImg,
+        //         columnName: "img",
+        //         record: imgRecord,
+        //         tableName: "METADATA"
+        //     }
+        //     if (!(await updateRecordImage(record)).success) {
+        //         console.log("failed to add bio image record, trying again...")
+        //         console.log(await updateRecordImage(record))
+        //     }
+        //     if (!(await sync()).success) { console.log("failed to sync") }
+        // }
+        console.log("choosing not to save image")
     }
 
     // useFrameEffect(() => {
@@ -129,7 +115,7 @@ export default function Profile(props) {
 
 
     async function save() {
-        const bio = `I\'m from ${participantBio.town} ${participantBio.emoji} I love to ${participantBio.activity}`
+        const bio = makeBioPlain(participantBio)
         props.setParticipantImgTimeline(participantImg)
         props.setParticipantBioTimeline(bio)
         // await saveRow({
@@ -147,24 +133,24 @@ export default function Profile(props) {
         })
         await saveRow({
             name: "participant-bio-score",
-            value: participantBioScore
+            value: document.getElementById("participantBioScore").value
         })
     }
 
-    if (screen == "uploadPhoto") {
+    if (screen === "uploadPhoto") {
         return (<div>
             {profileText[0]}
-            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
-                <div style={{ ...quadrantStyle, height: "250px", width: "250px" }}>
-                    <img id="participantImg" src={participantImg} style={{ height: "250px", width: "250px", borderRadius: "50%", display: participantImg == "#" ? "none" : "inline" }} />
+            <div className="upload">
+                <div className="profile-quadrant quadrant-square">
+                    <img id="participantImg" src={participantImg} alt="participant" style={{ height: "250px", width: "250px", borderRadius: "50%", display: participantImg === "#" ? "none" : "inline" }} />
                 </div>
                 <div>
                     {profileText[1]}
-                    <label htmlFor="fileUpload" class="upload">Upload Image</label>
-                    <input type='file' id="fileUpload" style={{display: "none"}} onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
+                    <label htmlFor="fileUpload" className="upload-button">Upload Image</label>
+                    <input type='file' id="fileUpload" style={{ display: "none" }} onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
                 </div>
             </div>
-            {participantImg == "#" ?
+            {participantImg === "#" ?
                 null :
                 <div style={{ textAlign: "center" }}>
                     {profileText[2]}
@@ -173,20 +159,20 @@ export default function Profile(props) {
                 </div>
             }
         </div>)
-    } else if (screen == "bio") {
+    } else if (screen === "bio") {
         return (<div>
             {profileText[0]}
-            <div style={{ display: "flex", flexDirection: "row" }}>
-                <div style={quadrantStyle}>
+            <div className="bio-screen">
+                <div className="profile-quadrant">
                     {Object.entries(bioQuestions).reduce((a, v) =>
-                        (v[0] == "emoji") ?
+                        (v[0] === "emoji") ?
                             a.concat(emojis.reduce((a1, v1) => [
                                 ...a1,
-                                ((participantBio.emoji == v1) ?
+                                ((participantBio.emoji === v1) ?
                                     <input type="radio" id={v1} name="emoji" autoComplete="off" onClick={handleBioEmoji} checked /> :
                                     <input type="radio" id={v1} name="emoji" autoComplete="off" onClick={handleBioEmoji} />),
-                                <label htmlFor={v1} style={{ fontSize: "xx-large", marginRight: "10px" }}>{v1}</label>,
-                                (v1 == emojis[Math.floor((emojis.length - 1) / 2)]) ? <br /> : null
+                                <label htmlFor={v1} className="emoji">{v1}</label>,
+                                (v1 === emojis[Math.floor((emojis.length - 1) / 2)]) ? <br /> : null
                             ], [<span>{v[1]}</span>, <br />])) :
                             [
                                 ...a,
@@ -198,23 +184,17 @@ export default function Profile(props) {
                 <div>
                     {profileText[3]}
                     {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
-                        (<div style={{ marginTop: "70px" }}>
+                        (<div style={{ marginTop: "50px" }}>
                             {profileText[4]}
-                            <div style={{ textAlign: "center", display: "inline-block", padding: "15px", borderRadius: "10px", border: "2px solid darkgrey" }}>{makeBio(participantBio)}</div>
+                            <div className="editable-bio">{makeBio(participantBio)}</div>
                         </div>) :
                         null
                     }
                 </div>
             </div>
             <div>
-                {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
-                    (<div style={{ textAlign: "center" }}>
-                        {profileText[5]}
-                        {slider("participantBioScore")}
-                    </div>) :
-                    null
-                }
-                <div style={{ textAlign: "center", marginTop: "50px", marginBottom: "50px" }}>
+
+                <div className="prev-next">
                     <button style={{ margin: "5px" }} onClick={handleBioToUpload}>Previous</button>
                     {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
                         (<button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleBioToDisplay}>Next</button>) :
@@ -224,11 +204,15 @@ export default function Profile(props) {
             </div>
         </div>)
     } else {  // display
-        return (<div style={{ textAlign: "center" }}>
+        return (<div style={{ textAlign: "center", margin: "0px" }}>
             {profileText[6]}
-            <div style={{ ...quadrantStyle, marginRight: "0px" }}>
-                <img id="participantImg" src={participantImg} style={{ height: "250px", width: "250px", borderRadius: "50%" }} />
-                <p style={{ margin: "0px", fontSize: "smaller" }}>{makeBio(participantBio)}</p>
+            <div className="profile-quadrant" style={{ margin: "auto", width: "275px" }}>
+                <img id="participantImg" src={participantImg} alt="participant" className="display-profile-img" />
+                <p className="display-profile-bio">{makeBio(participantBio)}</p>
+            </div>
+            <div>
+                {profileText[5]}
+                {slider("participantBioScore")}
             </div>
             {prevNext({ ...props, prev: (_) => setScreen("bio") }, save)}
         </div>)
