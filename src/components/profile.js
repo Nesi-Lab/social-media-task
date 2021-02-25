@@ -117,7 +117,7 @@ export default function Profile(props) {
     async function save() {
         const bio = makeBioPlain(participantBio)
         props.setParticipantImgTimeline(participantImg)
-        props.setParticipantBioTimeline(bio)
+        props.setParticipantBioTimeline(makeBio(participantBio))
         // await saveRow({
         //     name: "participant-img",
         //     value: participantImg.toString()

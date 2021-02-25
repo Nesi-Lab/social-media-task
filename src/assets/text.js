@@ -57,16 +57,22 @@ export const profileText = [
 ]
 
 export const bioQuestions = {
-    town:  "What is your hometown?",
+    show: "What is your favorite TV show, movie, or YouTube channel?",
+    music: "What artist are you listening to right now?",
     activity: "What do you like to do in your free time?",
     emoji: "Pick an emoji!"
 }
+// ideas: tv show, movie, youtuber, food, music (artist / song / genre), favorite social media, one word to describe yourself, age, favorite holiday
+// make some fields multiple choice not short response?
+// use examples?
 
 export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"]
 
 // the variable names like "town" in "info.town" correspond to the ids in bioQuestions
-export const makeBio = (info) => (<span><i>{info.town} </i>{info.emoji}<i> {info.activity}</i></span>)
-export const makeBioPlain = (info) => `${info.town} ${info.emoji} ${info.activity}`
+// export const makeBio = (info) => (<span><i>{info.show} </i>{info.emoji}<i> {info.activity}</i></span>)
+// export const makeBioPlain = (info) => `${info.show} ${info.emoji} ${info.activity}`
+export const makeBio = (info) => (<span>{info.show}  |  {info.music}  |  {info.activity} {info.emoji}</span>)
+export const makeBioPlain = (info) => `${info.show}  |  ${info.music}  |  ${info.activity} ${info.emoji}`
 
 export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p>Here are a number of words that describe different feelings and emotions.</p>

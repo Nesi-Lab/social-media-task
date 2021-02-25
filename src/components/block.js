@@ -218,7 +218,7 @@ export default function Block(allProps) {
     function handleThumbClick(e) {
         if (clickable) {
             highlightThumb(e.target.id)
-            const score = e.target.id.split("-")[1]
+            const score = parseInt(e.target.id.split("-")[1])
             if (score === 1 || score === 2) {
                 document.getElementById("X").style.display = "inline"
             }
