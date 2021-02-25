@@ -35,7 +35,11 @@ button {
   padding-right: 1rem;
 }
 
+<<<<<<< HEAD
 .upload-button {
+=======
+.upload {
+>>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
   border: 1px solid darkgrey;
   display: inline-block;
   padding: 6px 12px;
@@ -43,6 +47,7 @@ button {
   border-radius: "10px";
 }
 
+<<<<<<< HEAD
 .upload-button:hover {
   background-color: #1f1f1f;
 }
@@ -302,4 +307,8 @@ button {
 
 form input[type="text"] {
   text-transform: lowercase;
+=======
+.upload:hover {
+  background-color: #1f1f1f;
+>>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
 }

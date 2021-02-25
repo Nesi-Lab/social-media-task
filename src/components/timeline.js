@@ -7,7 +7,7 @@ import Profile from './profile'
 import Feeling from './feeling'
 import { trialProps } from '../lib/utils'
 import Block from './block'
-import SetupWebgazer from './wg'
+// import SetupWebgazer from './wg'
 
 export default function Timeline() {
 
@@ -29,16 +29,16 @@ export default function Timeline() {
         // setup
         (c) => <User next={next} curr={c.i} />,
         // (c) => <SetupWebgazer next={next} curr={c.i} />,
-        // (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c.i} />,
+        (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c.i} />,
 
-        // // first set of instructions
-        // (c) => <Instruction id="introText" ind="0" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="introText" ind="1" next={next} prev={prev} curr={c.i} />,
+        // first set of instructions
+        (c) => <Instruction id="introText" ind="0" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="introText" ind="1" next={next} prev={prev} curr={c.i} />,
 
-        // // // social media pages
-        // (c) => <LinkSM next={next} prev={prev} curr={c.i} />,
+        // social media pages
+        (c) => <LinkSM next={next} prev={prev} curr={c.i} />,
 
-        // // bio setup
+        // bio setup
         (c) => <Profile next={next} curr={c.i} setParticipantImgTimeline={setParticipantImgTimeline} setParticipantBioTimeline={setParticipantBioTimeline} />,
 
         //////////////
