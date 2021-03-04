@@ -90,6 +90,7 @@ export default function Block(allProps) {
             const today = new Date()
             const record = {
                 type: props.blockInfo.type,
+                "participant-id": allProps.curr.id,
                 block: props.blockInfo.number,
                 round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
                 trial: trialInd + 1,

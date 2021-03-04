@@ -24,6 +24,10 @@ export default function User(props) {
     getUserAttributes().then(setUserAttributes)
   }, [setUserAttributes, getUserAttributes])
 
+  async function alreadySignedIn() {
+    props.setParticipantId(userAttributes.id)
+  }
+
   async function signInUp() {
     const signInResponse = await signIn(usernameValue, universalPassword)
     if (!signInResponse.success) {
@@ -33,6 +37,7 @@ export default function User(props) {
       console.log("signed in with response:", signInResponse)
     }
     setUserAttribute('id', usernameValue)
+    props.setParticipantId(usernameValue)
   }
 
   if (isUserSignedIn()) {
@@ -40,10 +45,10 @@ export default function User(props) {
       return (<p>Loading...</p>)
     } else {
       return (
-        <div style={{textAlign: "center"}}>
+        <div style={{ textAlign: "center" }}>
           <p>Signed in as participant {userAttributes.id}.</p>
-          <button style={{display:"inline"}} onClick={_ => signOut()}>Sign Out</button>
-          { prevNext(props)}
+          <button style={{ display: "inline" }} onClick={_ => signOut()}>Sign Out</button>
+          { prevNext(props, alreadySignedIn)}
         </div>
       )
     }

@@ -125,15 +125,18 @@ export default function Profile(props) {
         saveImg()
         await saveRow({
             name: "participant-img-score",
-            value: participantImgScore
+            value: participantImgScore,
+            "participant-id": props.curr.id
         })
         await saveRow({
             name: "participant-bio",
-            value: bio
+            value: bio,
+            "participant-id": props.curr.id
         })
         await saveRow({
             name: "participant-bio-score",
-            value: document.getElementById("participantBioScore").value
+            value: document.getElementById("participantBioScore").value,
+            "participant-id": props.curr.id
         })
     }
 

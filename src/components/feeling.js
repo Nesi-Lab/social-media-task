@@ -44,7 +44,7 @@ export default function Feeling(props) {
 
         const row = Object.keys(vals).reduce(
             (a, c) => { return { ...a, [c.toLowerCase()]: vals[c] } },
-            { "location": props.loc, "save-time": getTime() }
+            { "location": props.loc, "save-time": getTime(), "participant-id": props.curr.id }
         )
         const record = {
             insertAtEnd: true,
@@ -68,7 +68,7 @@ export default function Feeling(props) {
     }
 
     async function onNext() {
-        save().then(() => props.next(props.curr))
+        save().then(() => props.next(props.curr.i))
     }
 
     return (<div>
@@ -77,7 +77,7 @@ export default function Feeling(props) {
             {multiSlider(valsSubset, handleSliderChange)}
         </div>
         <div className="prev-next">
-            <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={screenNum === 0 ? () => props.prev(props.curr) : changeScreen}>Previous</button>
+            <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={screenNum === 0 ? () => props.prev(props.curr.i) : changeScreen}>Previous</button>
             <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={screenNum === 0 ? changeScreen : onNext}>Next</button>
         </div>
     </div>)

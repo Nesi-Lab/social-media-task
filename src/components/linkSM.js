@@ -47,7 +47,7 @@ export default function LinkSM(props) {
     })
 
     async function onPrev() {
-        save().then(() => props.prev(props.curr))
+        save().then(() => props.prev(props.curr.i))
     }
 
     function setupLoad(_) {
@@ -66,6 +66,7 @@ export default function LinkSM(props) {
                 insertAtEnd: true,
                 newRecord: {
                     name: "social-medias",
+                    "participant-id": props.curr.id,
                     value: isLoad ?
                         selected.join(",") :
                         Object.keys(socialMediaImgs).filter(e => document.getElementById(e).checked).join(",")

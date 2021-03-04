@@ -3,10 +3,10 @@ import {sliderLabels} from '../assets/text'
 
 export function prevNext(props, save = (async function () { })) {
     async function onPrev() {
-        save().then(() => props.prev(props.curr))
+        save().then(() => props.prev(props.curr.i))
     }
     async function onNext() {
-        save().then(() => props.next(props.curr))
+        save().then(() => props.next(props.curr.i))
     }
     return (<div className="prev-next">
         <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={onPrev}>Previous</button>
