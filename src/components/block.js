@@ -279,6 +279,6 @@ export default function Block(allProps) {
             </div>)
         }
     } else {
-        return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr.i} />
+        return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />
     }
 }

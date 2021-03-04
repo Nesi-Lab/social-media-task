@@ -49,7 +49,7 @@ export default function Timeline() {
         //////////////
 
         // beginning tutorial images
-        (c) => <Instruction id="introText" ind="2" next={next} prev={prev} curr={c} />,
+        (c) => <Instruction id="introText" ind="2" next={next} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="0" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="1" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="2" next={next} prev={prev} curr={c} />,
