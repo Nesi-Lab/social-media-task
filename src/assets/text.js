@@ -45,8 +45,8 @@ export const profileText = [
     (<p>How much do you like this photo? (Other people won’t see your answer)</p>),
 
     (<div style={{ flex: "auto" }}>
-        <p style={{ textAlign: "left" }}>Please answer a few questions to complete your bio.</p>
-        <p style={{ textAlign: "left" }}>Other people participating in Connect will see your bio.</p>
+        <p style={{ textAlign: "left" }}>Fill out this quick *personality quiz* so other teens on Connect can get to know you!</p>
+        <p style={{ textAlign: "left" }}>Each question should be answered with just ONE or TWO words.</p>
     </div>),
 
     (<p>Your bio is:</p>),
@@ -57,22 +57,21 @@ export const profileText = [
 ]
 
 export const bioQuestions = {
-    show: "What is your favorite TV show, movie, or YouTube channel?",
-    music: "What artist are you listening to right now?",
-    activity: "What do you like to do in your free time?",
-    emoji: "Pick an emoji!"
+    word: "One word that describes you:",
+    activity: "One thing you like to do in your free time:",
+    place: "One place you’d like to travel to in the future:",
+    artist: "One artist you’re listening to right now:",
+    color: "Your favorite color:",
+    emoji: "Pick one emoji:"
 }
-// ideas: tv show, movie, youtuber, food, music (artist / song / genre), favorite social media, one word to describe yourself, age, favorite holiday
-// make some fields multiple choice not short response?
-// use examples?
 
 export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"]
 
 // the variable names like "town" in "info.town" correspond to the ids in bioQuestions
 // export const makeBio = (info) => (<span><i>{info.show} </i>{info.emoji}<i> {info.activity}</i></span>)
 // export const makeBioPlain = (info) => `${info.show} ${info.emoji} ${info.activity}`
-export const makeBio = (info) => (<span>{info.show}  |  {info.music}  |  {info.activity} {info.emoji}</span>)
-export const makeBioPlain = (info) => `${info.show}  |  ${info.music}  |  ${info.activity} ${info.emoji}`
+export const makeBioPlain = (info) => [info.word, info.activity, info.place, info.artist, info.color].join("  |  ") + " " + info.emoji
+export const makeBio = (info) => (<span>{makeBioPlain(info)}</span>)
 
 export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p>Here are a number of words that describe different feelings and emotions.</p>

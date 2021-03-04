@@ -181,7 +181,7 @@ export default function Profile(props) {
                             ], []
                     )}
                 </div>
-                <div>
+                <div style={{width: "60%"}}>
                     {profileText[3]}
                     {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
                         (<div style={{ marginTop: "50px" }}>

@@ -29,14 +29,14 @@ export default function Timeline() {
         // setup
         (c) => <User next={next} curr={c.i} />,
         // (c) => <SetupWebgazer next={next} curr={c.i} />,
-        // (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c.i} />,
+        (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c.i} />,
 
         // // first set of instructions
-        // (c) => <Instruction id="introText" ind="0" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="introText" ind="1" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="introText" ind="0" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="introText" ind="1" next={next} prev={prev} curr={c.i} />,
 
         // // social media pages
-        // (c) => <LinkSM next={next} prev={prev} curr={c.i} />,
+        (c) => <LinkSM next={next} prev={prev} curr={c.i} />,
 
         // bio setup
         (c) => <Profile next={next} curr={c.i} setParticipantImgTimeline={setParticipantImgTimeline} setParticipantBioTimeline={setParticipantBioTimeline} />,
@@ -46,26 +46,26 @@ export default function Timeline() {
         //////////////
 
         // beginning tutorial images
-        // (c) => <Instruction id="introText" ind="2" next={next} curr={c.i} />,
-        // (c) => <Instruction id="tutorialText" ind="0" img="0" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="tutorialText" ind="0" img="1" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="tutorialText" ind="0" img="2" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="tutorialText" ind="0" img="3" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="tutorialText" ind="0" img="4" next={next} prev={prev} curr={c.i} />,
-        // (c) => <Instruction id="tutorialText" ind="0" img="5" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="introText" ind="2" next={next} curr={c.i} />,
+        (c) => <Instruction id="tutorialText" ind="0" img="0" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="tutorialText" ind="0" img="1" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="tutorialText" ind="0" img="2" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="tutorialText" ind="0" img="3" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="tutorialText" ind="0" img="4" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="tutorialText" ind="0" img="5" next={next} prev={prev} curr={c.i} />,
 
         // // getting started screen
-        // (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c.i} />,
+        (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c.i} />,
 
         // // content
-        // (c) => <Block next={next} curr={c} props={props[0]} />,
+        (c) => <Block next={next} curr={c} props={props[0]} />,
 
         ////////////
         // RATING //
         ////////////
 
         // getting started screen
-        // (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c.i} />,
+        (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c.i} />,
 
         // content
         (c) => <Block next={next} curr={c} props={props[1]} />,
