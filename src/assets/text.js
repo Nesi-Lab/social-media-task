@@ -85,7 +85,10 @@ export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "
     How much would you like to be friends with this person?
 </p>)
 
-export const interpretationText = (<h1>How much does this person want to be friends with you?</h1>)
+export const interpretationText = (<div>
+    <h1>How much does this person want to be friends with you?</h1>
+    <p style={{color: "red"}}>This information won't be seen by other users.</p>
+    </div>)
 
 export const watchText = {
     withYou: (n) => (<p style={{ marginTop: "10px" }}><b>You</b> and <br /><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> other people are watching</p>),
@@ -125,6 +128,10 @@ export const betweenBlocksText = [
 
 export const endingText = [
     (<h1>You're all done.</h1>)
+]
+
+export const beforeSummaryText = [
+    (<h1>See how you did compared to other Connect users!</h1>)
 ]
 
 export const sliderLabels = [

@@ -8,6 +8,7 @@ import Feeling from './feeling'
 import { trialProps } from '../lib/utils'
 import Block from './block'
 import CorsCheck from './corsCheck'
+import Summary from './summary'
 // import SetupWebgazer from './wg'
 
 export default function Timeline() {
@@ -89,12 +90,16 @@ export default function Timeline() {
 
         // content
         (c) => <Block next={next} curr={c} props={props[3]} />,
+        (c) => <Summary next={next} curr={c} props={props[3]} />,
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={props[4]} />,
+        (c) => <Summary next={next} curr={c} props={props[4]} />,
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={props[5]} />,
+        (c) => <Summary next={next} curr={c} props={props[5]} />,
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={props[6]} />,
+        (c) => <Summary next={next} curr={c} props={props[6]} />,
 
         // ending
         (c) => <Instruction id="endingText" ind="0" curr={c} />,

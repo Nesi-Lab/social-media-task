@@ -6,6 +6,7 @@ import { eye, x } from '../assets/imgs'
 import { rateText, interpretationText, watchText } from '../assets/text'
 import Feeling from './feeling'
 import { slider, getTime } from '../lib/utils'
+import Instruction from "./instruction"
 
 const timerSecs = {
     "watching": {
@@ -32,17 +33,10 @@ export default function Block(allProps) {
         props.trials = props.trials.map(e => { return { ...e, rater: participant } })
     } else if (props.blockInfo.type === "rated") {
         props.trials = props.trials.map(e => { return { ...e, ratee: participant } })
-        props.summaries = props.summaries.map(e => {
-            return {
-                participant: { img: participant.img, score: e.participant.score },
-                left: e.left, right: e.right, watching: e.watching
-            }
-        })
     }
 
     const [trialInd, setTrialInd] = useState(0)
     const [screenType, setScreenType] = useState("anticipation")
-    const [isSummary, setIsSummary] = useState(false)
     const [clickable, setClickable] = useState(props.blockInfo.type === "rating")
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
@@ -53,7 +47,6 @@ export default function Block(allProps) {
         // we started a new block and need to reset the state
         setTrialInd(0)
         setScreenType("anticipation")
-        setIsSummary(false)
         setClickable(props.blockInfo.type === "rating")
         setFinished(false)
         setCurrBlock(props.blockInfo.number)
@@ -86,35 +79,26 @@ export default function Block(allProps) {
     }
 
     function nextTrial(interpretationScore = null) {
-        if (!isSummary) {
-            const today = new Date()
-            const record = {
-                type: props.blockInfo.type,
-                "participant-id": allProps.curr.id,
-                block: props.blockInfo.number,
-                round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
-                trial: trialInd + 1,
-                "rater-id": props.trials[trialInd].rater.id,
-                "ratee-id": props.trials[trialInd].ratee.id,
-                score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score,
-                "num-watching": props.trials[trialInd].watching,
-                "save-time": getTime(today),
-                "save-datetime": today.getTime().toString()
-            }
-            if (interpretationScore) { record["interpretation-score"] = interpretationScore }
-            saveRow(record)
-            console.log(record)
+        const today = new Date()
+        const record = {
+            type: props.blockInfo.type,
+            "participant-id": allProps.curr.id,
+            block: props.blockInfo.number,
+            round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
+            trial: trialInd + 1,
+            "rater-id": props.trials[trialInd].rater.id,
+            "ratee-id": props.trials[trialInd].ratee.id,
+            score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score,
+            "num-watching": props.trials[trialInd].watching,
+            "save-time": getTime(today),
+            "save-datetime": today.getTime().toString()
         }
+        if (interpretationScore) { record["interpretation-score"] = interpretationScore }
+        saveRow(record)
+        console.log(record)
 
-        const screenList = isSummary ? props.summaries : props.trials
-        if (trialInd + 1 === screenList.length) {
-            if (props.blockInfo.type !== "rated" || isSummary) {
-                setFinished(true)
-            } else {  // move to summary
-                setTrialInd(0)
-                setScreenType("anticipation")
-                setIsSummary(true)
-            }
+        if (trialInd + 1 === props.trials.length) {
+            setFinished(true)
         } else {
             setTrialInd(trialInd + 1)
             setScreenType("anticipation")
@@ -140,7 +124,7 @@ export default function Block(allProps) {
                 if (elt !== null) { elt.style.display = "none" }
             })
         }
-        if (!isSummary && screenType === "feedback" && props.blockInfo.type !== "rating" && props.trials[trialInd].score !== 0) {
+        if (screenType === "feedback" && props.blockInfo.type !== "rating" && props.trials[trialInd].score !== 0) {
             highlightThumb("thumb-" + props.trials[trialInd].score)
         }
 
@@ -151,7 +135,12 @@ export default function Block(allProps) {
                 if (screenType === "anticipation") {
                     setScreenType("feedback")
                 } else { // can only be feedback
-                    if (props.blockInfo.type === "rated" && !isSummary) {
+                    const ratee = document.getElementById("ratee-img")
+                    if (ratee !== null) {
+                        ratee.style.border = "none"
+                        ratee.style.marginTop = "0px"
+                    }
+                    if (props.blockInfo.type === "rated") {
                         setScreenType("interpretation")
                     } else {
                         nextTrial()
@@ -162,7 +151,7 @@ export default function Block(allProps) {
             return () => clearTimeout(timer)
         }
 
-    }, [trialInd, screenType, isSummary, clickable])
+    }, [trialInd, screenType, clickable])
 
     function rateBox(score) {
         const makeRateBox = inner => <p className="rate-box">{inner}</p>
@@ -173,13 +162,14 @@ export default function Block(allProps) {
 
     function person(p, isRatee, score = null) {
         const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2)
+        const drawBorder = score !== null && screenType == "feedback" && (score === 3 || score === 4)
         const X = (<img src={x} alt="x" className="x" />)
 
         const drawRateBox = score !== null && screenType === "feedback"
 
         return (<div className="quadrant">
             <div className="person">
-                <img src={p.img} alt={isRatee ? "ratee" : "rater"} className="person-img" />
+                <img src={p.img} style={{ border: drawBorder ? "10px solid " + color(score) : "none", marginTop: drawBorder ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
                 <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
             </div>
@@ -222,6 +212,9 @@ export default function Block(allProps) {
             const score = parseInt(e.target.id.split("-")[1])
             if (score === 1 || score === 2) {
                 document.getElementById("X").style.display = "inline"
+            } else {
+                document.getElementById("ratee-img").style.border = "10px solid " + color(score)
+                document.getElementById("ratee-img").style.marginTop = "-10px"
             }
             document.getElementById("rateBox").style.display = "inline"
             document.getElementById("rateBox").innerHTML = ReactDOMServer.renderToString(rateBox(score))
@@ -234,51 +227,27 @@ export default function Block(allProps) {
         nextTrial(document.getElementById("interpretation").value)
     }
 
-    function watchSummary(n) {
-        return (<div className="watch-summary">
-            <img src={eye} alt="eye" className="summary-eye" />
-            {watchText.summary(n)}
-        </div>)
-    }
-
-    function personSummary(p) {
-        const drawScore = p.score !== null && screenType === "feedback"
-        const score = (<p className="summary-score">Average rating: <br /><span style={{ fontSize: "larger", color: color(p.score) }}>{p.score}</span></p>)
-
-        return (<div className="summary-person">
-            <img src={p.img} alt="person summary" className="summary-person-img" />
-            {drawScore ? score : null}
-        </div>)
-    }
-
     if (!finished) {
-        if (!isSummary) {
-            if (screenType !== "interpretation") {
-                return (<div className="reg-block">
-                    {watch(props.trials[trialInd].watching)}
-                    {person(props.trials[trialInd].ratee, true, props.trials[trialInd].score)}
-                    {person(props.trials[trialInd].rater, false)}
-                    {rate()}
-                </div>)
-            } else {
-                return (<div style={{ textAlign: "center" }}>
-                    {interpretationText}
-                    <img src={props.trials[trialInd].rater.img} alt="rater" className="interpretation-img" />
-                    {slider("interpretation")}
-                    <button style={{ marginTop: "60px" }} onClick={handleInterpretationClick}>Next</button>
-                </div>)
-            }
+        if (screenType !== "interpretation") {
+            return (<div className="reg-block">
+                {watch(props.trials[trialInd].watching)}
+                {person(props.trials[trialInd].ratee, true, props.trials[trialInd].score)}
+                {person(props.trials[trialInd].rater, false)}
+                {rate()}
+            </div>)
         } else {
             return (<div style={{ textAlign: "center" }}>
-                {watchSummary(props.summaries[trialInd].watching)}
-                <div className="summary">
-                    {personSummary(props.summaries[trialInd].left)}
-                    {personSummary(props.summaries[trialInd].participant)}
-                    {personSummary(props.summaries[trialInd].right)}
-                </div>
+                {interpretationText}
+                <img src={props.trials[trialInd].rater.img} alt="rater" className="interpretation-img" />
+                {slider("interpretation")}
+                <button style={{ marginTop: "60px" }} onClick={handleInterpretationClick}>Next</button>
             </div>)
         }
     } else {
-        return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />
+        if (props.blockInfo.type == "rated") {
+            return <Instruction id="beforeSummaryText" ind="0" next={allProps.next} curr={allProps.curr} />
+        } else {
+            return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />
+        }
     }
 }

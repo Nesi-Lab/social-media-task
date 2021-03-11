@@ -81,8 +81,10 @@ export default function LinkSM(props) {
     }
 
     function handlePhoneTyped(e) {
-        const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-        if (phoneRegex.test(e.target.value)) { setPhoneFilled(true) }
+        // const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
+        // if (phoneRegex.test(e.target.value)) { setPhoneFilled(true) }
+        const nums = e.target.value.match(/\d+/g).map(a => a.split("")).flat()
+        if (nums != null && nums.length >= 10) { setPhoneFilled(true) }
     }
 
 
