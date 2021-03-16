@@ -1,5 +1,6 @@
 import { useEasybase } from 'easybase-react';
 import { useState, useEffect } from "react"
+import axios from 'axios';
 
 import { prevNext } from '../lib/utils'
 
@@ -16,6 +17,28 @@ export default function CorsCheck(props) {
     } = useEasybase();
 
     async function update() {
+        await axios.post(
+            'https://nofaorjosb.execute-api.us-east-1.amazonaws.com/default',
+            {
+                table: "METADATA",
+                data: {
+                    "participant-id": "1",
+                    "value": "17"
+                },
+            },
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    'Content-Type': 'application/json'
+                }
+            }
+        ).then((response) => {
+            console.log(response);
+        })
+            .catch((error) => {
+                console.log(error);
+            });
+
         const record = {
             insertAtEnd: true,
             newRecord: {},
@@ -36,11 +59,12 @@ export default function CorsCheck(props) {
                 setGood(false)
             }
         }
+
     }
 
     useEffect(() => {
-        if (good === null || good === false) { 
-            update() 
+        if (good === null || good === false) {
+            update()
         } else {
             const timer = setTimeout(() => { update() }, 1000 * refreshSecs)
             // Clear timeout if the component is unmounted

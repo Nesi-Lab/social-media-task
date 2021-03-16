@@ -1,10 +1,7 @@
 import { useState } from "react"
 
-<<<<<<< HEAD
 // import webgazer from "../dependencies/webgazer.js"
 
-=======
->>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
 export default function SetupWebgazer(props) {
 
     async function setup() {
@@ -12,15 +9,9 @@ export default function SetupWebgazer(props) {
         webgazer.params.showVideoPreview = true;
         await webgazer.setRegression("ridge")
             .setGazeListener((gazeData, elapsedTime) => {
-<<<<<<< HEAD
                 console.log("we are here!", { ...gazeData, elapsedTime: elapsedTime })
             })
         // console.log(webgazer)
-=======
-                console.log({ ...gazeData, elapsedTime: elapsedTime })
-            })
-        console.log(webgazer)
->>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
 
         webgazer.showVideo(true)
         webgazer.showFaceOverlay(true)
@@ -47,15 +38,10 @@ export default function SetupWebgazer(props) {
     if (!wg) {
         return (<p>Loading...</p>)
     } else {
-<<<<<<< HEAD
         // console.log(wg)
         console.log(wg.getCurrentPrediction()) // 
         return (<canvas id="plotting_canvas" style={{margin: "0px", cursor: "crosshair", width: window.innerWidth, height: window.innerHeight, position: "fixed"}}></canvas>)
 
-=======
-        console.log(wg.getCurrentPrediction())
-        return (<canvas id="plotting_canvas" style={{margin: "0px", cursor: "crosshair", width: window.innerWidth, height: window.innerHeight, position: "fixed"}}></canvas>)
->>>>>>> 85ffff948fae1777abb270de117790bad1aa3008
     }
 }
 
