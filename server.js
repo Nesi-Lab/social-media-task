@@ -12,9 +12,9 @@ var jsonParser = bodyParser.json()
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  // ssl: {
+  //   rejectUnauthorized: false
+  // }
 })
 pool.on('error', (err, client) => {
   console.error('Unexpected error on idle client', err)
@@ -33,33 +33,43 @@ dns.lookup(hostname, {hints: dns.ADDRCONFIG|dns.V4MAPPED}, e => console.log("hin
 
 async function query(q) {
 
-  let result = null, client = null
-  try {
-    client = await pool.connect()
-    // result = await client.query(q)
-  } catch (err) {
-    console.log("query error", err.stack)
-  } finally {
-    if (client !== null) client.release()
-  }
-  return result
+  // let result = null, client = null
+  // try {
+  //   try { 
+  //     client = await pool.connect() 
+  //   } catch (e) { 
+  //     console.log("pool connect error", e.stack) 
+  //   }
+  //   try { 
+  //     result = await client.query(q)
+  //   } catch (e) { 
+  //     console.log("query error", e.stack) 
+  //   }
+  // } catch (err) {
+  //   console.log("overall error", err.stack)
+  // } finally {
+  //   if (client !== null) client.release()
+  // }
+  // return result
 
-  // return pool
-  //   .connect()
-  //   .then(client => {
-  //     var result;
-  //     client
-  //       .query(q)
-  //       .then((r) => {
-  //         client.release()
-  //         result = r
-  //       })
-  //       .catch(err => {
-  //         client.release()
-  //         console.log(err.stack)
-  //       })
-  //     return result
-  //   })
+  let result = null
+  pool
+    .connect()
+    .then(client => {
+      client
+        .query(q)
+        .then((r) => {
+          client.release()
+          result = r
+        })
+        .catch(err => {
+          client.release()
+          console.log(err.stack)
+        })
+    }).catch(err => {
+      console.log(err.stack)
+    })
+    return result
 
   // client
   // .connect()
