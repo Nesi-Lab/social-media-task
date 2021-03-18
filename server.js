@@ -90,17 +90,14 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.get('/ping', function (req, res) {
-  res.send("pong");
-});
-
 app.post('/add', jsonParser, async (req, res) => {
-  const table = req.body.table
-  const cols = Object.keys(req.body.data).join(", ")
-  const vals = Object.values(req.body.data).join(", ")
-  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
-    .then(r => res.send(`Added to database: ${r}`))
-    .catch(err => console.log("err inserting data", err.stack))
+  res.send(`got ${req.body}`)
+//   const table = req.body.table
+//   const cols = Object.keys(req.body.data).join(", ")
+//   const vals = Object.values(req.body.data).join(", ")
+//   query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
+//     .then(r => res.send(`Added to database: ${r}`))
+//     .catch(err => console.log("err inserting data", err.stack))
 });
 
 app.listen(process.env.PORT || 8080);
