@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "heroku post-build": "echo \"postbuild\" && npm install && npm run build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server.js"

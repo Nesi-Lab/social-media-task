@@ -48,9 +48,7 @@ export function getTime(date = null) {
 export async function writeData(table, data) {
     const response = await fetch('/add', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({table: table, data: data}),
     });
     const body = await response.text();
