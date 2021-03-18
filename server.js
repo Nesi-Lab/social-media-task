@@ -87,17 +87,28 @@ async function query(q) {
 // apis
 
 app.get('/', function (req, res) {
+  res.send("here");
+});
+
+app.get('/ind', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.post('/add', jsonParser, async (req, res) => {
+app.get('/maybe', function (req, res) {
+  res.send("maybe did work");
+});
+
+app.post('/dumbadd', jsonParser, (req, res) => {
   res.send(`got ${req.body}`)
-//   const table = req.body.table
-//   const cols = Object.keys(req.body.data).join(", ")
-//   const vals = Object.values(req.body.data).join(", ")
-//   query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
-//     .then(r => res.send(`Added to database: ${r}`))
-//     .catch(err => console.log("err inserting data", err.stack))
+})
+
+app.post('/add', jsonParser, (req, res) => {
+  const table = req.body.table
+  const cols = Object.keys(req.body.data).join(", ")
+  const vals = Object.values(req.body.data).join(", ")
+  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
+    .then(r => res.send(`Added to database: ${r}`))
+    .catch(err => console.log("err inserting data", err.stack))
 });
 
 app.listen(process.env.PORT || 8080);
