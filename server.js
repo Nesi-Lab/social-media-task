@@ -21,13 +21,13 @@ pool.on('error', (err, client) => {
   process.exit(-1)
 })
 
-const dns = require('dns');
-const os = require('os');
-var hostname = os.hostname();
-// const hostname = "jwindha1"
-console.log("hostname", hostname)
-dns.lookup(hostname, e => console.log("host", e))
-dns.lookup(hostname, {hints: dns.ADDRCONFIG|dns.V4MAPPED}, e => console.log("hints", e))
+// const dns = require('dns');
+// const os = require('os');
+// var hostname = os.hostname();
+// // const hostname = "jwindha1"
+// console.log("hostname", hostname)
+// dns.lookup(hostname, e => console.log("host", e))
+// dns.lookup(hostname, {hints: dns.ADDRCONFIG|dns.V4MAPPED}, e => console.log("hints", e))
 
 // const client = new Client(c)
 
@@ -64,10 +64,10 @@ async function query(q) {
         })
         .catch(err => {
           client.release()
-          console.log(err.stack)
+          console.log("err querying", err.stack)
         })
     }).catch(err => {
-      console.log(err.stack)
+      console.log("err connecting", err.stack)
     })
     return result
 
@@ -89,11 +89,13 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.post('/add', jsonParser, (req, res) => {
+app.post('/add', jsonParser, async (req, res) => {
   const table = req.body.table
   const cols = Object.keys(req.body.data).join(", ")
   const vals = Object.values(req.body.data).join(", ")
-  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`).then(r => res.send(`Added to database: ${rejectUnauthorized}`))
+  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
+  .then(r => res.send(`Added to database: ${r}`))
+  .catch(err => console.log("err inserting data", err.stack))
 });
 
 app.listen(process.env.PORT || 8080);
