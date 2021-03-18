@@ -53,6 +53,7 @@ async function query(q) {
   // return result
 
   let result = null
+  console.log("query", q)
   pool
     .connect()
     .then(client => {
@@ -87,20 +88,8 @@ async function query(q) {
 // apis
 
 app.get('/', function (req, res) {
-  res.send("here");
-});
-
-app.get('/ind', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
-app.get('/maybe', function (req, res) {
-  res.send("maybe did work");
-});
-
-app.post('/dumbadd', jsonParser, (req, res) => {
-  res.send(`got ${req.body}`)
-})
 
 app.post('/add', jsonParser, (req, res) => {
   const table = req.body.table
