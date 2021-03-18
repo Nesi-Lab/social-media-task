@@ -53,14 +53,12 @@ async function query(q) {
   // return result
 
   let result = null
-  console.log("b")
   pool
     .connect()
     .then(client => {
       client
         .query(q)
         .then((r) => {
-          console.log("c")
           client.release()
           result = r
         })
@@ -71,7 +69,6 @@ async function query(q) {
     }).catch(err => {
       console.log("err connecting", err.stack)
     })
-  console.log("d")
 
   return result
 
@@ -93,11 +90,14 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+app.get('/ping', function (req, res) {
+  res.send("pong");
+});
+
 app.post('/add', jsonParser, async (req, res) => {
   const table = req.body.table
   const cols = Object.keys(req.body.data).join(", ")
   const vals = Object.values(req.body.data).join(", ")
-  console.log("a")
   query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
     .then(r => res.send(`Added to database: ${r}`))
     .catch(err => console.log("err inserting data", err.stack))
