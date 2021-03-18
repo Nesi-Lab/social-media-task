@@ -22,6 +22,7 @@ pool.on('error', (err, client) => {
 })
 
 const dns = require('dns');
+const os = require('os');
 var hostname = os.hostname();
 // const hostname = "jwindha1"
 console.log("hostname", hostname)
@@ -82,8 +83,7 @@ app.post('/add', jsonParser, (req, res) => {
   const table = req.body.table
   const cols = Object.keys(req.body.data).join(", ")
   const vals = Object.values(req.body.data).join(", ")
-  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`).then(v => console.log("query result", v))
-  res.send(`Added to database: ${req.body}`);
+  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`).then(r => res.send(`Added to database: ${rejectUnauthorized}`))
 });
 
 app.listen(process.env.PORT || 8080);
