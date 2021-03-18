@@ -47,7 +47,6 @@ function WebGazeLoader() {
     </EasybaseProvider>
   )
 }
-// WebGazeLoader.contextType = WebGazeContext;
 
 function App() {
   return (

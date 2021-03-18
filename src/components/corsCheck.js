@@ -18,27 +18,27 @@ export default function CorsCheck(props) {
     } = useEasybase();
 
     async function update() {
-        await axios.post(
-            'https://nofaorjosb.execute-api.us-east-1.amazonaws.com/default',
-            {
-                table: "METADATA",
-                data: {
-                    "participant-id": "1",
-                    "value": "17"
-                },
-            },
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    'Content-Type': 'application/json'
-                }
-            }
-        ).then((response) => {
-            console.log(response);
-        })
-            .catch((error) => {
-                console.log(error);
-            });
+        // await axios.post(
+        //     'https://nofaorjosb.execute-api.us-east-1.amazonaws.com/default',
+        //     {
+        //         table: "METADATA",
+        //         data: {
+        //             "participant-id": "1",
+        //             "value": "17"
+        //         },
+        //     },
+        //     {
+        //         headers: {
+        //             "Access-Control-Allow-Origin": "*",
+        //             'Content-Type': 'application/json'
+        //         }
+        //     }
+        // ).then((response) => {
+        //     console.log(response);
+        // })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
 
         const record = {
             insertAtEnd: true,
@@ -60,6 +60,22 @@ export default function CorsCheck(props) {
                 setGood(false)
             }
         }
+
+        // async function gget() {
+        //     const r1 = await fetch('/ping');
+        //     return r1
+        // }
+        // gget().then(b => console.log(b.json()))
+
+        const response = await fetch('/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"here": "yay!"}),
+        });
+        const body = await response.text();
+        console.log(body)
 
     }
 
