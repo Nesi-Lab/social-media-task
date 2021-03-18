@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 var jsonParser = bodyParser.json()
 
 
-// postgre
+// postgres
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
