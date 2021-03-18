@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+// const { createProxyMiddleware } = require('http-proxy-middleware');
 const path = require('path');
+
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
+// app.use('/add', createProxyMiddleware({ target: 'http://www.example.org', changeOrigin: true }));
 
 var jsonParser = bodyParser.json()
 

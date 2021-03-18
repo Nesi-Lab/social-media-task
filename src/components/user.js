@@ -21,7 +21,6 @@ export default function User(props) {
     setUserAttribute
   } = useEasybase();
 
-
   useEffect(() => {
     getUserAttributes().then(setUserAttributes)
   }, [setUserAttributes, getUserAttributes])
