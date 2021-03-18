@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import axios from 'axios';
 import { loadingText } from '../assets/text'
 
-import { prevNext } from '../lib/utils'
+import { prevNext, writeData } from '../lib/utils'
 
 const refreshSecs = 0.5
 
@@ -60,27 +60,11 @@ export default function CorsCheck(props) {
                 setGood(false)
             }
         }
-
-        // async function gget() {
-        //     const r1 = await fetch('/ping');
-        //     return r1
-        // }
-        // gget().then(b => console.log(b.json()))
-
-        const response = await fetch('/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({"here": "yay!"}),
-        });
-        const body = await response.text();
-        console.log(body)
-
     }
 
     async function save() {
         props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-cors-check", good: good })
+        writeData("metadata", {success: "!"})
     }
 
     useEffect(() => {
