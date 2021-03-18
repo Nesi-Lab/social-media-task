@@ -24,7 +24,7 @@ const timerSecs = {
 
 const color = (score) => score < 2.5 ? "red" : "green"
 
-export default function Block(allProps) {
+function Block(allProps) {
     const props = allProps.props
     const participant = { img: allProps.curr.img, bio: allProps.curr.bio, id: "participant" }
 
@@ -42,7 +42,6 @@ export default function Block(allProps) {
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
 
-
     if (currBlock !== props.blockInfo.number && finished) {
         // we started a new block and need to reset the state
         setTrialInd(0)
@@ -58,6 +57,19 @@ export default function Block(allProps) {
         addRecord,
         isUserSignedIn
     } = useEasybase()
+
+    function blockDescription() {
+        return {
+            type: props.blockInfo.type,
+            "participant-id": allProps.curr.id,
+            block: props.blockInfo.number,
+            round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
+            trial: trialInd + 1,
+            "rater-id": props.trials[trialInd].rater.id,
+            "ratee-id": props.trials[trialInd].ratee.id,
+            "num-watching": props.trials[trialInd].watching
+        }
+    }
 
 
     async function saveRow(rec) {
@@ -81,15 +93,8 @@ export default function Block(allProps) {
     function nextTrial(interpretationScore = null) {
         const today = new Date()
         const record = {
-            type: props.blockInfo.type,
-            "participant-id": allProps.curr.id,
-            block: props.blockInfo.number,
-            round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
-            trial: trialInd + 1,
-            "rater-id": props.trials[trialInd].rater.id,
-            "ratee-id": props.trials[trialInd].ratee.id,
+            ...blockDescription(),
             score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score,
-            "num-watching": props.trials[trialInd].watching,
             "save-time": getTime(today),
             "save-datetime": today.getTime().toString()
         }
@@ -153,6 +158,10 @@ export default function Block(allProps) {
 
     }, [trialInd, screenType, clickable])
 
+    useEffect(() => {
+        allProps.curr.wgLogs.push({ timestamp: Date.now(), ...blockDescription(), id: "trialChange" })
+    }, [trialInd])
+
     function rateBox(score) {
         const makeRateBox = inner => <p className="rate-box">{inner}</p>
         return score === 0 ?
@@ -162,7 +171,7 @@ export default function Block(allProps) {
 
     function person(p, isRatee, score = null) {
         const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2)
-        const drawBorder = score !== null && screenType == "feedback" && (score === 3 || score === 4)
+        const drawBorder = score !== null && screenType === "feedback" && (score === 3 || score === 4)
         const X = (<img src={x} alt="x" className="x" />)
 
         const drawRateBox = score !== null && screenType === "feedback"
@@ -189,10 +198,10 @@ export default function Block(allProps) {
         return (<div className="quadrant">
             {rateText}
             <div className="thumbs">
-                <button className={"thumb thumb-down " + antRat} id="thumb-1" onClick={handleThumbClick}>1</button>
-                <button className={"thumb thumb-down " + antRat} id="thumb-2" onClick={handleThumbClick}>2</button>
-                <button className={"thumb thumb-up " + antRat} id="thumb-3" onClick={handleThumbClick}>3</button>
-                <button className={"thumb thumb-up " + antRat} id="thumb-4" onClick={handleThumbClick}>4</button>
+                <button className={"thumb thumb-down " + antRat} id="thumb-1" key={"1"} onClick={handleThumbClick}>1</button>
+                <button className={"thumb thumb-down " + antRat} id="thumb-2" key={"2"} onClick={handleThumbClick}>2</button>
+                <button className={"thumb thumb-up " + antRat} id="thumb-3" key={"3"} onClick={handleThumbClick}>3</button>
+                <button className={"thumb thumb-up " + antRat} id="thumb-4" key={"4"} onClick={handleThumbClick}>4</button>
             </div>
         </div>)
     }
@@ -244,10 +253,12 @@ export default function Block(allProps) {
             </div>)
         }
     } else {
-        if (props.blockInfo.type == "rated") {
+        if (props.blockInfo.type === "rated") {
             return <Instruction id="beforeSummaryText" ind="0" next={allProps.next} curr={allProps.curr} />
         } else {
             return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />
         }
     }
 }
+
+export default Block;

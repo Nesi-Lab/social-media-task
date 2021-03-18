@@ -1,6 +1,7 @@
 import { useEasybase } from 'easybase-react';
 import { useState, useEffect } from "react"
 import axios from 'axios';
+import { loadingText } from '../assets/text'
 
 import { prevNext } from '../lib/utils'
 
@@ -62,6 +63,10 @@ export default function CorsCheck(props) {
 
     }
 
+    async function save() {
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-cors-check", good: good })
+    }
+
     useEffect(() => {
         if (good === null || good === false) {
             update()
@@ -72,20 +77,24 @@ export default function CorsCheck(props) {
         }
     })
 
+    useEffect(() => {
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "start-cors-check" })
+    }, [])
 
-
-    if (good) {
+    if (good === null) {
+        return loadingText
+    } else if (good) {
         return (
             <div style={{ textAlign: "center" }}>
                 <p>Setup looks good! Please continue.</p>
-                { prevNext(props)}
+                { prevNext(props, save)}
             </div>
         )
     } else {
         return (
             <div style={{ textAlign: "center" }}>
                 <p>Setup doesn't look good. Please talk with the supervisor.</p>
-                { prevNext(props)}
+                { prevNext(props, save)}
             </div>
         )
     }

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
 
 import { eye } from '../assets/imgs'
-import { watchText } from '../assets/text'
+import { watchText, beforeSummaryText } from '../assets/text'
 import Feeling from './feeling'
 
 const timerSecs = {
     "anticipation": 3,
-    "feedback": 6
+    "feedback": 6,
+    "loading": 2
 }
 
 const color = (score) => score < 2.5 ? "red" : "green"
@@ -23,7 +24,7 @@ export default function Summary(allProps) {
 
 
     const [trialInd, setTrialInd] = useState(0)
-    const [screenType, setScreenType] = useState("anticipation")
+    const [screenType, setScreenType] = useState("loading")
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
 
@@ -46,7 +47,9 @@ export default function Summary(allProps) {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (screenType === "anticipation") {
+            if (screenType === "loading") {
+                setScreenType("anticipation")
+            } if (screenType === "anticipation") {
                 setScreenType("feedback")
             } else { // can only be feedback
                 nextTrial()
@@ -55,6 +58,10 @@ export default function Summary(allProps) {
         // Clear timeout if the component is unmounted
         return () => clearTimeout(timer)
     }, [trialInd, screenType])
+
+    useEffect(() => {
+        allProps.curr.wgLogs.push({ timestamp: Date.now(), id: "summary", trialInd: trialInd })
+    }, [trialInd])
 
     function watchSummary(n) {
         return (<div className="watch-summary">
@@ -73,7 +80,9 @@ export default function Summary(allProps) {
         </div>)
     }
 
-    if (!finished) {
+    if (screenType === "loading") {
+        return beforeSummaryText[1]
+    } else if (!finished) {
         return (<div style={{ textAlign: "center" }}>
             {watchSummary(props.summaries[trialInd].watching)}
             <div className="summary">
@@ -83,6 +92,7 @@ export default function Summary(allProps) {
             </div>
         </div>)
     } else {
+        allProps.curr.wgLogs.push({ timestamp: Date.now(), id: "end-summary", trialInd: trialInd })
         return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />
     }
 

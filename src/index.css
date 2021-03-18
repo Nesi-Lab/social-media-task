@@ -303,3 +303,24 @@ button {
 form input[type="text"] {
   text-transform: lowercase;
 }
+
+.calibration {
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background-color: red;
+  border-style: none;
+  outline: none;
+}
+
+.all-calibration-points {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 30px;
+  width: 100vw;
+  height: 100vh;
+}

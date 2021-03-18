@@ -14,25 +14,25 @@ export function prevNext(props, save = (async function () { })) {
     </div>)
 }
 
-export function addOrUpdateTable(tableName, uniqueColumnName, row, eb) {
-    eb.configureFrame({ tableName: tableName })
-    eb.sync()
-    const f = eb.Frame()
-    let updated = false
-    f.map(
-        e => {
-            if (e[uniqueColumnName] === row[uniqueColumnName]) {
-                updated = true
-                return row
-            } else {
-                return e
-            }
-        })
-    if (!updated) {
-        f.push(row)
-    }
-    eb.sync()
-}
+// export function addOrUpdateTable(tableName, uniqueColumnName, row, eb) {
+//     eb.configureFrame({ tableName: tableName })
+//     eb.sync()
+//     const f = eb.Frame()
+//     let updated = false
+//     f.map(
+//         e => {
+//             if (e[uniqueColumnName] === row[uniqueColumnName]) {
+//                 updated = true
+//                 return row
+//             } else {
+//                 return e
+//             }
+//         })
+//     if (!updated) {
+//         f.push(row)
+//     }
+//     eb.sync()
+// }
 
 const labels = (<div className="slider-labels">
     {sliderLabels}
@@ -48,7 +48,7 @@ export function slider(name) {
 export function multiSlider(names, update) {
     const range = (name) => [
         (<label htmlFor={name}>{name}</label>),
-        (<input type="range" id={name} min="1" max="100" value={names[name]} onChange={update} className="slider" />)
+        (<input type="range" id={name} min="1" max="100" key={name} value={names[name]} onChange={update} className="slider" />)
     ]
     return (<div className="multi-slider">
         <span></span> {labels}

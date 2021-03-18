@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useEasybase } from 'easybase-react';
 
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text'
@@ -23,6 +23,10 @@ export default function Profile(props) {
     reader.onload = function (e) {
         setParticipantImg(reader.result)
     }
+
+    useEffect(() => {
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "profile", screen: screen })
+    }, [screen])
 
     function handleUpload(input) {
         if (input.target.files && input.target.files[0]) {
@@ -138,6 +142,7 @@ export default function Profile(props) {
             value: document.getElementById("participantBioScore").value,
             "participant-id": props.curr.id
         })
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-profile", screen: screen })
     }
 
     if (screen === "uploadPhoto") {

@@ -1,5 +1,5 @@
 import { useEasybase } from 'easybase-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { feelingText, feelingList } from '../assets/text'
 import { getTime, multiSlider } from '../lib/utils'
@@ -29,6 +29,10 @@ export default function Feeling(props) {
         addRecord,
         isUserSignedIn
     } = useEasybase()
+
+    useEffect(() => {
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "feeling", screenNum: screenNum })
+    }, [screenNum])
 
     async function handleSliderChange(e) {
         const changed = e.target.id
@@ -61,6 +65,7 @@ export default function Feeling(props) {
             }
             if (!(await sync()).success) { console.log("failed to sync") }
         }
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-feeling"})
     }
 
     function changeScreen() {

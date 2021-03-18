@@ -8,7 +8,7 @@ import { prevNext } from '../lib/utils'
 function makeOption(socialMedia) {
     const img = socialMediaImgs[socialMedia]
     return (<div className="social-media">
-        <input type="checkbox" id={socialMedia} name={socialMedia} value={socialMedia} />
+        <input type="checkbox" id={socialMedia} key={socialMedia} name={socialMedia} value={socialMedia} />
         <label htmlFor={socialMedia}><img src={img} alt="social media icon" className="social-media-img" /></label>
         {/* <input type="text" placeholder={socialMedia === "fb" ? "Email/phone" : "Username"} style={{ width: "180px" }} /> */}
         {/* <br /> */}
@@ -46,6 +46,10 @@ export default function LinkSM(props) {
         }
     })
 
+    useEffect(() => {
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "linkSM", isLoad: isLoad, finished: finished })
+    }, [isLoad, finished])
+
     async function onPrev() {
         save().then(() => props.prev(props.curr.i))
     }
@@ -78,6 +82,7 @@ export default function LinkSM(props) {
             }
             if (!(await sync()).success) { console.log("failed to sync") }
         }
+        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-linkSM", isLoad: isLoad, finished: finished })
     }
 
     function handlePhoneTyped(e) {
@@ -107,7 +112,7 @@ export default function LinkSM(props) {
             </div>
         </div>)
     } else {
-        const imgs = selected.map((e, i) => (<img src={checked[i] ? check : socialMediaImgs[e]} alt="social media icon" style={{ width: "75px", margin: "10px" }} />))
+        const imgs = selected.map((e, i) => (<img src={checked[i] ? check : socialMediaImgs[e]} alt="social media icon" key={i.toString()} style={{ width: "75px", margin: "10px" }} />))
         if (!finished) {
             return (<div className="social-media-loading">
                 <img src={loading} alt="loading gif" className="loading-gif" />

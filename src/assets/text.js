@@ -1,4 +1,13 @@
+import { loading } from './imgs'
+
 export const userID = (<p style={{textAlign: "center"}}>Participant ID</p>)
+
+const loadingImg = (<img src={loading} alt="loading gif" className="loading-gif" />)
+
+export const loadingText = (<div style={{textAlign: "center"}}>
+    {loadingImg}
+    <p>Loading...</p>
+    </div>)
 
 export const introText = [
     (<div>
@@ -54,6 +63,14 @@ export const profileText = [
     (<p style={{fontSize: "x-large"}}>How much does this bio represent who you are? <br />(Other people won't see your answer)</p>),
 
     (<h1>You're all set!</h1>)
+]
+
+export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible and that the box is <span style={{color: "#32CD32"}}>green</span>. Try your best not to move too much, especially not closer or further from the screen. This helps us get accurate data.</p>)
+
+export const calibrationText = [
+    (<p>The following screen will calibrate your eye tracking. You will see a series of <span style={{color: "red"}}>red</span> dots. Click on each dot until it turns <span style={{color: "#ffee00"}}>yellow</span>.</p>),
+    (<p style={{position: "absolute", top: "0px", left: "0px", margin: "80px"}}>To finish calibrating your eye tracking, please don't move your mouse and stare at this dot for the next 5 seconds.</p>),
+    (<p style={{textAlign: "center"}}>Calibrated!</p>)
 ]
 
 export const bioQuestions = {
@@ -131,7 +148,11 @@ export const endingText = [
 ]
 
 export const beforeSummaryText = [
-    (<h1>See how you did compared to other Connect users!</h1>)
+    (<h1>See how you did compared to other Connect users!</h1>),
+    (<div style={{textAlign: "center"}}>
+        {loadingImg}
+        <p>Calculating average scores...</p>
+    </div>)
 ]
 
 export const sliderLabels = [
