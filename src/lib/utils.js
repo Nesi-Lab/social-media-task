@@ -1,4 +1,3 @@
-import { impersonatorImgs } from '../assets/imgs'
 import { sliderLabels } from '../assets/text'
 
 export function prevNext(props, save = (async function () { })) {
@@ -46,7 +45,7 @@ export function getTime(date = null) {
     return h + ":" + m
 }
 
-export function writeData(table, data) {
+export async function writeData(table, data) {
     const response = await fetch('/add', {
         method: 'POST',
         headers: {

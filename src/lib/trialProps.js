@@ -1,3 +1,5 @@
+import { impersonatorImgs } from '../assets/imgs'
+
 // shuffle the items in an array randomly
 function shuffleArray(array) {
     let currentIndex = array.length
@@ -15,7 +17,7 @@ function shuffleArray(array) {
     return array
 }
 
-export default function trialProps() {
+function trialProps() {
     const allData = require('../assets/impersonators.json')
     const blocks = allData.blocks, bios = allData.bios
 
@@ -101,3 +103,5 @@ export default function trialProps() {
         ratedProps(ratedOrd[1][1], 7)
     ]
 }
+
+export default trialProps
