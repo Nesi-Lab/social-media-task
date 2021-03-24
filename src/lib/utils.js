@@ -47,6 +47,12 @@ export function getTime(date = null) {
 
 export async function writeData(table, data, participant_id) {
     data["participant_id"] = participant_id.toString()
+    for (const k in data) {
+        if (typeof data[k] === 'string' || data[k] instanceof String) {
+        data[k] = "\'" + data[k] + "\'"
+        }
+    }
+    data["timestamp"] = "NOW()"
     const response = await fetch('/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
