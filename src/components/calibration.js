@@ -4,7 +4,7 @@ import * as text from '../assets/text'
 import Instruction from './instruction'
 
 const numPoints = 9  // changing this is not as easy: careful
-const numClicksPerPoint = 5
+const numClicksPerPoint = 5  // changing this messes up the instructions 
 const staringSecs = 5 + 1
 
 export default function Calibration(props) {
