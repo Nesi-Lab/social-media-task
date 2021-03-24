@@ -64,7 +64,7 @@ export default function CorsCheck(props) {
 
     async function save() {
         props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-cors-check", good: good })
-        writeData("metadata", {name: "success", value: "!", participant_id: "dummy", timestamp: Date.now()})
+        writeData("metadata", {name: "success", value: "!"}, props.curr.id)
     }
 
     useEffect(() => {
