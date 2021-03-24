@@ -92,8 +92,8 @@ app.get('/', function (req, res) {
 });
 
 app.post('/add', jsonParser, (req, res) => {
-  const cols = Object.keys(data).join(", ")
-  const vals = Object.values(data).join(", ")
+  const cols = Object.keys(req.body.data).join(", ")
+  const vals = Object.values(req.body.data).join(", ")
   query(`INSERT INTO ${req.body.table}(${cols}) VALUES (${vals}) RETURNING *;`)
     .then(r => res.send(`Added to database: ${r}`))
     .catch(err => console.log("err inserting data", err.stack))
