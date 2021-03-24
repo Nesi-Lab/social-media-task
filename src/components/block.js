@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react"
 import ReactDOMServer from 'react-dom/server'
-import { useEasybase } from 'easybase-react'
 
 import { eye, x } from '../assets/imgs'
 import { rateText, interpretationText, watchText } from '../assets/text'
 import Feeling from './feeling'
-import { slider, getTime } from '../lib/utils'
+import { slider, getTime, writeData } from '../lib/utils'
 import Instruction from "./instruction"
 
 const timerSecs = {
@@ -51,17 +50,9 @@ function Block(allProps) {
         setCurrBlock(props.blockInfo.number)
     }
 
-    const {
-        sync,
-        configureFrame,
-        addRecord,
-        isUserSignedIn
-    } = useEasybase()
-
     function blockDescription() {
         return {
             type: props.blockInfo.type,
-            "participant-id": allProps.curr.id,
             block: props.blockInfo.number,
             round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
             trial: trialInd + 1,
@@ -71,35 +62,13 @@ function Block(allProps) {
         }
     }
 
-
-    async function saveRow(rec) {
-        const record = {
-            insertAtEnd: true,
-            newRecord: rec,
-            tableName: "TRIALS"
-        }
-        if (isUserSignedIn()) {
-            if (!(await addRecord(record)).success) {
-                console.log("failed to add trial record, trying again...")
-                console.log(await addRecord(record))
-            }
-            if (!configureFrame({ tableName: "TRIALS" }).success) {
-                console.log("failed to configure frame")
-            }
-            if (!(await sync()).success) { console.log("failed to sync") }
-        }
-    }
-
     function nextTrial(interpretationScore = null) {
-        const today = new Date()
         const record = {
             ...blockDescription(),
-            score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score,
-            "save-time": getTime(today),
-            "save-datetime": today.getTime().toString()
+            score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score
         }
         if (interpretationScore) { record["interpretation-score"] = interpretationScore }
-        saveRow(record)
+        writeData("trials", record, allProps.curr.id)
         console.log(record)
 
         if (trialInd + 1 === props.trials.length) {
@@ -157,10 +126,6 @@ function Block(allProps) {
         }
 
     }, [trialInd, screenType, clickable])
-
-    useEffect(() => {
-        allProps.curr.wgLogs.push({ timestamp: Date.now(), ...blockDescription(), id: "trialChange" })
-    }, [trialInd])
 
     function rateBox(score) {
         const makeRateBox = inner => <p className="rate-box">{inner}</p>

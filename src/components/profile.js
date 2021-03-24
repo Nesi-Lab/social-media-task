@@ -1,17 +1,9 @@
-import { useState, useEffect } from "react"
-import { useEasybase } from 'easybase-react';
+import { useState } from "react"
 
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text'
-import { prevNext, slider } from '../lib/utils'
+import { prevNext, slider, writeData } from '../lib/utils'
 
 export default function Profile(props) {
-
-    const {
-        sync,
-        configureFrame,
-        addRecord,
-        isUserSignedIn
-    } = useEasybase()
 
     const [screen, setScreen] = useState("uploadPhoto")
     const [participantImg, setParticipantImg] = useState("#")
@@ -23,10 +15,6 @@ export default function Profile(props) {
     reader.onload = function (e) {
         setParticipantImg(reader.result)
     }
-
-    useEffect(() => {
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "profile", screen: screen })
-    }, [screen])
 
     function handleUpload(input) {
         if (input.target.files && input.target.files[0]) {
@@ -57,92 +45,26 @@ export default function Profile(props) {
     }
 
     async function saveRow(rec) {
-        const record = {
-            insertAtEnd: true,
-            newRecord: rec,
-            tableName: "METADATA"
-        }
-        if (isUserSignedIn()) {
-            if (!(await addRecord(record)).success) {
-                console.log("failed to add bio records, trying again...")
-                console.log(await addRecord(record))
-            }
-            if (!configureFrame({ tableName: "METADATA" }).success) {
-                console.log("failed to configure frame")
-            }
-            if (!(await sync()).success) { console.log("failed to sync") }
-        }
+        writeData("metadata", rec, props.curr.id)
     }
-
-    async function saveImg() {
-        // if (isUserSignedIn()) {
-        //     if (!configureFrame({ tableName: "METADATA" }).success) {
-        //         console.log("failed to configure frame")
-        //     }
-        //     if (!(await sync()).success) { console.log("failed to sync") }
-        //     const imgRecord = Frame().filter(e => e.name === "participant-img")[0]
-        //     // const imgRecord = { name: "participant-img" }
-        //     const record = {
-        //         attachment: participantImg,
-        //         columnName: "img",
-        //         record: imgRecord,
-        //         tableName: "METADATA"
-        //     }
-        //     if (!(await updateRecordImage(record)).success) {
-        //         console.log("failed to add bio image record, trying again...")
-        //         console.log(await updateRecordImage(record))
-        //     }
-        //     if (!(await sync()).success) { console.log("failed to sync") }
-        // }
-        console.log("choosing not to save image")
-    }
-
-    // useFrameEffect(() => {
-    //     console.log("useFrameEffect triggered")
-    //     sync()
-    //     const rec = {
-    //         name: "participant-img",
-    //         value: participantImg.toString()
-    //     }
-    //     console.log(Frame())
-    //     if (Frame().includes(rec)) { 
-    //         console.log("h")
-    //         saveImg(rec) 
-    //     }
-    // })
-
-    // const rec = {
-    //     name: "participant-img",
-    //     value: participantImg.toString()
-    // }
-    // saveImg(rec)
 
 
     async function save() {
         const bio = makeBioPlain(participantBio)
         props.setParticipantImgTimeline(participantImg)
         props.setParticipantBioTimeline(makeBio(participantBio))
-        // await saveRow({
-        //     name: "participant-img",
-        //     value: participantImg.toString()
-        // })
-        saveImg()
         await saveRow({
             name: "participant-img-score",
-            value: participantImgScore,
-            "participant-id": props.curr.id
+            value: participantImgScore.toString(),
         })
         await saveRow({
             name: "participant-bio",
             value: bio,
-            "participant-id": props.curr.id
         })
         await saveRow({
             name: "participant-bio-score",
             value: document.getElementById("participantBioScore").value,
-            "participant-id": props.curr.id
         })
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-profile", screen: screen })
     }
 
     if (screen === "uploadPhoto") {

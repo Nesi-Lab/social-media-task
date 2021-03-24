@@ -1,7 +1,6 @@
 import Script from 'react-load-script'
 
 import './App.css';
-import { EasybaseProvider } from 'easybase-react';
 import ebconfig from './ebconfig';
 import Timeline from './components/timeline'
 import { useState, useEffect } from 'react';
@@ -35,17 +34,14 @@ function WebGazeLoader() {
     console.log('error');
   }
 
-  return (
-    <EasybaseProvider ebconfig={ebconfig}>
-      {/* <button onClick={() => console.log("wgLogs", wgLogs)}>LOG WG</button> */}
+  return (<div>
       <Script
         url={process.env.PUBLIC_URL + "webgazer.js"}
         onLoad={handleScriptLoad}
         onError={handleScriptError}
       />
       <Timeline wg={wg} wgLogs={wgLogs} />
-    </EasybaseProvider>
-  )
+    </div>)
 }
 
 function App() {

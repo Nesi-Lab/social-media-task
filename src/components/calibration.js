@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
-import * as text from '../assets/text'
+import { calibrationText } from '../assets/text'
+import { writeData } from '../lib/utils'
 import Instruction from './instruction'
 
 const numPoints = 9  // changing this is not as easy: careful
@@ -47,6 +48,10 @@ export default function Calibration(props) {
                 props.curr.wg.params.storingPoints = false
                 // props.curr.wg.showPredictionPoints(false)
                 console.log("wg acc", accuracy(props.curr.wg.getStoredPoints()))
+                writeData("metadata", {
+                    name: "calibration accuracy", 
+                    value: accuracy(props.curr.wg.getStoredPoints()).toString() 
+                }, props.curr.id)
             }, 1000 * staringSecs)
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer)
@@ -99,7 +104,7 @@ export default function Calibration(props) {
     if (screen === "clicking" || screen === "staring") {
         return (<div>
             {makePoints()}
-            {screen === "staring" ? text.calibrationText[1] : null}
+            {screen === "staring" ? calibrationText[1] : null}
         </div>)
     } else {
         return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />)

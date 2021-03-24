@@ -10,11 +10,9 @@ export default function FaceCheck(props) {
     }
 
     useEffect(() => {
-        console.log("update")
         props.curr.wg.showVideo(true).showFaceOverlay(false)
         const vid = document.getElementById("webgazerVideoContainer")
         if (vid) {
-            console.log("update2")
             vid.style.position = "relative"
             vid.style.left = "calc(50% - 160px)"
             document.getElementById("webgazerFaceFeedbackBox").style.position = "absolute"

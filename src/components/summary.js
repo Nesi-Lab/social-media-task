@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { eye } from '../assets/imgs'
 import { watchText, beforeSummaryText } from '../assets/text'
 import Feeling from './feeling'
+import { writeData } from '../lib/utils'
 
 const timerSecs = {
     "anticipation": 3,
@@ -36,7 +37,22 @@ export default function Summary(allProps) {
         setCurrBlock(props.blockInfo.number)
     }
 
+    function blockDescription() {
+        return {
+            type: props.blockInfo.type,
+            block: props.blockInfo.number,
+            round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
+            trial: trialInd + 1,
+            "rater-left-id": props.summaries[trialInd].left.id,
+            "rater-right-id": props.summaries[trialInd].right.id,
+            "num-watching": props.trials[trialInd].watching
+        }
+    }
+
     function nextTrial() {
+        writeData("trials", blockDescription(), allProps.curr.id)
+        console.log(blockDescription())
+
         if (trialInd + 1 === props.summaries.length) {
             setFinished(true)
         } else {
@@ -58,10 +74,6 @@ export default function Summary(allProps) {
         // Clear timeout if the component is unmounted
         return () => clearTimeout(timer)
     }, [trialInd, screenType])
-
-    useEffect(() => {
-        allProps.curr.wgLogs.push({ timestamp: Date.now(), id: "summary", trialInd: trialInd })
-    }, [trialInd])
 
     function watchSummary(n) {
         return (<div className="watch-summary">
@@ -92,7 +104,6 @@ export default function Summary(allProps) {
             </div>
         </div>)
     } else {
-        allProps.curr.wgLogs.push({ timestamp: Date.now(), id: "end-summary", trialInd: trialInd })
         return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />
     }
 

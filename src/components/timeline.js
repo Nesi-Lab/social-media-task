@@ -41,7 +41,7 @@ export default function Timeline(props) {
         // setup
         (c) => <User next={next} curr={c} setParticipantId={setParticipantId} />,
 
-        (c) => <CorsCheck prev={prev} next={next} curr={c} />,
+        // (c) => <CorsCheck prev={prev} next={next} curr={c} />,
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,

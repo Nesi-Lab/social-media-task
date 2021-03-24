@@ -1,17 +1,14 @@
-import { useEasybase } from 'easybase-react';
 import { useEffect, useState } from 'react';
 
 import { socialMediaImgs, check, loading } from '../assets/imgs'
 import { socialMediaText } from '../assets/text'
-import { prevNext } from '../lib/utils'
+import { prevNext, writeData } from '../lib/utils'
 
 function makeOption(socialMedia) {
     const img = socialMediaImgs[socialMedia]
     return (<div className="social-media">
         <input type="checkbox" id={socialMedia} key={socialMedia} name={socialMedia} value={socialMedia} />
         <label htmlFor={socialMedia}><img src={img} alt="social media icon" className="social-media-img" /></label>
-        {/* <input type="text" placeholder={socialMedia === "fb" ? "Email/phone" : "Username"} style={{ width: "180px" }} /> */}
-        {/* <br /> */}
     </div>)
 }
 
@@ -22,13 +19,6 @@ export default function LinkSM(props) {
     const [checked, setChecked] = useState(null)
     const [finished, setFinished] = useState(false)
     const [phoneFilled, setPhoneFilled] = useState(false)
-
-    const {
-        sync,
-        configureFrame,
-        addRecord,
-        isUserSignedIn
-    } = useEasybase();
 
     useEffect(() => {
         if (isLoad && !finished) {
@@ -46,15 +36,11 @@ export default function LinkSM(props) {
         }
     })
 
-    useEffect(() => {
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "linkSM", isLoad: isLoad, finished: finished })
-    }, [isLoad, finished])
-
     async function onPrev() {
         save().then(() => props.prev(props.curr.i))
     }
 
-    function setupLoad(_) {
+    function setupLoad() {
         setIsLoad(true)
         const sel = Object.keys(socialMediaImgs).filter(
             e => document.getElementById(e).checked
@@ -65,24 +51,12 @@ export default function LinkSM(props) {
     }
 
     async function save() {
-        if (isUserSignedIn()) {
-            if (!(await addRecord({
-                insertAtEnd: true,
-                newRecord: {
-                    name: "social-medias",
-                    "participant-id": props.curr.id,
-                    value: isLoad ?
-                        selected.join(",") :
-                        Object.keys(socialMediaImgs).filter(e => document.getElementById(e).checked).join(",")
-                },
-                tableName: "METADATA"
-            })).success) { console.log("failed to add social media record") }
-            if (!configureFrame({ tableName: "METADATA" }).success) {
-                console.log("failed to configure frame")
-            }
-            if (!(await sync()).success) { console.log("failed to sync") }
-        }
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-linkSM", isLoad: isLoad, finished: finished })
+        writeData("metadata", {
+            name: "social-medias",
+            value: isLoad ?
+            selected.join(",") :
+            Object.keys(socialMediaImgs).filter(e => document.getElementById(e).checked).join(",")
+        }, props.curr.id)
     }
 
     function handlePhoneTyped(e) {
