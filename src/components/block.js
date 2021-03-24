@@ -56,9 +56,9 @@ function Block(allProps) {
             block: props.blockInfo.number,
             round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
             trial: trialInd + 1,
-            "rater-id": props.trials[trialInd].rater.id,
-            "ratee-id": props.trials[trialInd].ratee.id,
-            "num-watching": props.trials[trialInd].watching
+            rater_id: props.trials[trialInd].rater.id,
+            ratee_id: props.trials[trialInd].ratee.id,
+            num_watching: props.trials[trialInd].watching
         }
     }
 

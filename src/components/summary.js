@@ -43,9 +43,8 @@ export default function Summary(allProps) {
             block: props.blockInfo.number,
             round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
             trial: trialInd + 1,
-            "rater-left-id": props.summaries[trialInd].left.id,
-            "rater-right-id": props.summaries[trialInd].right.id,
-            "num-watching": props.trials[trialInd].watching
+            rater_id: JSON.stringify({left: props.summaries[trialInd].left.id, right: props.summaries[trialInd].right.id}),
+            num_watching: props.trials[trialInd].watching
         }
     }
 
