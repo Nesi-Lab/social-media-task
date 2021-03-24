@@ -91,14 +91,13 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.post('/add', jsonParser, (req, res, participant_id) => {
+app.post('/add', jsonParser, (req, res) => {
   const data = {...req.body.data}  // copy
   for (const k in data) {
     if (typeof data[k] === 'string' || data[k] instanceof String) {
       data[k] = "\'" + data[k] + "\'"
     }
   }
-  data["participant_id"] = "\'" + participant_id + "\'"
   data["timestamp"] = "NOW()"
   const cols = Object.keys(data).join(", ")
   const vals = Object.values(data).join(", ")

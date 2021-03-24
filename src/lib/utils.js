@@ -45,7 +45,8 @@ export function getTime(date = null) {
     return h + ":" + m
 }
 
-export async function writeData(table, data) {
+export async function writeData(table, data, participant_id) {
+    data["participant_id"] = participant_id.toString()
     const response = await fetch('/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
