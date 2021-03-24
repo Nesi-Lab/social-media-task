@@ -100,10 +100,9 @@ app.post('/add', jsonParser, (req, res, participant_id) => {
   }
   data["participant_id"] = "\'" + participant_id + "\'"
   data["timestamp"] = "NOW()"
-  const table = req.body.table
-  const cols = Object.keys(req.body.data).join(", ")
-  const vals = Object.values(req.body.data).join(", ")
-  query(`INSERT INTO ${table}(${cols}) VALUES (${vals});`)
+  const cols = Object.keys(data).join(", ")
+  const vals = Object.values(data).join(", ")
+  query(`INSERT INTO ${req.body.table}(${cols}) VALUES (${vals});`)
     .then(r => res.send(`Added to database: ${r}`))
     .catch(err => console.log("err inserting data", err.stack))
 });
