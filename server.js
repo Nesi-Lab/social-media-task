@@ -92,16 +92,9 @@ app.get('/', function (req, res) {
 });
 
 app.post('/add', jsonParser, (req, res) => {
-  const data = {...req.body.data}  // copy
-  for (const k in data) {
-    if (typeof data[k] === 'string' || data[k] instanceof String) {
-      data[k] = "\'" + data[k] + "\'"
-    }
-  }
-  data["timestamp"] = "NOW()"
   const cols = Object.keys(data).join(", ")
   const vals = Object.values(data).join(", ")
-  query(`INSERT INTO ${req.body.table}(${cols}) VALUES (${vals});`)
+  query(`INSERT INTO ${req.body.table}(${cols}) VALUES (${vals}) RETURNING *;`)
     .then(r => res.send(`Added to database: ${r}`))
     .catch(err => console.log("err inserting data", err.stack))
 });
