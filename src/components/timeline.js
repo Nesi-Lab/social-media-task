@@ -17,7 +17,6 @@ export default function Timeline(props) {
     const [currScreen, setCurrScreen] = useState(0)
     const [participantImgTimeline, setParticipantImgTimeline] = useState(null)
     const [participantBioTimeline, setParticipantBioTimeline] = useState(null)
-    const [participantId, setParticipantId] = useState(null)
     const [wg, setWg] = useState(props.wg)
 
     useEffect(() => { setWg(props.wg) }, [props.wg])
@@ -34,7 +33,7 @@ export default function Timeline(props) {
         ///////////////
 
         // setup
-        (c) => <User next={next} curr={c} setParticipantId={setParticipantId} />,
+        (c) => <User next={next} curr={c} setParticipantId={props.setParticipantId} />,
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,
@@ -116,7 +115,7 @@ export default function Timeline(props) {
         i: currScreen,
         img: participantImgTimeline,
         bio: participantBioTimeline,
-        id: participantId,
+        id: props.participantId,
         wg: wg
     })
 }
