@@ -94,9 +94,15 @@ app.get('/', function (req, res) {
 app.post('/add', jsonParser, (req, res) => {
   const cols = Object.keys(req.body.data).join(", ")
   const vals = Object.values(req.body.data).join(", ")
-  query(`INSERT INTO ${req.body.table}(${cols}) VALUES (${vals}) RETURNING *;`)
-    .then(r => res.send(`Added to database: ${r}`))
+  query(`INSERT INTO ${req.body.table}(${cols}) VALUES (${vals});`)
+    .then(() => res.send(`Added to ${req.body.table}: ${req.body.data}`))
     .catch(err => console.log("err inserting data", err.stack))
+});
+
+app.post('/settz', jsonParser, (req, res) => {
+  query(`SET timezone = '${req.body}';`)
+    .then(() => res.send(`Set timezone to: ${req.body}`))
+    .catch(err => console.log("err setting timezone", err.stack))
 });
 
 app.listen(process.env.PORT || 8080);

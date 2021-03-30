@@ -5,14 +5,6 @@ import { useEffect } from 'react'
 
 export default function Instruction(props) {
 
-    useEffect(() => {
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "instruction-start", type: props.id, ind: props.img })
-    }, [props])
-
-    async function save() {
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-instruction", type: props.id, ind: props.img })
-    }
-
     return (<div>
         {text[props.id][props.ind]}
         {Object.keys(props).includes("img") ?

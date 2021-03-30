@@ -26,6 +26,20 @@ export default function Calibration(props) {
         return distance <= halfWindowHeight ? 100 - (distance / halfWindowHeight * 100) : 0
     }
 
+    useEffect(() => { 
+        // on load 
+        const canvas = props.curr.wg.wg.getVideoElementCanvas()
+        console.log("wg canvas width/height", canvas.width, canvas.height)
+        writeData("metadata", {
+            name: "screen-width",
+            value: canvas.width
+        }, props.curr.id)
+        writeData("metadata", {
+            name: "screen-height",
+            value: canvas.height
+        }, props.curr.id)
+    }, [])
+
     useEffect(() => {
 
         function accuracy(past50) {
@@ -37,30 +51,24 @@ export default function Calibration(props) {
         }
 
         if (screen === "clicking") {
-            // props.curr.wg.showPredictionPoints(true)
             if (Object.values(points).every(v => v === 0)) {
                 setScreen("staring")
-                props.curr.wg.params.storingPoints = true
+                props.curr.wg.wg.params.storingPoints = true
             }
         } else if (screen === "staring") {
             const timer = setTimeout(() => {
                 setScreen("done")
-                props.curr.wg.params.storingPoints = false
-                // props.curr.wg.showPredictionPoints(false)
-                console.log("wg acc", accuracy(props.curr.wg.getStoredPoints()))
+                props.curr.wg.wg.params.storingPoints = false
+                console.log("wg acc", accuracy(props.curr.wg.wg.getStoredPoints()))
                 writeData("metadata", {
                     name: "calibration accuracy", 
-                    value: accuracy(props.curr.wg.getStoredPoints()).toString() 
+                    value: accuracy(props.curr.wg.wg.getStoredPoints()).toString() 
                 }, props.curr.id)
             }, 1000 * staringSecs)
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer)
         }
-    }, [screen, points, props.curr.wg])
-
-    useEffect(() => {
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "calibration", type: screen })
-    }, [screen])
+    }, [screen, points, props.curr.wg.wg])
 
     function handleClick(e) {
         const pointNum = parseInt(e.target.id.replace("pt", ""))

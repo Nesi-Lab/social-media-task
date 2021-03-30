@@ -6,7 +6,6 @@ export default function FaceCheck(props) {
 
     async function save() {
         props.curr.wg.showVideo(false)
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "end-face-check" })
     }
 
     useEffect(() => {
@@ -18,10 +17,6 @@ export default function FaceCheck(props) {
             document.getElementById("webgazerFaceFeedbackBox").style.position = "absolute"
         }
     })
-
-    useEffect(() => {
-        props.curr.wgLogs.push({ timestamp: Date.now(), id: "start-face-check" })
-    }, [])
 
     return (<div>
         {text["faceCheckText"]}

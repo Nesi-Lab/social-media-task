@@ -19,13 +19,8 @@ export default function Timeline(props) {
     const [participantBioTimeline, setParticipantBioTimeline] = useState(null)
     const [participantId, setParticipantId] = useState(null)
     const [wg, setWg] = useState(props.wg)
-    const [wgLogs, setWgLogs] = useState(props.wgLogs)
 
     useEffect(() => { setWg(props.wg) }, [props.wg])
-
-    useEffect(() => {
-        wgLogs.push({ timestamp: Date.now(), id: "timeline", currScreen: currScreen })
-    }, [currScreen])
 
     const prev = (c) => { setCurrScreen(c - 1) }
     const next = (c) => { setCurrScreen(c + 1) }
@@ -40,12 +35,9 @@ export default function Timeline(props) {
 
         // setup
         (c) => <User next={next} curr={c} setParticipantId={setParticipantId} />,
-
-        // (c) => <CorsCheck prev={prev} next={next} curr={c} />,
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,
-        // (c) => <SetupWebgazer next={next} curr={c} />,
         (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c} />,
 
         // // first set of instructions
@@ -125,7 +117,6 @@ export default function Timeline(props) {
         img: participantImgTimeline,
         bio: participantBioTimeline,
         id: participantId,
-        wg: wg,
-        wgLogs: wgLogs
+        wg: wg
     })
 }

@@ -1,7 +1,6 @@
 import Script from 'react-load-script'
 
 import './App.css';
-import ebconfig from './ebconfig';
 import Timeline from './components/timeline'
 import { useState, useEffect } from 'react';
 
@@ -11,14 +10,12 @@ function WebGazeLoader() {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
+  const [screen, setScreen] = useState(null)
 
   function handleScriptLoad() {
     webgazer.setGazeListener((data, elapsedTime) => {
       if (data == null) { return; }
-      // const newWgLogs = [...wgLogs, { timestamp: Date.now(), ...webgazer.util.bound(data) }]
-      // setWgLogs(newWgLogs)
       wgLogs.push({ timestamp: Date.now(), id: "eye-coords", ...webgazer.util.bound(data) })
-      // console.log({ wg: wg, wgLogs: wgLogs })
     }).showVideo(false).showPredictionPoints(false).begin();
     setWg(webgazer)
   }
@@ -40,7 +37,7 @@ function WebGazeLoader() {
         onLoad={handleScriptLoad}
         onError={handleScriptError}
       />
-      <Timeline wg={wg} wgLogs={wgLogs} />
+      <Timeline wg={{wg: wg, wgLogs: wgLogs, screen: screen, "setScreen": setScreen}} />
     </div>)
 }
 

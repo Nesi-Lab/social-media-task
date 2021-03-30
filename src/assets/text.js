@@ -68,7 +68,12 @@ export const profileText = [
 export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible and that the box is <span style={{color: "#32CD32"}}>green</span>. Try your best not to move too much, especially not closer or further from the screen. This helps us get accurate data.</p>)
 
 export const calibrationText = [
-    (<p>The following screen will calibrate your eye movements. You will see a series of <span style={{color: "red"}}>red</span> buttons. Click on each button 5 times while looking at the button, until it turns <span style={{color: "#ffee00"}}>yellow</span>. Always follow the mouse with your eyes.</p>),
+    (<div>
+        <p>Make sure your screen is set up the way you want. From here on, make sure that you do not resize your screen.</p>
+        <p>The following screen will calibrate your eye movements.</p>
+        <p>You will see a series of <span style={{color: "red"}}>red</span> buttons. Click on each button 5 times while looking at the button, until it turns <span style={{color: "#ffee00"}}>yellow</span>.</p>
+        <p>Always follow the mouse with your eyes.</p>
+        </div>),
     (<p style={{position: "absolute", top: "0px", left: "0px", margin: "80px"}}>To finish calibrating your eye tracking, please don't move your mouse and stare at this dot for the next 5 seconds.</p>),
     (<p style={{textAlign: "center"}}>Calibrated!</p>)
 ]

@@ -39,7 +39,7 @@ export default function Summary(allProps) {
 
     function blockDescription() {
         return {
-            type: props.blockInfo.type,
+            type: "summary",
             block: props.blockInfo.number,
             round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
             trial: trialInd + 1,

@@ -61,3 +61,13 @@ export async function writeData(table, data, participant_id) {
     const body = await response.text();
     console.log(body)
 }
+
+export async function setTimezone(tz) {
+    const response = await fetch('/settz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tz),
+    });
+    const body = await response.text();
+    console.log(body)
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 import { userID, loadingText } from '../assets/text'
-import { prevNext, writeData } from '../lib/utils'
+import { prevNext, writeData, setTimezone } from '../lib/utils'
 
 const loadingSecs = 1
 
@@ -13,7 +13,7 @@ export default function User(props) {
     if (loading) {
       const timer = setTimeout(() => {
         setLoading(false)
-        writeData("metadata", {name: "success", value: "!"}, 3)
+        setTimezone("America/New_York")
       }, 1000 * loadingSecs)
       // Clear timeout if the component is unmounted
       return () => clearTimeout(timer)
