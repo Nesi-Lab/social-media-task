@@ -1,56 +1,68 @@
 # Connect: The Social Media Game Experimental Task
 
+**⚠ This app is a work in progress. ⚠**
+
+* [About](#about)
+* [Softwares](#softwares)
+* [File structure](#file-structure)
+* [Deployment](#deployment)
+* [Data organization](#data-organization)
+* [Terms and definitions](#terms-and-definitions)
+
+## About
+
 This is an app designed as a experimental tool for a psychology study conducted by Dr. Jacqueline Nesi at Brown University and Lifespan Hospital Network. It was built from 2020-2021 by Julia Windham. 
 
 Thanks to:
-* The Webgazer team from the Brown Human-Computer Interaction group and Pomona College
-* The Brown Center for Computation and Visualization
+* The [Webgazer](https://webgazer.cs.brown.edu/) team from the Brown Human-Computer Interaction team and Pomona College
+* The [Brown Center for Computation and Visualization](https://ccv.brown.edu/)
 * TODO 
 
 ## Softwares
 
 * React Javascript app
-* Frontend bootstrapped from [Create React App](https://github.com/facebook/create-react-app)
-* Express server serving one root page and endpoints for writing to the database
-* PostgreSQL database set up for use with Heroku's PostgreSQL integration
-* Deployment on local or Heroku
+* Frontend bootstrapped from [Create React App](https://github.com/facebook/create-react-app), using functional components
+* [Express](https://expressjs.com/) server serving one root page and endpoints for writing to the database
+* [PostgreSQL](https://www.postgresql.org/) database set up for use with [Heroku's PostgreSQL](https://www.heroku.com/postgres) integration
+* Deployment on local or [Heroku](https://heroku.com/)
 
-This app does *not* use jsPsych but it is built to be similar to it.
+This app does *not* use [jsPsych](https://www.jspsych.org/) but it is built to be similar to it.
 
 ## File structure
 
 This highlights the most important files: there exist others as well that do not normally need to be modified.
 
 ```
-| public
-|  | index.html <-- this is the actual HTML served by the main page
-|  | webgazer.js <-- this is the full Webgazer file, modified slightly from the published source code to work with React
-| src
-|  | assets
-|  |  | impersonator-images  <-- this directory contains image files of fake Connect users where the filename is the impersonator's id
-|  |  | src-images <-- this directory contains images used to style the app
-|  |  | tutorial-images <-- this directory contains images used for the tutorials in sequential order
-|  |  | images.js  <-- this assembles all images; update this when adding new images
-|  |  | impersonators.json  <-- this contains ordering and values for each trial and bios for impersonators
-|  |  | text.js <-- this contains HTML fragments for any textual instructions or descriptions
-|  | components <-- all screens for the app
-|  |  | timeline.js <-- outlines the order of components; this controls all other components
-|  |  | block.js <-- the main part of the experiment
-|  |  | summary.js <-- similar to a block, but for summary blocks
-|  |  | calibration.js <-- a series of screens to calibrate Webgazer by clicking dots
-|  |  | faceCheck.js <-- view and correct how the camera sees you
-|  |  | feeling.js <-- two screens for rating how you feel
-|  |  | instruction.js <-- any basic instruction or text screen, including tutorial screens
-|  |  | linkSM.js <-- select and appear to connect to other social medias
-|  |  | profile.js <-- a series of screens to create a bio and profile picture
-|  |  | user.js <-- sets the participant's id
-|  | lib
-|  |  | trialProps.js <-- randomly creates the order of blocks
-|  |  | utils.js <-- helper functions including navigation between screens and writing data
-|  | App.js <-- this contains the main App component and handling of Webgazer setup and data writing
-|  | index.css  <-- this contains all the styling for the app
-| package.json
-| server.js  <-- this contains the Express server with database connection and all GET or POST request handling
+task/
+|-- public/
+|   |-- index.html                  <-- actual HTML served by the main page
+|   |-- webgazer.js                 <-- full Webgazer file, modified slightly from the published source code to work with React
+|-- src/
+|   |-- assets/
+|   |   |-- impersonator-images/    <-- images of fake Connect users where the filename is the impersonator's id
+|   |   |-- src-images/             <-- images used to style the app
+|   |   |-- tutorial-images/        <-- images used for the tutorials in sequential order
+|   |   |-- images.js               <-- assembles all images; update this when adding new images
+|   |   |-- impersonators.json      <-- ordering and values for each trial and bios for impersonators
+|   |   |-- text.js                 <-- HTML fragments for any textual instructions or descriptions
+|   |-- components/                 <-- all screens for the app
+|   |   |-- timeline.js             <-- outlines the order of components; controls all other components
+|   |   |-- block.js                <-- the main part of the experiment
+|   |   |-- summary.js              <-- similar to a block, but for summary blocks
+|   |   |-- calibration.js          <-- a series of screens to calibrate Webgazer by clicking dots
+|   |   |-- faceCheck.js            <-- view and correct how the camera sees you
+|   |   |-- feeling.js              <-- two screens for rating how you feel
+|   |   |-- instruction.js          <-- any basic instruction or text screen, including tutorial screens
+|   |   |-- linkSM.js               <-- select and appear to connect to other social medias
+|   |   |-- profile.js              <-- a series of screens to create a bio and profile picture
+|   |   |-- user.js                 <-- sets the participant's id
+|   |-- lib/
+|   |   |-- trialProps.js           <-- randomly creates the order of blocks
+|   |   |-- utils.js                <-- helper functions including navigation between screens and writing data
+|   |-- App.js                      <-- main App component and handling of Webgazer setup and data writing
+|   |-- index.css                   <-- all the styling for the app
+|-- package.json
+|-- server.js                       <-- Express server with database connection and all GET or POST request handling
 ```
 
 ## Deployment
@@ -112,26 +124,28 @@ The PostgreSQL database has a schema of four tables:
 
 ## Terms and definitions
 
-* anticipation screen: a rating event before any score has been selected (3 seconds or however long the participant takes)
-* bio: a string of several attributes of a person combined with pipes (i.e. "|") and one of a handful of emojis
-* block: a series of 15 trials which can be a "watching" block, a "rating" block of either female or male impersonators, or a "rated" block of either female or male impersonators and either mostly acceptance (positive) or rejection (negative) scores
-* feedback screen: a rating event after a score has been selected and displayed (1 second if the participant chose the score; 6 seconds otherwise)
-* impersonator: a fake Connect user who rates and is rated by the participant and other impersonators
-* interpretation screen: a screen after each rating event in a "rated" block where the participant indicates how much they think their rater wants to be friends with them
-* majority: the type of "rated" block which is either "acc" for acceptance (10/15 of the scores are 3 or 4) or "rej" for rejection (10/15 of the scores are 1 or 2)
-* participant: a user of the app
-* person: either the participant or an impersonator
-* profile: a person's combination of profile picture and bio, often displayed together 
-* rated block: a block where impersonators rate the participant
-* rating block: a block where the participant rates impersonators
-* score: a value assigned by one person to another, ranging from 1 (negative) to 4 (positive) inclusively; in a "rated" block, this can also be an ambiguous score stating "no rating provided"
-* screen: everything that is displayed at any given time; may change automatically or when the participant uses navigation buttons "previous" or "next" if available
-* summary anticipation screen: part of a summary trial where profile images are shown but not average scores (3 seconds)
-* summary block: a set of 15 summary trials following each "rated" block
-* summary feedback screen: part of a summary trial where profile images and corresponding average scores are shown (6 seconds)
-* summary trial: a set of a summary anticipation and a summary feedback screen where two impersonators and the participant's profile images are displayed
-* trial: a rating interaction between impersonators and the participant involving an anticipation screen, a feedback screen, and possibly an interpretation screen
-* tutorial: screens with images of an example of the game and explanatory text
-* user: see "participant"
-* watching block: a block where impersonators rate each other the the participant watches
-* Webgazer: the modified package used for eye tracking
+| term | definition |
+| :--- | :--- |
+| anticipation screen | a rating event before any score has been selected (3 seconds or however long the participant takes) | 
+| bio | a string of several attributes of a person combined with pipes (i.e. "|") and one of a handful of emojis | 
+| block | a series of 15 trials which can be a "watching" block, a "rating" block of either female or male impersonators, or a "rated" block of either female or male impersonators and either mostly acceptance (positive) or rejection (negative) scores | 
+| feedback screen | a rating event after a score has been selected and displayed (1 second if the participant chose the score; 6 seconds otherwise) | 
+| impersonator | a fake Connect user who rates and is rated by the participant and other impersonators | 
+| interpretation screen | a screen after each rating event in a "rated" block where the participant indicates how much they think their rater wants to be friends with them | 
+| majority | the type of "rated" block which is either "acc" for acceptance (10/15 of the scores are 3 or 4) or "rej" for rejection (10/15 of the scores are 1 or 2) | 
+| participant | a user of the app | 
+| person | either the participant or an impersonator | 
+| profile | a person's combination of profile picture and bio, often displayed together  | 
+| rated block | a block where impersonators rate the participant | 
+| rating block | a block where the participant rates impersonators | 
+| score | a value assigned by one person to another, ranging from 1 (negative) to 4 (positive) inclusively; in a "rated" block, this can also be an ambiguous score stating "no rating provided" | 
+| screen | everything that is displayed at any given time; may change automatically or when the participant uses navigation buttons "previous" or "next" if available | 
+| summary anticipation screen | part of a summary trial where profile images are shown but not average scores (3 seconds) | 
+| summary block | a set of 15 summary trials following each "rated" block | 
+| summary feedback screen | part of a summary trial where profile images and corresponding average scores are shown (6 seconds) | 
+| summary trial | a set of a summary anticipation and a summary feedback screen where two impersonators and the participant's profile images are displayed | 
+| trial | a rating interaction between impersonators and the participant involving an anticipation screen, a feedback screen, and possibly an interpretation screen | 
+| tutorial | screens with images of an example of the game and explanatory text | 
+| user | see "participant" | 
+| watching block | a block where impersonators rate each other the the participant watches | 
+| Webgazer | the modified package used for eye tracking |

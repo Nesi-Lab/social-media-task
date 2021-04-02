@@ -11,35 +11,61 @@ function WebGazeLoader(props) {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
-  const [wgSec, setWgSec] = useState(0)
+  // const [wgSec, setWgSec] = useState(0)
   const [screen, setScreen] = useState(null)
 
-  function makeWgRecord() {
-    return wgLogs.reduce((acc, curr) => {
-      const i = acc.length
+  function makeWgRecord(items) {
+    return items.reduce((acc, curr, i) => {
       return { ...acc, ["x" + i]: curr.x, ["y" + i]: curr.y }
-    })
-  }
-
-  function gazeListener(data, elapsedTime) {
-    if (data == null) { return; }
-    wgLogs.push(webgazer.util.bound(data))
-    if (Math.floor(elapsedTime / 1000) > wgSec) {
-      writeData("eye_tracking", makeWgRecord(), props.participantId)  // need to get id avail at this level
-      setWgSec(Math.floor(elapsedTime / 1000))
-      setWgLogs([])
-    }
+    }, { screen: screen })
   }
 
   function handleScriptLoad() {
-    webgazer.setGazeListener(gazeListener.showVideo(false).showPredictionPoints(false).begin();
+    webgazer.setGazeListener((data, elapsedTime) => {
+      if (data == null) { return; }
+      // const i = Math.floor((elapsedTime % 1000) / 50)
+      const prevTime = wgLogs[wgLogs.length - 1]
+      const time = (prevTime == null || prevTime.time === 19) ? 0 : prevTime.time + 1
+      wgLogs.push({...webgazer.util.bound(data), time: time})
+      // setWgLogs([...wgLogs, webgazer.util.bound(data)])
+      if (time === 19) {
+        const rec = makeWgRecord(wgLogs.slice(wgLogs.length - 20))
+        writeData("eye_tracking", rec, props.participantId)
+      }
+    }).showVideo(false).showPredictionPoints(false).begin();
     setWg(webgazer)
+    console.log(webgazer)
   }
 
+  // useEffect(() => {
+  //   console.log("write wg", makeWgRecord())
+  // }, [wgLogs])
+
   useEffect(() => {
+    // const interval = setInterval(() => {
+    //   if (wgLogs.length === 0) { return; }
+    //   let zeroInd = null
+    //   wgLogs.forEach((log, i) => {
+    //     if (log.time == 0) { zeroInd = i }
+    //   })
+    //   console.log(zeroInd, wgLogs)
+    //   const chosen = (!zeroInd || zeroInd < wgLogs.length - 20) ? wgLogs.slice(wgLogs.length - 20) : wgLogs.slice(zeroInd)
+    //   console.log("write wg", makeWgRecord(chosen))
+    //   // writeData("eye_tracking", makeWgRecord(), props.participantId)  // need to get id avail at this level
+    //   // setWgLogs([])
+    // }, 1000);
+    // const predInterval = setInterval(() => {
+    //   if (wg) { 
+    //     setWgLogs([...wgLogs, wg.getCurrentPrediction()]) 
+    //     console.log(wg.getCurrentPrediction())
+    //   }
+    // }, 50)
     return () => {
       // fired on component unmount.
       console.log("component unmount wgLogs", wgLogs)
+      // console.log(`clearing interval`);
+      // clearInterval(interval);
+      // clearInterval(predInterval);
     }
   }, [])
 
@@ -63,7 +89,7 @@ function App() {
 
   return (
     <div className="App" style={{ display: "flex", justifyContent: "center" }}>
-      <WebGazeLoader participantId={participantId} setParticipantId={setParticipantId}/>
+      <WebGazeLoader participantId={participantId} setParticipantId={setParticipantId} />
     </div>
   );
 }
