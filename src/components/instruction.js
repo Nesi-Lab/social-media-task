@@ -10,6 +10,6 @@ export default function Instruction(props) {
         {Object.keys(props).includes("img") ?
             (<img src={tutorialImgs[props.img]} alt="tutorial slide" className="tutorial-slide" />)
             : null}
-        <div style={Object.keys(props).includes("img") ? {marginTop: "-40px", marginBottom: "-50px"} : {}}>{prevNext(props, save)}</div>
+        <div style={Object.keys(props).includes("img") ? {marginTop: "-40px", marginBottom: "-50px"} : {}}>{prevNext(props)}</div>
     </div>)
 }
