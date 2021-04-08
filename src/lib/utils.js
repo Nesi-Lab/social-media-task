@@ -54,6 +54,8 @@ export async function writeData(table, data, participant_id) {
     for (const k in data) {
         if (typeof data[k] === 'string' || data[k] instanceof String) {
             data[k] = "'" + data[k] + "'"
+        } else if (data[k] == null) {
+            delete data[k]
         }
     }
     data["timestamp"] = "NOW()"
