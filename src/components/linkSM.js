@@ -68,7 +68,7 @@ export default function LinkSM(props) {
 
 
     if (!isLoad) {
-        return (<div style={{ textAlign: "center" }}>
+        return (<div style={{ textAlign: "center"}}>
             {socialMediaText[0]}
             <div style={{ margin: "60px" }}>
                 <label htmlFor="phone" style={{ marginRight: "20px" }}>Phone number:</label>

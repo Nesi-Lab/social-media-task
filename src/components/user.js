@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 import { userID, loadingText } from '../assets/text'
-import { prevNext, writeData, setTimezone } from '../lib/utils'
+import { prevNext, setTimezone } from '../lib/utils'
 
 const loadingSecs = 1
 
@@ -29,7 +29,7 @@ export default function User(props) {
         <input type="text" className="sign-in" value={usernameValue} onChange={
           e => setUsernameValue(e.target.value)
         } />
-        { usernameValue == "" ? null : prevNext(props, async() => { props.setParticipantId(usernameValue) })}
+        { usernameValue === "" ? null : prevNext(props, async() => { props.setParticipantId(usernameValue) })}
       </div>
     )
   }

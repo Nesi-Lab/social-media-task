@@ -10,6 +10,7 @@ import Block from './block'
 import Summary from './summary'
 import FaceCheck from './faceCheck'
 import Calibration from './calibration'
+import Accuracy from './accuracy'
 
 export default function Timeline(props) {
 
@@ -35,7 +36,8 @@ export default function Timeline(props) {
         (c) => <User next={next} curr={c} setParticipantId={props.setParticipantId} />,
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} />,
+        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
         (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c} />,
 
         // // first set of instructions
@@ -84,7 +86,9 @@ export default function Timeline(props) {
         ///////////
 
         // recalibrate
-        (c) => <Calibration prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
+        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
 
         // getting started screen
         (c) => <Instruction id="blockBeginningText" ind="2" next={next} curr={c} />,
@@ -93,6 +97,9 @@ export default function Timeline(props) {
         (c) => <Instruction id="tutorialText" ind="0" img="6" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="7" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="8" next={next} prev={prev} curr={c} />,
+
+        // getting started screen
+        (c) => <Instruction id="blockBeginningText" ind="3" next={next} prev={prev} curr={c} />,
 
         // content
         (c) => <Block next={next} curr={c} props={blockProps[3]} />,

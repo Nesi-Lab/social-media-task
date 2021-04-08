@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server'
 import { eye, x } from '../assets/imgs'
 import { rateText, interpretationText, watchText } from '../assets/text'
 import Feeling from './feeling'
-import { slider, getTime, writeData } from '../lib/utils'
+import { slider, writeData } from '../lib/utils'
 import Instruction from "./instruction"
 
 const timerSecs = {
@@ -40,6 +40,10 @@ function Block(allProps) {
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
+
+    useEffect(() => {
+        document.getElementById("app").style.cursor = clickable ? "auto" : "none"
+    }, [clickable])
 
     if (currBlock !== props.blockInfo.number && finished) {
         // we started a new block and need to reset the state

@@ -36,27 +36,31 @@ export function multiSlider(names, update) {
     </div>)
 }
 
-export function getTime(date = null) {
-    const today = date ? date : new Date()
-    let h = today.getHours()
-    let m = today.getMinutes()
-    if (h < 10) { h = "0" + h }
-    if (m < 10) { m = "0" + m }
-    return h + ":" + m
-}
+// export function getTime(date = null) {
+//     const today = date ? date : new Date()
+//     let h = today.getHours()
+//     let m = today.getMinutes()
+//     if (h < 10) { h = "0" + h }
+//     if (m < 10) { m = "0" + m }
+//     return h + ":" + m
+// }
 
 export async function writeData(table, data, participant_id) {
+    if (participant_id == null) {
+        console.log(`not writing data to ${table} because no participant ID yet or bad participant ID`)
+        return;
+    }
     data["participant_id"] = participant_id.toString()
     for (const k in data) {
         if (typeof data[k] === 'string' || data[k] instanceof String) {
-        data[k] = "\'" + data[k] + "\'"
+            data[k] = "'" + data[k] + "'"
         }
     }
     data["timestamp"] = "NOW()"
     const response = await fetch('/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({table: table, data: data}),
+        body: JSON.stringify({ table: table, data: data }),
     });
     const body = await response.text();
     console.log(body)

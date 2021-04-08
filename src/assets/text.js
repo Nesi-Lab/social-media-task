@@ -74,8 +74,8 @@ export const calibrationText = [
         <p>You will see a series of <span style={{color: "red"}}>red</span> buttons. Click on each button 5 times while looking at the button, until it turns <span style={{color: "#ffee00"}}>yellow</span>.</p>
         <p>Always follow the mouse with your eyes.</p>
         </div>),
-    (<p style={{position: "absolute", top: "0px", left: "0px", margin: "80px"}}>To finish calibrating your eye tracking, please don't move your mouse and stare at this dot for the next 5 seconds.</p>),
-    (<p style={{textAlign: "center"}}>Calibrated!</p>)
+    (<p>To finish calibrating your eye tracking, the next screen will have a yellow dot. Please don't move your mouse and stare at this dot 5 seconds.</p>),
+    (<h1>Calibrated!</h1>)
 ]
 
 export const bioQuestions = {
@@ -141,7 +141,9 @@ export const blockBeginningText = [
         <h1>Now it’s your turn!</h1>
         <p>In Round 3, you’ll get to see what other users think of you!</p>
         <p>Connect will randomly pair you with other users, and they will rate how much they’d like to be friends with you.</p>
-    </div>)
+    </div>),
+    
+    (<h1>Let's get started!</h1>)
 ]
 
 export const betweenBlocksText = [
