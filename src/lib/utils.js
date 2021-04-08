@@ -72,7 +72,7 @@ export async function setTimezone(tz) {
     const response = await fetch('/settz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({tz: "'" + tz + "'"}),
+        body: JSON.stringify({tz: tz}),
     });
     const body = await response.text();
     console.log(body)
