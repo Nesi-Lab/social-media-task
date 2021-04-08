@@ -12,7 +12,7 @@ function WebGazeLoader(props) {
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
   // const [wgSec, setWgSec] = useState(0)
-  const [screen, setScreen] = useState(null)
+  const [screen, setScreen] = useState("")
   const [participantId, setParticipantId] = useState({id: props.participantId}) // this is dumb but mutable
 
   function makeWgRecord(items) {

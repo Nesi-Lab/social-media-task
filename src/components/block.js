@@ -42,8 +42,12 @@ function Block(allProps) {
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
 
     useEffect(() => {
-        document.getElementById("app").style.cursor = clickable ? "auto" : "none"
+        if (!finished) { document.getElementById("app").style.cursor = clickable ? "auto" : "none" }
     }, [clickable])
+
+    useEffect(() => {
+        if (finished) { document.getElementById("app").style.cursor = "auto" }
+    }, [finished])
 
     if (currBlock !== props.blockInfo.number && finished) {
         // we started a new block and need to reset the state
@@ -54,21 +58,17 @@ function Block(allProps) {
         setCurrBlock(props.blockInfo.number)
     }
 
-    function blockDescription() {
-        return {
-            type: props.blockInfo.type,
-            block: props.blockInfo.number,
-            round: [props.blockInfo.gender, props.blockInfo.majority].filter(e => e).join("-"),
-            trial: trialInd + 1,
-            rater_id: props.trials[trialInd].rater.id,
-            ratee_id: props.trials[trialInd].ratee.id,
-            num_watching: props.trials[trialInd].watching
-        }
-    }
 
     function nextTrial(interpretationScore = null) {
         const record = {
-            ...blockDescription(),
+            type: props.blockInfo.type,
+            block: props.blockInfo.number,
+            gender: props.blockInfo.gender,
+            majority: props.blockInfo.majority,
+            trial: trialInd + 1,
+            rater_id: props.trials[trialInd].rater.id,
+            ratee_id: props.trials[trialInd].ratee.id,
+            num_watching: props.trials[trialInd].watching,
             score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score
         }
         if (interpretationScore) { record["interpretation-score"] = interpretationScore }
