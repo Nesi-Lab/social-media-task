@@ -100,9 +100,8 @@ app.post('/add', jsonParser, (req, res) => {
 });
 
 app.post('/settz', jsonParser, (req, res) => {
-  console.log("timezone query is", `SET timezone = '${req.body}';`)
   query(`SET timezone = '${req.body}';`)
-    .then(() => res.send(`Set timezone to: ${req.body}`))
+    .then(() => res.send(`Set timezone to: ${req.body.tz}`))
     .catch(err => console.log("err setting timezone", err.stack))
 });
 
