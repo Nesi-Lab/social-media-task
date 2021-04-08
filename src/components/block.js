@@ -73,7 +73,6 @@ function Block(allProps) {
         }
         if (interpretationScore) { record["interpretation-score"] = interpretationScore }
         writeData("trials", record, allProps.curr.id)
-        console.log(record)
 
         if (trialInd + 1 === props.trials.length) {
             setFinished(true)
@@ -120,6 +119,7 @@ function Block(allProps) {
                     }
                     if (props.blockInfo.type === "rated") {
                         setScreenType("interpretation")
+                        setClickable("true")
                     } else {
                         nextTrial()
                     }
@@ -163,7 +163,7 @@ function Block(allProps) {
     }
 
     function rate() {
-        const antRat = props.blockInfo.type === "rating" && screenType === "anticipation" ? "thumb-anticipation-rating" : ""
+        const antRat = (props.blockInfo.type === "rating" && screenType === "anticipation") ? "thumb-anticipation-rating" : ""
         return (<div className="quadrant">
             {rateText}
             <div className="thumbs">
@@ -180,7 +180,6 @@ function Block(allProps) {
         const style = document.getElementById(id).style
         style.color = color(score)
         style.border = "2px solid #6a6d80"
-        setClickable(false)
         setSelectedThumb(score)
     }
 

@@ -25,7 +25,10 @@ export default function Accuracy(props) {
     }, [])
 
     useEffect(() => {
+        document.getElementById("app").style.cursor = done ? "auto" : "none"
+    })
 
+    useEffect(() => {
         function accuracy(past50) {
             return Math.round(Object
                 .keys([...Array(50)])
