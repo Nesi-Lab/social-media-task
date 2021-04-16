@@ -16,7 +16,6 @@ This is an app designed as a experimental tool for a psychology study conducted 
 Thanks to:
 * The [Webgazer](https://webgazer.cs.brown.edu/) team from the Brown Human-Computer Interaction team and Pomona College
 * The [Brown Center for Computation and Visualization](https://ccv.brown.edu/)
-* TODO 
 
 ## Softwares
 
@@ -112,15 +111,17 @@ The PostgreSQL database has a schema of four tables:
     * `interpretation_score` (int): only in block type "rated", how much the participant thinks the rater wants to be friends with them from 0 ("not at all") to 100 ("a lot")
   * `eye_tracking`
     * `participant_id` (string)
-    * `timestamp` (timestamptz): at the end of each second
     * `screen` (TODO): TODO
-    * `x0` (int): the second's first x coordinate estimate in pixels, at about 1 second before the row's `timestamp`
-    * `y0` (int): the second's first y coordinate estimate in pixels, at about 1 second before the row's `timestamp`
-    * `x1` (int): the second's second x coordinate estimate in pixels, at about 19/20 of a second before the row's `timestamp`
-    * `y1` (int): the second's second y coordinate estimate in pixels, at about 19/20 of a second before the row's `timestamp`
+    * `timestamp0` (int): the timestamp at which the estimate (`x0`, `y0`) is generated
+    * `x0` (int): the second's first x coordinate estimate in pixels
+    * `y0` (int): the second's first y coordinate estimate in pixels
+    * `timestamp1` (int): the timestamp at which the estimate (`x1`, `y1`) is generated
+    * `x1` (int): the second's second x coordinate estimate in pixels
+    * `y1` (int): the second's second y coordinate estimate in pixels
     * ...
-    * `x19` (int): the second's second x coordinate estimate in pixels, at exactly the row's `timestamp`
-    * `y19` (int): the second's second y coordinate estimate in pixels, at exactly the row's `timestamp`
+    * `timestamp19` (int): the timestamp at which the estimate (`x19`, `y19`) is generated, almost 1 second after `timestamp0`
+    * `x19` (int): the second's second x coordinate estimate in pixels
+    * `y19` (int): the second's second y coordinate estimate in pixels
 
 ## Terms and definitions
 

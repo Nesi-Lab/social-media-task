@@ -58,7 +58,7 @@ export async function writeData(table, data, participant_id) {
             delete data[k]
         }
     }
-    data["timestamp"] = "NOW()"
+    if (table !== "eye_tracking") { data["timestamp"] = "NOW()" }
     const response = await fetch('/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
