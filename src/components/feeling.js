@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { feelingText, feelingList } from '../assets/text'
 import { multiSlider, writeData } from '../lib/utils'
@@ -14,6 +14,10 @@ export default function Feeling(props) {
     const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]))
     const valsSubset = pick(vals, feelingsToDisplay)
 
+    useEffect(() => {
+        props.curr.wg.setScreen(`feeling 1`)
+    }, [])
+
     async function handleSliderChange(e) {
         const changed = e.target.id
         setVals({...vals, [changed]: document.getElementById(changed).value})
@@ -28,6 +32,7 @@ export default function Feeling(props) {
 
     function changeScreen() {
         setScreenNum(screenNum === 0 ? 1 : 0)
+        props.curr.wg.setScreen(`feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`)
     }
 
     async function onNext() {

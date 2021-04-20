@@ -21,11 +21,16 @@ export default function LinkSM(props) {
     const [phoneFilled, setPhoneFilled] = useState(false)
 
     useEffect(() => {
+        props.curr.wg.setScreen(`linksm selecting`)
+    }, [])
+
+    useEffect(() => {
         if (isLoad && !finished) {
             const timer = setTimeout(() => {
                 const ind = checked.findIndex(e => !e)
                 if (ind === -1) {
                     setFinished(true)
+                    props.curr.wg.setScreen(`linksm finished`)
                 }
                 const copy = [...checked]
                 copy[ind] = true
@@ -48,6 +53,7 @@ export default function LinkSM(props) {
         setSelected(sel)
         setChecked(sel.map(_ => false))
         setFinished(sel.length === 0)
+        props.curr.wg.setScreen(`linksm ${sel.length === 0 ? "finished" : "selecting"}`)
     }
 
     async function save() {

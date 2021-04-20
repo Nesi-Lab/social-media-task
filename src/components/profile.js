@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text'
 import { prevNext, slider, writeData } from '../lib/utils'
@@ -9,6 +9,10 @@ export default function Profile(props) {
     const [participantImg, setParticipantImg] = useState("#")
     const [participantImgScore, setParticipantImgScore] = useState("")
     const [participantBio, setParticipantBio] = useState({})
+
+    useEffect(() => {
+        props.curr.wg.setScreen(`profile uploadPhoto`)
+    }, [])
 
     const reader = new FileReader()
 
@@ -34,14 +38,22 @@ export default function Profile(props) {
     function handleUploadToBio(e) {
         setParticipantImgScore(document.getElementById("participantImgScore").value)
         setScreen("bio")
+        props.curr.wg.setScreen(`profile bio`)
     }
 
     function handleBioToUpload(e) {
         setScreen("uploadPhoto")
+        props.curr.wg.setScreen(`profile uploadPhoto`)
     }
 
     function handleBioToDisplay(e) {
         setScreen("display")
+        props.curr.wg.setScreen(`profile display`)
+    }
+
+    function handleDisplayToBio(e) {
+        setScreen("bio")
+        props.curr.wg.setScreen(`profile uploadPhoto`)
     }
 
     async function saveRow(rec) {
@@ -144,7 +156,7 @@ export default function Profile(props) {
                 {profileText[5]}
                 {slider("participantBioScore")}
             </div>
-            {prevNext({ ...props, prev: (_) => setScreen("bio") }, save)}
+            {prevNext({ ...props, prev: handleDisplayToBio }, save)}
         </div>)
     }
 }

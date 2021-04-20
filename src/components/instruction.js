@@ -1,8 +1,14 @@
+import { useEffect } from "react"
+
 import * as text from '../assets/text'
 import { tutorialImgs } from '../assets/imgs'
 import { prevNext } from '../lib/utils'
 
 export default function Instruction(props) {
+
+    useEffect(() => {
+        props.curr.wg.setScreen(`instruction ${props.id} ${props.ind}`)
+    }, [])
 
     return (<div>
         {text[props.id][props.ind]}

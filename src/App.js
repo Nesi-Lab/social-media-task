@@ -46,7 +46,7 @@ function WebGazeLoader(props) {
           writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
         }
       }
-    }).showVideo(false).showPredictionPoints(false).begin();
+    }).showVideo(false).showPredictionPoints(true).begin();
     setWg(webgazer)
     console.log(webgazer)
   }

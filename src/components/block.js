@@ -25,6 +25,7 @@ const color = (score) => score < 2.5 ? "red" : "green"
 
 function Block(allProps) {
     const props = allProps.props
+    console.log(props)
     const participant = { img: allProps.curr.img, bio: allProps.curr.bio, id: "participant" }
 
     // add participant into props where appropriate
@@ -40,6 +41,10 @@ function Block(allProps) {
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
+
+    useEffect(() => {
+        allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial 1 anticipation`)
+    }, [])
 
     useEffect(() => {
         if (!finished) { document.getElementById("app").style.cursor = clickable ? "auto" : "none" }
@@ -63,7 +68,7 @@ function Block(allProps) {
         const record = {
             type: props.blockInfo.type,
             block: props.blockInfo.number,
-            gender: props.blockInfo.gender,
+            subnum: props.blockInfo.subnum,
             majority: props.blockInfo.majority,
             trial: trialInd + 1,
             rater_id: props.trials[trialInd].rater.id,
@@ -77,6 +82,7 @@ function Block(allProps) {
         if (trialInd + 1 === props.trials.length) {
             setFinished(true)
         } else {
+            allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`)
             setTrialInd(trialInd + 1)
             setScreenType("anticipation")
             setClickable(props.blockInfo.type === "rating")
@@ -111,6 +117,7 @@ function Block(allProps) {
             const timer = setTimeout(() => {
                 if (screenType === "anticipation") {
                     setScreenType("feedback")
+                    allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial ${trialInd + 1} feedback`)
                 } else { // can only be feedback
                     const ratee = document.getElementById("ratee-img")
                     if (ratee !== null) {
@@ -120,6 +127,7 @@ function Block(allProps) {
                     if (props.blockInfo.type === "rated") {
                         setScreenType("interpretation")
                         setClickable("true")
+                        allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial ${trialInd + 1} interpretation`)
                     } else {
                         nextTrial()
                     }
@@ -203,6 +211,17 @@ function Block(allProps) {
     function handleInterpretationClick(e) {
         nextTrial(document.getElementById("interpretation").value)
     }
+
+    console.log({
+        type: props.blockInfo.type,
+        block: props.blockInfo.number,
+        subnum: props.blockInfo.subnum,
+        majority: props.blockInfo.majority,
+        trial: trialInd + 1,
+        rater_id: props.trials[trialInd].rater.id,
+        ratee_id: props.trials[trialInd].ratee.id,
+        num_watching: props.trials[trialInd].watching
+    })
 
     if (!finished) {
         if (screenType !== "interpretation") {

@@ -22,6 +22,9 @@ function trialProps() {
     const blocks = allData.blocks, bios = allData.bios
 
     const lookupImp = (id) => {
+        if (!(id in bios)) {
+            throw `${id} not in bios`
+        }
         return {
             img: impersonatorImgs[id],
             bio: bios[id].bio,
@@ -30,11 +33,11 @@ function trialProps() {
         }
     }
 
-    const ratingOrd = shuffleArray(["m", "f"])
+    const ratingOrd = shuffleArray(["1", "2"])
 
     const ratedOrd = shuffleArray([
-        shuffleArray([{ gen: "f", maj: "acc" }, { gen: "f", maj: "rej" }]),
-        shuffleArray([{ gen: "m", maj: "acc" }, { gen: "m", maj: "rej" }])
+        shuffleArray([{ subnum: "1", maj: "acc" }, { subnum: "1", maj: "rej" }]),
+        shuffleArray([{ subnum: "2", maj: "acc" }, { subnum: "2", maj: "rej" }])
     ])
 
     const watchingProps = {
@@ -49,14 +52,14 @@ function trialProps() {
         })
     }
 
-    const ratingProps = (gender, blockNum) => {
+    const ratingProps = (subnum, blockNum) => {
         return {
             blockInfo: {
                 type: "rating",
                 number: blockNum,
-                gender: gender
+                subnum: subnum
             },
-            trials: blocks.rating[gender].map(e => {
+            trials: blocks.rating[subnum].map(e => {
                 return {
                     ratee: lookupImp(e.ratee),
                     watching: e.num_watching
@@ -65,14 +68,14 @@ function trialProps() {
         }
     }
 
-    const ratedProps = (genMaj, blockNum) => {
-        const gender = genMaj.gen, majority = genMaj.maj
-        const allInfo = blocks.rated[gender][majority]
+    const ratedProps = (subnumMaj, blockNum) => {
+        const subnum = subnumMaj.subnum, majority = subnumMaj.maj
+        const allInfo = blocks.rated[subnum][majority]
         return {
             blockInfo: {
                 type: "rated",
                 number: blockNum,
-                gender: gender,
+                subnum: subnum,
                 majority: majority
             },
             trials: allInfo.trial.map(e => {

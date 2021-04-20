@@ -7,6 +7,10 @@ export default function FaceCheck(props) {
     const [vidUp, setVidUp] = useState(false)
     const [dummyCounter, setDummyCounter] = useState(0)
 
+    useEffect(() => {
+        props.curr.wg.setScreen("facecheck")
+    }, [])
+
     async function save() {
         props.curr.wg.wg.showVideo(false)
     }

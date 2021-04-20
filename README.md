@@ -102,7 +102,7 @@ The PostgreSQL database has a schema of four tables:
     * `timestamp` (timestamptz): the end of the trial, after anticipation, feedback, and potentially interpretation screens
     * `block` (int): the block number in order, from 1 to 7 inclusive
     * `type` (string): "watching" | "rating" | "rated"
-    * `gender` (string): "f" | "m" | null
+    * `subnum` (string): "1" | "2" | null (has no meaning attached to it but differentiates between blocks)
     * `majority` (string): "acc" | "rej" | null
     * `rater_id` (string): id of rater (can be `participant_id` if block type is "rating")
     * `ratee_id` (string): id of person being rated (can be `participant_id` if block type is "rated")

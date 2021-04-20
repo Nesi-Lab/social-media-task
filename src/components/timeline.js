@@ -18,13 +18,12 @@ export default function Timeline(props) {
     const [participantImgTimeline, setParticipantImgTimeline] = useState(null)
     const [participantBioTimeline, setParticipantBioTimeline] = useState(null)
     const [wg, setWg] = useState(props.wg)
+    const [blockProps, setBlockProps] = useState(trialProps())
 
     useEffect(() => { setWg(props.wg) }, [props.wg])
 
     const prev = (c) => { setCurrScreen(c - 1) }
     const next = (c) => { setCurrScreen(c + 1) }
-
-    const blockProps = trialProps()
 
     const timeline = [
 
@@ -63,6 +62,9 @@ export default function Timeline(props) {
         (c) => <Instruction id="tutorialText" ind="0" img="4" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="5" next={next} prev={prev} curr={c} />,
 
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
         // // getting started screen
         (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c} />,
 
@@ -73,11 +75,18 @@ export default function Timeline(props) {
         // RATING //
         ////////////
 
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
         // getting started screen
         (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c} />,
 
         // content
         (c) => <Block next={next} curr={c} props={blockProps[1]} />,
+
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[2]} />,
 
@@ -104,15 +113,30 @@ export default function Timeline(props) {
         // content
         (c) => <Block next={next} curr={c} props={blockProps[3]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[3]} />,
+
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[4]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[4]} />,
+
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[5]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[5]} />,
+
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[6]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[6]} />,
+
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
 
         // ending
         (c) => <Instruction id="endingText" ind="0" curr={c} />,

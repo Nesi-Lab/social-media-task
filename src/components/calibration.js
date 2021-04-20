@@ -11,6 +11,10 @@ export default function Calibration(props) {
     const [points, setPoints] = useState([...Array(numPoints)].map(_ => numClicksPerPoint))
     const [done, setDone] = useState(false)
 
+    useEffect(() => {
+        props.curr.wg.setScreen("calibration")
+    }, [])
+
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint }
 
     useEffect(() => {

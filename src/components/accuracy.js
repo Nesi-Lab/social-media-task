@@ -6,8 +6,11 @@ import Instruction from './instruction'
 const staringSecs = 5
 
 export default function Accuracy(props) {
-
     const [done, setDone] = useState(false)
+
+    useEffect(() => {
+        props.curr.wg.setScreen("accuracy")
+    }, [])
 
     function dist(i, past50) {
         const staringPointX = window.innerHeight / 2, staringPointY = window.innerWidth / 2
@@ -43,8 +46,8 @@ export default function Accuracy(props) {
                 props.curr.wg.wg.params.storingPoints = false
                 console.log("wg acc", accuracy(props.curr.wg.wg.getStoredPoints()))
                 writeData("metadata", {
-                    name: "calibration accuracy", 
-                    value: accuracy(props.curr.wg.wg.getStoredPoints()).toString() 
+                    name: "calibration accuracy",
+                    value: accuracy(props.curr.wg.wg.getStoredPoints()).toString()
                 }, props.curr.id)
             }, 1000 * staringSecs)
             // Clear timeout if the component is unmounted
@@ -53,7 +56,7 @@ export default function Accuracy(props) {
     }, [props.curr.wg.wg])
 
     if (!done) {
-        return (<input type="button" className="calibration" disabled="true" style={{backgroundColor: "yellow", marginTop: "200px"}} />)
+        return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "yellow", marginTop: "200px" }} />)
     } else {
         return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />)
     }

@@ -10,6 +10,10 @@ export default function User(props) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    props.curr.wg.setScreen("user")
+  }, [])
+
+  useEffect(() => {
     if (loading) {
       const timer = setTimeout(() => {
         setLoading(false)
