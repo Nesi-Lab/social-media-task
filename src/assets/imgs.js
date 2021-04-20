@@ -14,7 +14,7 @@ import ex from '../assets/src-images/x.png'
 import a from '../assets/impersonator-images/a.jpg'
 import i24g from '../assets/impersonator-images/A - 24g.jpg'
 import i46g from '../assets/impersonator-images/A - 46g.jpg'
-import i991B from '../assets/impersonator-images/A - 991B.jpg'
+import i991b from '../assets/impersonator-images/A - 991b.jpg'
 import i996b from '../assets/impersonator-images/A - 996b.jpg'
 import i35g from '../assets/impersonator-images/B - 35g.jpg'
 import i36b from '../assets/impersonator-images/B - 36b.jpg'
@@ -100,7 +100,7 @@ export const impersonatorImgs = {
     a: a,
     "A - 24g": i24g,
     "A - 46g": i46g,
-    "A - 991B": i991B,
+    "A - 991b": i991b,
     "A - 996b": i996b,
     "B - 35g": i35g,
     "B - 36b": i36b,
