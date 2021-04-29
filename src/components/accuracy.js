@@ -56,7 +56,9 @@ export default function Accuracy(props) {
     }, [props.curr.wg.wg])
 
     if (!done) {
-        return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "yellow", marginTop: "200px" }} />)
+        return (<div style={{height: "100vh", position: "relative"}}>
+            <input type="button" className="calibration" disabled="true" style={{ backgroundColor: "yellow", position: "absolute", top: '50%' }} />
+        </div>)
     } else {
         return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />)
     }

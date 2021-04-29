@@ -7,6 +7,8 @@
 * [File structure](#file-structure)
 * [Deployment](#deployment)
 * [Data organization](#data-organization)
+* [Randomization](#randomization)
+* [WebGazer Accuracy](#webgazer-accuracy)
 * [Terms and definitions](#terms-and-definitions)
 
 ## About
@@ -62,6 +64,7 @@ task/
 |   |-- index.css                   <-- all the styling for the app
 |-- package.json
 |-- server.js                       <-- Express server with database connection and all GET or POST request handling
+|-- randomize_impersonators.py      <-- Script to generate the randomized aspects of impersonators.json (not run unless manually)
 ```
 
 ## Deployment
@@ -111,7 +114,7 @@ The PostgreSQL database has a schema of four tables:
     * `interpretation_score` (int): only in block type "rated", how much the participant thinks the rater wants to be friends with them from 0 ("not at all") to 100 ("a lot")
   * `eye_tracking`
     * `participant_id` (string)
-    * `screen` (TODO): TODO
+    * `screen` (string): a description of the general type and specific screen that the participant was looking at 
     * `timestamp0` (int): the timestamp at which the estimate (`x0`, `y0`) is generated
     * `x0` (int): the second's first x coordinate estimate in pixels
     * `y0` (int): the second's first y coordinate estimate in pixels
@@ -122,6 +125,97 @@ The PostgreSQL database has a schema of four tables:
     * `timestamp19` (int): the timestamp at which the estimate (`x19`, `y19`) is generated, almost 1 second after `timestamp0`
     * `x19` (int): the second's second x coordinate estimate in pixels
     * `y19` (int): the second's second y coordinate estimate in pixels
+
+## Randomization
+
+As specifically laid out in `randomize_impersonators.py`, most randomization of the task (order of impersonators, scores assigned to the participant, number of people watching) occurs once and is used the same for each participant. Then, for each participant, there is a different randomization that takes place in `src/lib/trialProps.js`.
+
+### What's the same for every participant
+
+#### Impersonator appearence randomization
+
+Each impersonator appears twice in the task, once in the first 3 blocks and once in the last 4 blocks (the "rated" blocks). Each of the 60 participants' location within either the first or second half of the task is randomly picked for a block to fulfill these four block criteria:
+
+* | | white | black | hispanic | asian |
+  | girl | 4 | 1 | 1 | 1 |
+  | boy | 5 | 1 | 1 | 0 |
+  | non-binary | 1 | 0 | 0 | 0 |
+* | | white | black | hispanic | asian |
+  | girl | 5 | 1 | 1 | 0 |
+  | boy | 4 | 1 | 1 | 1 |
+  | non-binary | 1 | 0 | 0 | 0 |
+* | | white | black | hispanic | asian |
+  | girl | 5 | 1 | 1 | 1 |
+  | boy | 5 | 1 | 1 | 0 |
+  | non-binary | 0 | 0 | 0 | 0 |
+* | | white | black | hispanic | asian |
+  | girl | 4 | 1 | 2 | 0 |
+  | boy | 5 | 1 | 1 | 1 |
+  | non-binary | 0 | 0 | 0 | 0 |
+
+These breakdowns were selected by hand to meet the following criteria: 
+* each breakdown has 15 impersonators
+* each breakdown has an even split of gender (+/- 1 person)
+* each breakdown has a proportional split of race (+/- 1 person)
+
+So, for example, a non-binary impersonator has a 50% likelihood of being in the first block, a 50% likelihood of the second, and 0% in the last two. 
+
+Once these random blocks assignments are created twice (for the first and second halves of the task), the order of these four block impersonator assignments are shuffled both between each other and within. 
+
+#### Randomization of the number of people watching an event
+
+For any block or any summary, half of the trials are given a random low number generated uniformly between 7 and 15 people, and the other half are given a random high number generated uniformly between 40 and 60. 
+
+If there are an uneven number of trials (all except summary blocks are 15 trials), whether they have an extra low or extra high value is randomly determined.
+
+#### Score randomization
+
+For each type of block where the participant does not select their own score, we designate some number of trials to be "accepting", meaning the score value is randomized between 3 or 4 with equal likelihood. We also designate some number to be "rejecting" (either 1 or 2 with equal likelihood) and some to be "ambiguous" (meaning no rating is provided to the participant).
+
+Specifically, we use these number of trials:
+| block type | accepting | rejecting | ambiguous |
+| watching | 10 | 5 | 0 |
+| rated (acceptance-majority) | 10 | 3 | 2 |
+| rated (rejection-majority) | 3 | 10 | 2 |
+
+Once the appropriate randomized values for each trial in a block have been generated, the ordering of the trials in the block is randomized.
+
+#### Summary randomization
+
+For the summary screens of either an "acceptance-majority" or "rejection-majority" "rated" block, only 14 rather than 15 of that block's impersonators are displayed since they are displayed in pairs. The list of 15 impersonators is randomized and the first 14 of those are paired off in order, leaving the last one out. 
+
+The mean scores for these 14 are generated separately, in the same way as a trial's impersonator and score are generated separately. We designate some of the mean scores to be uniformly selected between 1 and the participant's mean score in that block (i.e. lower than the participant) and some to be uniformly selected between the participant's mean score and 4 (i.e. higher than the participant). 
+
+Specifically, we choose this many of these for each block type:
+| block type | above participant | below participant | 
+| rated (acceptance-majority) | 5 | 9 |
+| rated (acceptance-majority) | 9 | 5 |
+
+Once the appropriate mean scores have been generated, the ordering of them is randomized.
+
+### What's different for each participant
+
+#### Block ordering randomization
+
+The two "rating" blocks' order is shuffled so that either has an equal chance of appearing before the other.
+
+The four "rated" blocks' order is similarly shuffled. Within the labeling of "acceptance-majority 1" (a1), "rejection-majority 1" (r1), "acceptance-majority 2" (a2), and "rejection-majority 2" (r2), the "1" blocks' order are shuffled, then the "2" blocks' order are shuffled, then the ordering of "1" and "2" are shuffled. Essentially, this means that it is equally likely to have any of these orderings:
+* a1, r1, a2, r2
+* r1, a1, a2, r2
+* a1, r1, r2, a2
+* r1, a1, r2, a2
+* a2, r2, a1, r1
+* a2, r2, r1, a1
+* r2, a2, a1, r1
+* r2, a2, r1, a1
+
+## WebGazer accuracy
+
+The accuracy of WebGazer's eye-tracking predictions is calculated at intervals throughout the task after calibration. The participant is asked to stare at a dot, and 50 predictions are taken (about 2.5 seconds' worth). For each prediction, the Euclidean distance between the prediction and the true location of the dot is calculated in pixels. The prediction's accuracy is defined as `100 - (euclidean_distance * 2 / browser_window_height * 100)` (if the Euclidean distance is greater than half of the browser window height, the accuracy is 0). 
+
+This accuracy measure is assigning a value between 0 and 100 where 0 means that the prediction was as far away as the distance from the dot to the edge of the screen (or further), and 100 means that the distance between the prediction and the dot was zero or very small.
+
+The overall accuracy is defined as the mean of all the 50 predictions' accuracy measures. 
 
 ## Terms and definitions
 

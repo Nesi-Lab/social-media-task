@@ -28,11 +28,11 @@ function WebGazeLoader(props) {
     webgazer.setGazeListener((data, elapsedTime) => {
       if (data == null) { return; }
       const calcSecond = log_ind => Math.floor(wgLogs[log_ind].utc_time / 1000)
-      wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now() })
+      wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now(), screen: screen })
       if (wgLogs.length >= 2) {
         // exists a previous reading
         const prevReadingSec = calcSecond(wgLogs.length - 2)
-        if (calcSecond(wgLogs.length - 1) !== prevReadingSec) {
+        if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
           // we entered a different second from the previous reading
           // so let's write the previous second's data 
           const toWrite = []

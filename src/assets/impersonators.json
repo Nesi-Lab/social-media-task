@@ -1,433 +1,261 @@
 {
-    "blocks": {
-        "watching": [
-            {"rater": "W - 998b", "ratee": "W - 20g", "score": 4, "num_watching": 47},
-            {"rater": "B - 38g", "ratee": "W - 16g", "score": 3, "num_watching": 11},
-            {"rater": "W - 997b", "ratee": "B - 72b", "score": 2, "num_watching": 47},
-            {"rater": "W - 30g", "ratee": "W - 14g", "score": 4, "num_watching": 40},
-            {"rater": "A - 996b", "ratee": "H - 73b", "score": 3, "num_watching": 13},
-            {"rater": "W - 29g", "ratee": "W - 74b", "score": 4, "num_watching": 8},
-            {"rater": "W - 995b", "ratee": "W - 11g", "score": 1, "num_watching": 51},
-            {"rater": "W - 25g", "ratee": "W - 66b", "score": 3, "num_watching": 40},
-            {"rater": "W - 994b", "ratee": "W - 48b", "score": 2, "num_watching": 44},
-            {"rater": "B - 49g", "ratee": "W - 47b", "score": 1, "num_watching": 11},
-            {"rater": "A - 991b", "ratee": "B - 54g", "score": 4, "num_watching": 46},
-            {"rater": "W - 70o", "ratee": "W - 45b", "score": 4, "num_watching": 12},
-            {"rater": "H - 68b", "ratee": "W - 31g", "score": 4, "num_watching": 8},
-            {"rater": "W - 21g", "ratee": "H - 57g", "score": 4, "num_watching": 15},
-            {"rater": "H - 50g", "ratee": "W - 75b", "score": 1, "num_watching": 57}
-        ],
-        "rating": {
-            "1": [
-                {"ratee": "A - 24g", "num_watching": 40},
-                {"ratee": "W - 4g", "num_watching": 41},
-                {"ratee": "B - 44b", "num_watching": 49},
-                {"ratee": "W - 6g", "num_watching": 7},
-                {"ratee": "H - 43b", "num_watching": 55},
-                {"ratee": "W - 34b", "num_watching": 7},
-                {"ratee": "H - 12g", "num_watching": 9},
-                {"ratee": "W - 27b", "num_watching": 13},
-                {"ratee": "W - 8g", "num_watching": 59},
-                {"ratee": "B - 36b", "num_watching": 43},
-                {"ratee": "W - 5g", "num_watching": 58},
-                {"ratee": "W - 33b", "num_watching": 10},
-                {"ratee": "H - 51g", "num_watching": 10},
-                {"ratee": "H - 13g", "num_watching": 13},
-                {"ratee": "W - 28b", "num_watching": 12}
-            ],
-            "2": [
-                {"ratee": "W - 23g", "num_watching": 10},
-                {"ratee": "W - 69o", "num_watching": 9},
-                {"ratee": "W - 19b", "num_watching": 11},
-                {"ratee": "A - 46g", "num_watching": 49},
-                {"ratee": "W - 1g", "num_watching": 55},
-                {"ratee": "W - 2b", "num_watching": 11},
-                {"ratee": "W - 3g", "num_watching": 58},
-                {"ratee": "a", "num_watching": 42},
-                {"ratee": "W - 18b", "num_watching": 13},
-                {"ratee": "B - 35g", "num_watching": 56},
-                {"ratee": "W - 9g", "num_watching": 41},
-                {"ratee": "W - 15b", "num_watching": 46},
-                {"ratee": "a", "num_watching": 46},
-                {"ratee": "W - 22g", "num_watching": 10},
-                {"ratee": "W - 993b", "num_watching": 10}
-            ]
-        },
-        "rated": {
-            "1": {
-                "acc": {
-                    "trial": [
-                        {"rater": "W - 31g", "score": 3, "num_watching": 44},
-                        {"rater": "B - 36b", "score": 2, "num_watching": 12},
-                        {"rater": "W - 69o", "score": 4, "num_watching": 48},
-                        {"rater": "W - 21g", "score": 4, "num_watching": 11},
-                        {"rater": "W - 28b", "score": 4, "num_watching": 14},
-                        {"rater": "H - 50g", "score": 1, "num_watching": 10},
-                        {"rater": "W - 34b", "score": 4, "num_watching": 14},
-                        {"rater": "W - 30g", "score": 0, "num_watching": 14},
-                        {"rater": "W - 27b", "score": 3, "num_watching": 15},
-                        {"rater": "B - 38g", "score": 4, "num_watching": 51},
-                        {"rater": "W - 18b", "score": 3, "num_watching": 54},
-                        {"rater": "W - 29g", "score": 4, "num_watching": 56},
-                        {"rater": "H - 43b", "score": 0, "num_watching": 10},
-                        {"rater": "W - 19b", "score": 1, "num_watching": 41},
-                        {"rater": "W - 25g", "score": 4, "num_watching": 54}
-                    ],
-                    "summary": {
-                        "ratee_mean_score": 3.2, 
-                        "raters": [
-                            {"raters": [0, 1], "num_watching": 58},
-                            {"raters": [2, 5], "num_watching": 54},
-                            {"raters": [3, 7], "num_watching": 53},
-                            {"raters": [4, 13], "num_watching": 10},
-                            {"raters": [6, 8], "num_watching": 14},
-                            {"raters": [9, 10], "num_watching": 10},
-                            {"raters": [11, 14], "num_watching": 48}
-                        ]
-                    }
-                },
-                "rej": {
-                    "trial": [
-                        {"rater": "W - 2b", "score": 1, "num_watching": 15},
-                        {"rater": "B - 44b", "score": 3, "num_watching": 50},
-                        {"rater": "W - 20g", "score": 2, "num_watching": 14},
-                        {"rater": "B - 54g", "score": 0, "num_watching": 8},
-                        {"rater": "W - 47b", "score": 2, "num_watching": 40},
-                        {"rater": "W - 14g", "score": 1, "num_watching": 53},
-                        {"rater": "W - 66b", "score": 2, "num_watching": 7},
-                        {"rater": "B - 49g", "score": 3, "num_watching": 59},
-                        {"rater": "W - 15b", "score": 1, "num_watching": 51},
-                        {"rater": "W - 16g", "score": 2, "num_watching": 7},
-                        {"rater": "H - 57g", "score": 2, "num_watching": 60},
-                        {"rater": "W - 45b", "score": 1, "num_watching": 14},
-                        {"rater": "W - 48b", "score": 4, "num_watching": 60},
-                        {"rater": "H - 12g", "score": 0, "num_watching": 14},
-                        {"rater": "W - 11g", "score": 1, "num_watching": 56}
-                    ],
-                    "summary": {
-                        "ratee_mean_score": 1.9, 
-                        "raters": [
-                            {"raters": [0, 1], "num_watching": 42},
-                            {"raters": [2, 3], "num_watching": 11},
-                            {"raters": [4, 7], "num_watching": 15},
-                            {"raters": [5, 12], "num_watching": 52},
-                            {"raters": [6, 8], "num_watching": 14},
-                            {"raters": [9, 10], "num_watching": 56},
-                            {"raters": [11, 14], "num_watching": 9}
-                        ]
-                    }
-                }
-            },
-            "2": {
-                "acc": {
-                    "trial": [
-                        {"rater": "W - 33b", "score": 4, "num_watching": 57},
-                        {"rater": "H - 68b", "score": 1, "num_watching": 10},
-                        {"rater": "A - 24g", "score": 3, "num_watching": 46},
-                        {"rater": "W - 74b", "score": 0, "num_watching": 56},
-                        {"rater": "H - 13g", "score": 4, "num_watching": 11},
-                        {"rater": "W - 8g", "score": 3, "num_watching": 13},
-                        {"rater": "H - 73b", "score": 3, "num_watching": 12},
-                        {"rater": "W - 994b", "score": 0, "num_watching": 55},
-                        {"rater": "W - 6g", "score": 1, "num_watching": 47},
-                        {"rater": "B - 72b", "score": 3, "num_watching": 41},
-                        {"rater": "W - 5g", "score": 3, "num_watching": 11},
-                        {"rater": "A - 991b", "score": 2, "num_watching": 8},
-                        {"rater": "W - 75b", "score": 3, "num_watching": 13},
-                        {"rater": "W - 23g", "score": 3, "num_watching": 49},
-                        {"rater": "W - 4g", "score": 4, "num_watching": 7}
-                    ],
-                    "summary": {
-                        "ratee_mean_score": 2.9, 
-                        "raters": [
-                            {"raters": [0, 1], "num_watching": 46},
-                            {"raters": [2, 3], "num_watching": 14},
-                            {"raters": [4, 8], "num_watching": 54},
-                            {"raters": [5, 11], "num_watching": 10},
-                            {"raters": [6, 9], "num_watching": 13} ,
-                            {"raters": [10, 12], "num_watching": 48},
-                            {"raters": [13, 14],  "num_watching": 7}
-                        ]
-                    }
-                },
-                "rej": {
-                    "trial": [
-                        {"rater": "H - 51g", "score": 2, "num_watching": 11},
-                        {"rater": "W - 9g", "score": 3, "num_watching": 42},
-                        {"rater": "a", "score": 0, "num_watching": 57},
-                        {"rater": "W - 70o", "score": 2, "num_watching": 7},
-                        {"rater": "W - 997b", "score": 3, "num_watching": 47},
-                        {"rater": "B - 35g", "score": 1, "num_watching": 14},
-                        {"rater": "W - 995b", "score": 2, "num_watching": 46},
-                        {"rater": "W - 993b", "score": 3, "num_watching": 50}, 
-                        {"rater": "W - 22g", "score": 1, "num_watching": 10},
-                        {"rater": "W - 998b", "score": 2, "num_watching": 11},
-                        {"rater": "A - 46g", "score": 1, "num_watching": 59},
-                        {"rater": "a", "score": 1, "num_watching": 8},
-                        {"rater": "W - 3g", "score": 0, "num_watching": 13},
-                        {"rater": "A - 996b", "score": 1, "num_watching": 42},
-                        {"rater": "W - 1g", "score": 1, "num_watching": 55}
-                    ],
-                    "summary": {
-                        "ratee_mean_score": 2.2, 
-                        "raters": [
-                            {"raters": [0, 1], "num_watching": 7},
-                            {"raters": [3, 2], "num_watching": 48},
-                            {"raters": [5, 4], "num_watching": 44},
-                            {"raters": [6, 7], "num_watching": 13},
-                            {"raters": [8, 9], "num_watching": 45},
-                            {"raters": [10, 11], "num_watching": 44},
-                            {"raters": [13, 14], "num_watching": 13}
-                        ]
-                    }
-                }
-            }
-        }
+  "blocks": {
+    "watching": [
+      {"rater": "B - 44b", "ratee": "W - 28b", "score": 2, "num_watching": 8},
+      {"rater": "W - 30g", "ratee": "H - 13g", "score": 2, "num_watching": 44},
+      {"rater": "W - 25g", "ratee": "W - 19b", "score": 3, "num_watching": 9},
+      {"rater": "H - 50g", "ratee": "W - 29g", "score": 4, "num_watching": 41},
+      {"rater": "B - 35g", "ratee": "W - 23g", "score": 2, "num_watching": 9},
+      {"rater": "W - 16g", "ratee": "W - 997b", "score": 4, "num_watching": 46},
+      {"rater": "W - 21g", "ratee": "W - 69o", "score": 3, "num_watching": 48},
+      {
+        "rater": "A - 991b",
+        "ratee": "B - 992b",
+        "score": 4,
+        "num_watching": 54
+      },
+      {"rater": "H - 68b", "ratee": "A - 46g", "score": 2, "num_watching": 60},
+      {"rater": "W - 9g", "ratee": "W - 48b", "score": 3, "num_watching": 9},
+      {"rater": "W - 15b", "ratee": "H - 43b", "score": 1, "num_watching": 43},
+      {"rater": "W - 45b", "ratee": "W - 34b", "score": 4, "num_watching": 14},
+      {"rater": "W - 47b", "ratee": "W - 11g", "score": 3, "num_watching": 59},
+      {"rater": "W - 2b", "ratee": "B - 49g", "score": 4, "num_watching": 12},
+      {"rater": "W - 70o", "ratee": "W - 5g", "score": 3, "num_watching": 9}
+    ],
+    "rating": {
+      "1": [
+        {"ratee": "A - 996b", "num_watching": 44},
+        {"ratee": "W - 995b", "num_watching": 49},
+        {"ratee": "W - 14g", "num_watching": 10},
+        {"ratee": "W - 74b", "num_watching": 12},
+        {"ratee": "W - 994b", "num_watching": 10},
+        {"ratee": "H - 73b", "num_watching": 43},
+        {"ratee": "W - 33b", "num_watching": 44},
+        {"ratee": "B - 36b", "num_watching": 57},
+        {"ratee": "W - 3g", "num_watching": 8},
+        {"ratee": "W - 998b", "num_watching": 11},
+        {"ratee": "W - 1g", "num_watching": 13},
+        {"ratee": "H - 51g", "num_watching": 15},
+        {"ratee": "H - 12g", "num_watching": 11},
+        {"ratee": "B - 54g", "num_watching": 46},
+        {"ratee": "W - 22g", "num_watching": 46}
+      ],
+      "2": [
+        {"ratee": "W - 993b", "num_watching": 43},
+        {"ratee": "W - 75b", "num_watching": 51},
+        {"ratee": "W - 6g", "num_watching": 47},
+        {"ratee": "H - 999b", "num_watching": 10},
+        {"ratee": "W - 66b", "num_watching": 8},
+        {"ratee": "H - 57g", "num_watching": 12},
+        {"ratee": "W - 8g", "num_watching": 8},
+        {"ratee": "B - 38g", "num_watching": 10},
+        {"ratee": "W - 20g", "num_watching": 12},
+        {"ratee": "W - 31g", "num_watching": 51},
+        {"ratee": "W - 27b", "num_watching": 51},
+        {"ratee": "B - 72b", "num_watching": 46},
+        {"ratee": "W - 4g", "num_watching": 50},
+        {"ratee": "A - 24g", "num_watching": 43},
+        {"ratee": "W - 18b", "num_watching": 14}
+      ]
     },
-    "bios": {
-        "A - 46g": {
-            "bio": "chill | photography | tokyo | weston estate | green 🙃",
-            "mean_score": 2.5
-        }, 
-        "W - 22g": {
-            "bio": "happy | eat | greece | 21 savage | pink 🐋",
-            "mean_score": 4
-        }, 
-        "W - 9g": {
-            "bio": "artsy |craft | italy | sufjan stevens | orange ✨",
-            "mean_score": 3.1
+    "rated": {
+      "1": {
+        "acc": {
+          "trial": [
+            {"rater": "B - 49g", "score": 0, "num_watching": 52},
+            {"rater": "H - 73b", "score": 1, "num_watching": 40},
+            {"rater": "W - 29g", "score": 3, "num_watching": 54},
+            {"rater": "W - 48b", "score": 3, "num_watching": 48},
+            {"rater": "W - 3g", "score": 1, "num_watching": 10},
+            {"rater": "W - 45b", "score": 1, "num_watching": 11},
+            {"rater": "W - 25g", "score": 3, "num_watching": 57},
+            {"rater": "W - 33b", "score": 3, "num_watching": 8},
+            {"rater": "W - 31g", "score": 0, "num_watching": 57},
+            {"rater": "W - 995b", "score": 3, "num_watching": 10},
+            {"rater": "W - 2b", "score": 3, "num_watching": 48},
+            {"rater": "W - 69o", "score": 3, "num_watching": 8},
+            {"rater": "A - 24g", "score": 4, "num_watching": 40},
+            {"rater": "H - 12g", "score": 3, "num_watching": 12},
+            {"rater": "B - 992b", "score": 3, "num_watching": 14}
+          ],
+          "summary": {
+            "ratee_mean_score": 2.59,
+            "raters": [
+              [{"ind": 4, "mean_score": 2.7}, {"ind": 2, "mean_score": 1.4}],
+              [{"ind": 7, "mean_score": 1.44}, {"ind": 12, "mean_score": 1.2}],
+              [{"ind": 10, "mean_score": 2.9}, {"ind": 3, "mean_score": 1.58}],
+              [
+                {"ind": 11, "mean_score": 1.76},
+                {"ind": 13, "mean_score": 1.56}
+              ],
+              [{"ind": 6, "mean_score": 1.69}, {"ind": 0, "mean_score": 3.11}],
+              [{"ind": 5, "mean_score": 2.79}, {"ind": 14, "mean_score": 2.12}],
+              [{"ind": 1, "mean_score": 1.27}, {"ind": 8, "mean_score": 3.77}]
+            ]
+          }
         },
-        "W - 4g": {
-            "bio": " funny | netflix | cancun | shakira | pink 🥳",
-            "mean_score": 1.9
-        },
-        "W - 5g": {
-            "bio": "energetic | exercise | spain | jack harlow | green 🌺",
-            "mean_score": 2.5
-        },
-        "W - 15b": {
-            "bio": "patient | rugby | tokyo | brockhampton | white 🏆",
-            "mean_score": 3.2
-        },
-        "W - 18b": {
-            "bio": "laidback | study | los angeles | travis scott | black 😻",
-            "mean_score": 3.5
-        },
-        "W - 6g": {
-            "bio": "classy | instagram | paris | ariana grande | purple | 🌎 ",
-            "mean_score": 2.5
-        },
-        "W - 8g": {
-            "bio": "amous | shop | greece | taylor swift | light pink 🙃",
-            "mean_score": 2.5
-        },
-        "W - 28b": {
-            "bio": "cool | skate | brazil | playboi carti | yellow 🐋",
-            "mean_score": 2.5
-        },
-        "W - 19b": {
-            "bio": "unique | make music | germany | lil uzi vert | brown ✨",
-            "mean_score": 2.5
-        },
-        "W - 27b": {
-            "bio": "social | travel | nicaragua | rae sremmurd |blue 🥳",
-            "mean_score": 2.5
-        },
-        "W - 33b": {
-            "bio": "quiet | art | russia | drake | navy blue 🌺",
-            "mean_score": 2.5
-        },
-        "W - 34b": {
-            "bio": "fun | surf | virgin islands | g-eazy | olive green 🏆",
-            "mean_score": 2.5
-        },
-        "W - 36b": {
-            "bio": "mart | read | london | jon bellion| mustard yellow 😻",
-            "mean_score": 2.5
-        },
-        "H - 43b": {
-            "bio": "confident | party | turkey | lil baby | maroon 🌎",
-            "mean_score": 2.5
-        },       
-         "B - 44b": {
-            "bio": "talkative | badminton | italy | cuco | black 🙃",
-            "mean_score": 2.5
-        },        
-        "W - 29g": {
-            "bio": "honest | cook | switzerland | sza | pink 🐋",
-            "mean_score": 2.5
-        },        
-        "B - 35g": {
-            "bio": "hardworking | watch movies | new york | the weeknd | red ✨",
-            "mean_score": 2.5
-        },        
-        "W - 30g": {
-            "bio": "friendly | bike | mexico | doja cat | purple 🥳",
-            "mean_score": 2.5
-        },        
-        "W - 45b": {
-            "bio": "caring | watch tv | greece | the kid laroi | yellow 🏆",
-            "mean_score": 2.5
-        },       
-        "W - 3g": {
-            "bio": "loving | tennis | new zealand | billie eilish | pink 🏆",
-            "mean_score": 2.5
-        },        
-        "H - 13g": {
-            "bio": "creative | paint | canada | juice wrld | light blue 😻",
-            "mean_score": 2.5
-        },        
-        "H - 12g": {
-            "bio": "loyal | bake | bora bora | the neighbourhood | red 🌎",
-            "mean_score": 2.5
-        },        
-        "W - 47b": {
-            "bio": "extrovert | hang with friends | hawaii | pop smoke | teal 🙃",
-            "mean_score": 2.5
-        },        
-        "A - 24g": {
-            "bio": "  introvert | read | yosemite | kali uchis | aqua 🐋",
-            "mean_score": 2.5
-        },       
-        "H - 57g": {
-            "bio": " fun | swim | tahiti | cardi b | silver ✨",
-            "mean_score": 2.5
-        },        
-        "B - 38g": {
-            "bio": "personable | run | thailand | dua lipa | fuschia 🥳",
-            "mean_score": 2.5
-        },        
-        "H - 51g": {
-            "bio": "reliable | jog | bali | bad bunny | lime green 🌺",
-            "mean_score": 2.5
-        },        
-        "B - 49g": {
-            "bio": "dependable | cook | dubai | miley cyrus | violet 🏆",
-            "mean_score": 2.5
-        },             
-        "W - 14g": {
-            "bio": "charismatic | hike | florida | justin bieber | violet 😻",
-            "mean_score": 2.5
-        },        
-        "a": {
-            "bio": "compassionate | fish | ireland | tim mcgraw | blue 🌎",
-            "mean_score": 2.5
-        },
-        "W - 11g": {
-            "bio": "confident | cook | london | maren morris | red 🙃",
-            "mean_score": 2.5
-        },
-        "W - 2b": {
-            "bio": "kind | drive | netherlands | the beatles | green 🐋",
-            "mean_score": 2.5
-        },
-        "W - 69o": {
-            "bio": "fun | run | rome | queen | green ✨",
-            "mean_score": 2.5
-        },
-        "W - 48b": {
-            "bio": "brave | camp | south africa | weezer | light blue 🥳",
-            "mean_score": 2.5
-        },
-        "W - 66b": {
-            "bio": "creative | draw | australia | the killers | pastel pink 🌺",
-            "mean_score": 2.5
-        },
-        "W - 16g": {
-            "bio": "empathetic | write | argentina | billie eilish | light green 🏆",
-            "mean_score": 2.5
-        },
-        "B - 54g": {
-            "bio": "passionate | dance | virgin islands | beyonce | pink 😻",
-            "mean_score": 2.5
-        },
-        "W - 70o": {
-            "bio": "reliable | pottery | washington d.c. | brockhampton | orange 🌎",
-            "mean_score": 2.5
-        },
-        "W - 20g": {
-            "bio": "sincere | sing | barcelona | rosalia | scarlet 🙃",
-            "mean_score": 2.5
-        },
-        "H - 68b": {
-            "bio": "sympathetic | craft | brazil | tyler the creator | orange 🐋",
-            "mean_score": 2.5
-        },
-        "B - 72b": {
-            "bio": "creative | thrift | france | asap rocky | indigo ✨",
-            "mean_score": 2.5
-        },
-        "H - 73b": {
-            "bio": "social | hang with friends | ibiza | drake | navy blue 🥳",
-            "mean_score": 2.5
-        },
-        "W - 21g": {
-            "bio": "generous | travel | greece | rihanna | aquamarine 🌺",
-            "mean_score": 2.5
-        },
-        "W - 23g": {
-            "bio": "motivated | swim | hawaii | megan thee stallion | burgundy 🏆",
-            "mean_score": 2.5
-        },
-        "W - 74b": {
-            "bio": "laid back | listen to music | china | blackbear | beige 😻",
-            "mean_score": 2.5
-        },
-        "W - 75b": {
-            "bio": "curious | photography | japan | weezer | orange 🌎",
-            "mean_score": 2.5
-        },
-        "H - 50g": {
-            "bio": "passionate | read | south korea | 21 pilots | blue 🙃",
-            "mean_score": 2.5
-        },
-        "W - 25g": {
-            "bio": "ambitious | bake | israel | nicki minaj | hot pink 🐋",
-            "mean_score": 2.5
-        },
-        "W - 998b": {
-            "bio": "cheerful | cook | costa rica | miguel | gray 🏆",
-            "mean_score": 2.5
-        },
-        "W - 995b": {
-            "bio": "smart | read | puerto rico | frank ocean | baby blue 🙃",
-            "mean_score": 2.5
-        },
-        "W - 997b": {
-            "bio": "loyal | garden | germany | brent faiyaz | grey 🌺",
-            "mean_score": 2.5
-        },
-        "B - 992b": {
-            "bio": " active | run | dubai | gunna | sky blue 🏆",
-            "mean_score": 2.5
-        },
-        "W - 993b": {
-            "bio": "friendly | film | finland | don toliver | magenta 😻",
-            "mean_score": 2.5
-        },
-        "A - 991b": {
-            "bio": "calm | meditate | india | kendrick lamar | gold 🌎",
-            "mean_score": 2.5
-        },
-        "A - 996b": {
-            "bio": "cool | art | ireland | tame impala | gold 🙃",
-            "mean_score": 2.5
-        },
-        "W - 994b": {
-            "bio": "easy going | film | panama | bts | silver 🐋",
-            "mean_score": 2.5
-        },
-        "W - 1g": {
-            "bio": "caring | write | peru | taylor swift | millennial pink ✨",
-            "mean_score": 2.5
-        },
-        "W - 31g": {
-            "bio": "adventurous | camp | egypt | frank ocean | light yellow 🌺",
-            "mean_score": 2.5
-        },
-        "B - 36b": {
-            "bio": "compassionate | fish | ireland | tim mcgraw | blue 🌎",
-            "mean_score": 2.5
+        "rej": {
+          "trial": [
+            {"rater": "B - 72b", "score": 1, "num_watching": 13},
+            {"rater": "H - 51g", "score": 3, "num_watching": 46},
+            {"rater": "B - 38g", "score": 1, "num_watching": 56},
+            {"rater": "W - 66b", "score": 2, "num_watching": 11},
+            {"rater": "W - 16g", "score": 2, "num_watching": 8},
+            {"rater": "W - 5g", "score": 2, "num_watching": 11},
+            {"rater": "A - 996b", "score": 0, "num_watching": 53},
+            {"rater": "W - 998b", "score": 2, "num_watching": 40},
+            {"rater": "W - 8g", "score": 1, "num_watching": 44},
+            {"rater": "H - 68b", "score": 3, "num_watching": 45},
+            {"rater": "W - 20g", "score": 2, "num_watching": 7},
+            {"rater": "W - 34b", "score": 0, "num_watching": 7},
+            {"rater": "W - 19b", "score": 4, "num_watching": 51},
+            {"rater": "W - 70o", "score": 1, "num_watching": 15},
+            {"rater": "W - 11g", "score": 2, "num_watching": 44}
+          ],
+          "summary": {
+            "ratee_mean_score": 2.34,
+            "raters": [
+              [{"ind": 4, "mean_score": 3.39}, {"ind": 0, "mean_score": 1.22}],
+              [{"ind": 1, "mean_score": 2.88}, {"ind": 6, "mean_score": 2.77}],
+              [
+                {"ind": 12, "mean_score": 2.28},
+                {"ind": 14, "mean_score": 3.83}
+              ],
+              [{"ind": 8, "mean_score": 1.96}, {"ind": 5, "mean_score": 3.02}],
+              [{"ind": 9, "mean_score": 3.15}, {"ind": 10, "mean_score": 2.66}],
+              [{"ind": 13, "mean_score": 3.94}, {"ind": 2, "mean_score": 1.46}],
+              [{"ind": 7, "mean_score": 3.56}, {"ind": 3, "mean_score": 1.65}]
+            ]
+          }
         }
+      },
+      "2": {
+        "acc": {
+          "trial": [
+            {"rater": "W - 18b", "score": 0, "num_watching": 9},
+            {"rater": "B - 36b", "score": 3, "num_watching": 57},
+            {"rater": "W - 1g", "score": 0, "num_watching": 47},
+            {"rater": "W - 28b", "score": 2, "num_watching": 12},
+            {"rater": "H - 13g", "score": 3, "num_watching": 51},
+            {"rater": "W - 75b", "score": 3, "num_watching": 14},
+            {"rater": "H - 43b", "score": 1, "num_watching": 53},
+            {"rater": "W - 6g", "score": 3, "num_watching": 12},
+            {"rater": "W - 74b", "score": 4, "num_watching": 47},
+            {"rater": "W - 21g", "score": 3, "num_watching": 9},
+            {"rater": "H - 50g", "score": 3, "num_watching": 45},
+            {"rater": "B - 35g", "score": 2, "num_watching": 13},
+            {"rater": "W - 997b", "score": 4, "num_watching": 10},
+            {"rater": "A - 991b", "score": 3, "num_watching": 49},
+            {"rater": "W - 4g", "score": 3, "num_watching": 54}
+          ],
+          "summary": {
+            "ratee_mean_score": 2.91,
+            "raters": [
+              [{"ind": 3, "mean_score": 3.78}, {"ind": 10, "mean_score": 2.51}],
+              [{"ind": 0, "mean_score": 3.58}, {"ind": 5, "mean_score": 2.09}],
+              [{"ind": 1, "mean_score": 3.24}, {"ind": 11, "mean_score": 2.08}],
+              [{"ind": 9, "mean_score": 3.63}, {"ind": 14, "mean_score": 2.68}],
+              [{"ind": 13, "mean_score": 1.7}, {"ind": 6, "mean_score": 3.74}],
+              [{"ind": 8, "mean_score": 1.46}, {"ind": 2, "mean_score": 2.71}],
+              [{"ind": 12, "mean_score": 1.82}, {"ind": 7, "mean_score": 1.2}]
+            ]
+          }
+        },
+        "rej": {
+          "trial": [
+            {"rater": "W - 9g", "score": 1, "num_watching": 51},
+            {"rater": "A - 46g", "score": 1, "num_watching": 8},
+            {"rater": "W - 993b", "score": 1, "num_watching": 10},
+            {"rater": "B - 44b", "score": 2, "num_watching": 11},
+            {"rater": "W - 47b", "score": 4, "num_watching": 11},
+            {"rater": "W - 14g", "score": 3, "num_watching": 56},
+            {"rater": "H - 57g", "score": 0, "num_watching": 44},
+            {"rater": "W - 23g", "score": 0, "num_watching": 8},
+            {"rater": "W - 30g", "score": 2, "num_watching": 11},
+            {"rater": "W - 15b", "score": 1, "num_watching": 8},
+            {"rater": "W - 27b", "score": 2, "num_watching": 46},
+            {"rater": "W - 994b", "score": 1, "num_watching": 12},
+            {"rater": "H - 999b", "score": 2, "num_watching": 45},
+            {"rater": "W - 22g", "score": 4, "num_watching": 41},
+            {"rater": "B - 54g", "score": 2, "num_watching": 41}
+          ],
+          "summary": {
+            "ratee_mean_score": 2.25,
+            "raters": [
+              [{"ind": 8, "mean_score": 2.47}, {"ind": 12, "mean_score": 3.43}],
+              [{"ind": 5, "mean_score": 2.08}, {"ind": 4, "mean_score": 3.21}],
+              [{"ind": 7, "mean_score": 3.19}, {"ind": 6, "mean_score": 1.59}],
+              [{"ind": 3, "mean_score": 2.4}, {"ind": 13, "mean_score": 2.14}],
+              [{"ind": 14, "mean_score": 3.76}, {"ind": 2, "mean_score": 1.66}],
+              [{"ind": 1, "mean_score": 3.49}, {"ind": 11, "mean_score": 3.24}],
+              [{"ind": 0, "mean_score": 1.31}, {"ind": 9, "mean_score": 2.92}]
+            ]
+          }
+        }
+      }
     }
+  },
+  "bios": {
+    "A - 46g": "chill | photography | tokyo | weston estate | green 🙃",
+    "W - 22g": "happy | eat | greece | 21 savage | pink 🐋",
+    "W - 9g": "artsy |craft | italy | sufjan stevens | orange ✨",
+    "W - 4g": " funny | netflix | cancun | shakira | pink 🥳",
+    "W - 5g": "energetic | exercise | spain | jack harlow | green 🌺",
+    "W - 15b": "patient | rugby | tokyo | brockhampton | white 🏆",
+    "W - 18b": "laidback | study | los angeles | travis scott | black 😻",
+    "W - 6g": "classy | instagram | paris | ariana grande | purple | 🌎 ",
+    "W - 8g": "amous | shop | greece | taylor swift | light pink 🙃",
+    "W - 28b": "cool | skate | brazil | playboi carti | yellow 🐋",
+    "W - 19b": "unique | make music | germany | lil uzi vert | brown ✨",
+    "W - 27b": "social | travel | nicaragua | rae sremmurd |blue 🥳",
+    "W - 33b": "quiet | art | russia | drake | navy blue 🌺",
+    "W - 34b": "fun | surf | virgin islands | g-eazy | olive green 🏆",
+    "W - 36b": "mart | read | london | jon bellion| mustard yellow 😻",
+    "H - 43b": "confident | party | turkey | lil baby | maroon 🌎",
+    "B - 44b": "talkative | badminton | italy | cuco | black 🙃",
+    "W - 29g": "honest | cook | switzerland | sza | pink 🐋",
+    "B - 35g": "hardworking | watch movies | new york | the weeknd | red ✨",
+    "W - 30g": "friendly | bike | mexico | doja cat | purple 🥳",
+    "W - 45b": "caring | watch tv | greece | the kid laroi | yellow 🏆",
+    "W - 3g": "loving | tennis | new zealand | billie eilish | pink 🏆",
+    "H - 13g": "creative | paint | canada | juice wrld | light blue 😻",
+    "H - 12g": "loyal | bake | bora bora | the neighbourhood | red 🌎",
+    "W - 47b": "extrovert | hang with friends | hawaii | pop smoke | teal 🙃",
+    "A - 24g": "  introvert | read | yosemite | kali uchis | aqua 🐋",
+    "H - 57g": " fun | swim | tahiti | cardi b | silver ✨",
+    "B - 38g": "personable | run | thailand | dua lipa | fuschia 🥳",
+    "H - 51g": "reliable | jog | bali | bad bunny | lime green 🌺",
+    "B - 49g": "dependable | cook | dubai | miley cyrus | violet 🏆",
+    "W - 14g": "charismatic | hike | florida | justin bieber | violet 😻",
+    "H - 999b": "compassionate | fish | ireland | tim mcgraw | blue 🌎",
+    "W - 11g": "confident | cook | london | maren morris | red 🙃",
+    "W - 2b": "kind | drive | netherlands | the beatles | green 🐋",
+    "W - 69o": "fun | run | rome | queen | green ✨",
+    "W - 48b": "brave | camp | south africa | weezer | light blue 🥳",
+    "W - 66b": "creative | draw | australia | the killers | pastel pink 🌺",
+    "W - 16g": "empathetic | write | argentina | billie eilish | light green 🏆",
+    "B - 54g": "passionate | dance | virgin islands | beyonce | pink 😻",
+    "W - 70o": "reliable | pottery | washington d.c. | brockhampton | orange 🌎",
+    "W - 20g": "sincere | sing | barcelona | rosalia | scarlet 🙃",
+    "H - 68b": "sympathetic | craft | brazil | tyler the creator | orange 🐋",
+    "B - 72b": "creative | thrift | france | asap rocky | indigo ✨",
+    "H - 73b": "social | hang with friends | ibiza | drake | navy blue 🥳",
+    "W - 21g": "generous | travel | greece | rihanna | aquamarine 🌺",
+    "W - 23g": "motivated | swim | hawaii | megan thee stallion | burgundy 🏆",
+    "W - 74b": "laid back | listen to music | china | blackbear | beige 😻",
+    "W - 75b": "curious | photography | japan | weezer | orange 🌎",
+    "H - 50g": "passionate | read | south korea | 21 pilots | blue 🙃",
+    "W - 25g": "ambitious | bake | israel | nicki minaj | hot pink 🐋",
+    "W - 998b": "cheerful | cook | costa rica | miguel | gray 🏆",
+    "W - 995b": "smart | read | puerto rico | frank ocean | baby blue 🙃",
+    "W - 997b": "loyal | garden | germany | brent faiyaz | grey 🌺",
+    "B - 992b": " active | run | dubai | gunna | sky blue 🏆",
+    "W - 993b": "friendly | film | finland | don toliver | magenta 😻",
+    "A - 991b": "calm | meditate | india | kendrick lamar | gold 🌎",
+    "A - 996b": "cool | art | ireland | tame impala | gold 🙃",
+    "W - 994b": "easy going | film | panama | bts | silver 🐋",
+    "W - 1g": "caring | write | peru | taylor swift | millennial pink ✨",
+    "W - 31g": "adventurous | camp | egypt | frank ocean | light yellow 🌺",
+    "B - 36b": "compassionate | fish | ireland | tim mcgraw | blue 🌎"
+  }
 }
