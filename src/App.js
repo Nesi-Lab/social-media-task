@@ -27,8 +27,8 @@ function WebGazeLoader(props) {
   function handleScriptLoad() {
     webgazer.setGazeListener((data, elapsedTime) => {
       if (data == null) { return; }
-      const calcSecond = log_ind => Math.floor(wgLogs[log_ind].utc_time / 1000)
-      wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now(), screen: screen })
+      const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
+      wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now() })
       if (wgLogs.length >= 2) {
         // exists a previous reading
         const prevReadingSec = calcSecond(wgLogs.length - 2)
@@ -42,7 +42,6 @@ function WebGazeLoader(props) {
             else { break }
           }
           toWrite.reverse()  // so indices increase with time
-          console.log(toWrite)
           writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
         }
       }
