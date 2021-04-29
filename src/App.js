@@ -42,7 +42,7 @@ function WebGazeLoader(props) {
             else { break }
           }
           toWrite.reverse()  // so indices increase with time
-          // console.log(toWrite)
+          console.log(toWrite)
           writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
         }
       }

@@ -27,7 +27,7 @@ function trialProps() {
         }
         return {
             img: impersonatorImgs[id],
-            bio: bios[id].bio,
+            bio: bios[id],
             id: id
         }
     }
