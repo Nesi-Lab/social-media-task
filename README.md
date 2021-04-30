@@ -136,22 +136,34 @@ As specifically laid out in `randomize_impersonators.py`, most randomization of 
 
 Each impersonator appears twice in the task, once in the first 3 blocks and once in the last 4 blocks (the "rated" blocks). Each of the 60 participants' location within either the first or second half of the task is randomly picked for a block to fulfill these four block criteria:
 
-* | | white | black | hispanic | asian |
-  | girl | 4 | 1 | 1 | 1 |
-  | boy | 5 | 1 | 1 | 0 |
-  | non-binary | 1 | 0 | 0 | 0 |
-* | | white | black | hispanic | asian |
-  | girl | 5 | 1 | 1 | 0 |
-  | boy | 4 | 1 | 1 | 1 |
-  | non-binary | 1 | 0 | 0 | 0 |
-* | | white | black | hispanic | asian |
-  | girl | 5 | 1 | 1 | 1 |
-  | boy | 5 | 1 | 1 | 0 |
-  | non-binary | 0 | 0 | 0 | 0 |
-* | | white | black | hispanic | asian |
-  | girl | 4 | 1 | 2 | 0 |
-  | boy | 5 | 1 | 1 | 1 |
-  | non-binary | 0 | 0 | 0 | 0 |
+|                | white | black | hispanic | asian | total |
+| :---           | :---  | :---  | :---     | :---  | :---  |
+| **girl**       | 4     | 1     | 1        | 1     | 7     |
+| **boy**        | 5     | 1     | 1        | 0     | 7     |
+| **non-binary** | 1     | 0     | 0        | 0     | 1     |
+| **total**      | 10    | 2     | 2        | 1     | 15     |
+
+|                | white | black | hispanic | asian | total |
+| :---           | :---  | :---  | :---     | :---  | :---  |
+| **girl**       | 5     | 1     | 1        | 0     | 7     |
+| **boy**        | 4     | 1     | 1        | 1     | 7     |
+| **non-binary** | 1     | 0     | 0        | 0     | 1     |
+| **total**      | 10    | 2     | 2        | 1     | 15     |
+
+|                | white | black | hispanic | asian | total |
+| :---           | :---  | :---  | :---     | :---  | :---  |
+| **girl**       | 5     | 1     | 1        | 1     | 8     |
+| **boy**        | 5     | 1     | 1        | 0     | 7     |
+| **non-binary** | 0     | 0     | 0        | 0     | 0     |
+| **total**      | 10    | 2     | 2        | 1     | 15     |
+  
+|                | white | black | hispanic | asian | total |
+| :---           | :---  | :---  | :---     | :---  | :---  |
+| **girl**       | 4     | 1     | 2        | 0     | 7     |
+| **boy**        | 5     | 1     | 1        | 1     | 8     |
+| **non-binary** | 0     | 0     | 0        | 0     | 0     |
+| **total**      | 9     | 2     | 3        | 1     | 15     |
+
 
 These breakdowns were selected by hand to meet the following criteria: 
 * each breakdown has 15 impersonators
@@ -173,10 +185,12 @@ If there are an uneven number of trials (all except summary blocks are 15 trials
 For each type of block where the participant does not select their own score, we designate some number of trials to be "accepting", meaning the score value is randomized between 3 or 4 with equal likelihood. We also designate some number to be "rejecting" (either 1 or 2 with equal likelihood) and some to be "ambiguous" (meaning no rating is provided to the participant).
 
 Specifically, we use these number of trials:
-| block type | accepting | rejecting | ambiguous |
-| watching | 10 | 5 | 0 |
-| rated (acceptance-majority) | 10 | 3 | 2 |
-| rated (rejection-majority) | 3 | 10 | 2 |
+
+| block type                  | accepting | rejecting | ambiguous | total | 
+| :---                        | :---      | :---      | :---      | :---  |
+| watching                    | 10        | 5         | 0         | 15       |
+| rated (acceptance-majority) | 10        | 3         | 2         | 15       |
+| rated (rejection-majority)  | 3         | 10        | 2         | 15       |
 
 Once the appropriate randomized values for each trial in a block have been generated, the ordering of the trials in the block is randomized.
 
@@ -187,9 +201,11 @@ For the summary screens of either an "acceptance-majority" or "rejection-majorit
 The mean scores for these 14 are generated separately, in the same way as a trial's impersonator and score are generated separately. We designate some of the mean scores to be uniformly selected between 1 and the participant's mean score in that block (i.e. lower than the participant) and some to be uniformly selected between the participant's mean score and 4 (i.e. higher than the participant). 
 
 Specifically, we choose this many of these for each block type:
-| block type | above participant | below participant | 
-| rated (acceptance-majority) | 5 | 9 |
-| rated (acceptance-majority) | 9 | 5 |
+
+| block type                  | above participant | below participant |
+| :---                        | :---              | :---              |
+| rated (acceptance-majority) | 5                 | 9                 |
+| rated (rejection-majority)  | 9                 | 5                 |
 
 Once the appropriate mean scores have been generated, the ordering of them is randomized.
 

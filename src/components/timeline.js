@@ -37,6 +37,7 @@ export default function Timeline(props) {
         (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
         (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="feelingInstruction" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c} />,
 
         // // first set of instructions

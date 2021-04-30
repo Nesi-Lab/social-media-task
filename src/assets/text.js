@@ -37,9 +37,10 @@ export const socialMediaText = [
     (<p style={{ color: "red", textAlign: "left" }}>Remember: Connect is totally private. We will <i>never</i> access your personal information, post anything on your account, or notify your contacts.</p>),
     
     (<div>
-        <p>There are a total of <span style={{ color: "lightgreen", fontSize: "larger" }}>53</span> users on Connect.</p>
-        <p> You have <span style={{ color: "lightgreen", fontSize: "larger" }}>3</span> friends on Connect right now!</p>
+        <p>There are a total of <span style={{ color: "lightgreen", fontSize: "larger" }}>68</span> users on Connect.</p>
+        <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>3</span> friends on Connect right now!</p>
         <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>15</span> friends-of-friends on Connect right now!</p>
+        <p>Connect will randomly pair users with each other. You may or may not be paired up with friends or friends-of-friends.</p>
     </div>),
 ]
 
@@ -94,6 +95,11 @@ export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"]
 // export const makeBioPlain = (info) => `${info.show} ${info.emoji} ${info.activity}`
 export const makeBioPlain = (info) => [info.word, info.activity, info.place, info.artist, info.color].join("  |  ") + " " + info.emoji
 export const makeBio = (info) => (<span>{makeBioPlain(info)}</span>)
+
+export const feelingInstruction = [(<div>
+    <p>Throughout the task, you will be instructed to rate how you feel.</p>
+    <p style={{ color: "red" }}>This information will be completely private. Only the researchers will see your ratings.</p>
+</div>)]
 
 export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p>Here are a number of words that describe different feelings and emotions.</p>
