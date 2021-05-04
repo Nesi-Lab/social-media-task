@@ -30,7 +30,7 @@ export default function Summary(allProps) {
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
 
     useEffect(() => {
-        allProps.curr.wg.setScreen(`summary ${props.blockInfo.number} trial 1 loading`)
+        allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial 1 loading`
     }, [])
 
     if (currBlock !== props.blockInfo.number && finished) {
@@ -61,7 +61,7 @@ export default function Summary(allProps) {
         } else {
             setTrialInd(trialInd + 1)
             setScreenType("anticipation")
-            allProps.curr.wg.setScreen(`summary ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`)
+            allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`
         }
     }
 
@@ -69,10 +69,10 @@ export default function Summary(allProps) {
         const timer = setTimeout(() => {
             if (screenType === "loading") {
                 setScreenType("anticipation")
-                allProps.curr.wg.setScreen(`summary ${props.blockInfo.number} trial ${trialInd + 1} anticipation`)
+                allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1} anticipation`
             } if (screenType === "anticipation") {
                 setScreenType("feedback")
-                allProps.curr.wg.setScreen(`summary ${props.blockInfo.number} trial ${trialInd + 1} feedback`)
+                allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1} feedback`
             } else { // can only be feedback
                 nextTrial()
             }

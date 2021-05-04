@@ -7,7 +7,7 @@ import { prevNext } from '../lib/utils'
 export default function Instruction(props) {
 
     useEffect(() => {
-        props.curr.wg.setScreen(`instruction ${props.id} ${props.ind}`)
+        props.curr.wg.screen.screen = `instruction ${props.id} ${props.ind}`
     }, [])
 
     return (<div>

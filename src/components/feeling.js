@@ -15,7 +15,7 @@ export default function Feeling(props) {
     const valsSubset = pick(vals, feelingsToDisplay)
 
     useEffect(() => {
-        props.curr.wg.setScreen(`feeling 1`)
+        props.curr.wg.screen.screen = `feeling 1`
     }, [])
 
     async function handleSliderChange(e) {
@@ -32,7 +32,7 @@ export default function Feeling(props) {
 
     function changeScreen() {
         setScreenNum(screenNum === 0 ? 1 : 0)
-        props.curr.wg.setScreen(`feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`)
+        props.curr.wg.screen.screen = `feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`
     }
 
     async function onNext() {

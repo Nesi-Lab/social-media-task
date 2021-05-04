@@ -9,7 +9,7 @@ export default function Accuracy(props) {
     const [done, setDone] = useState(false)
 
     useEffect(() => {
-        props.curr.wg.setScreen("accuracy")
+        props.curr.wg.screen.screen = "accuracy"
     }, [])
 
     function dist(i, past50) {

@@ -10,7 +10,7 @@ export default function User(props) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    props.curr.wg.setScreen("user")
+    props.curr.wg.screen.screen = "user"
   }, [])
 
   useEffect(() => {

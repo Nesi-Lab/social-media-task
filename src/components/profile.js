@@ -11,7 +11,7 @@ export default function Profile(props) {
     const [participantBio, setParticipantBio] = useState({})
 
     useEffect(() => {
-        props.curr.wg.setScreen(`profile uploadPhoto`)
+        props.curr.wg.screen.screen = `profile uploadPhoto`
     }, [])
 
     const reader = new FileReader()
@@ -37,23 +37,23 @@ export default function Profile(props) {
 
     function handleUploadToBio(e) {
         setParticipantImgScore(document.getElementById("participantImgScore").value)
-        setScreen("bio")
-        props.curr.wg.setScreen(`profile bio`)
+        screen.screen = "bio"
+        props.curr.wg.screen.screen = `profile bio`
     }
 
     function handleBioToUpload(e) {
-        setScreen("uploadPhoto")
-        props.curr.wg.setScreen(`profile uploadPhoto`)
+        screen.screen = "uploadPhoto"
+        props.curr.wg.screen.screen = `profile uploadPhoto`
     }
 
     function handleBioToDisplay(e) {
-        setScreen("display")
-        props.curr.wg.setScreen(`profile display`)
+        screen.screen = "display"
+        props.curr.wg.screen.screen = `profile display`
     }
 
     function handleDisplayToBio(e) {
-        setScreen("bio")
-        props.curr.wg.setScreen(`profile uploadPhoto`)
+        screen.screen = "bio"
+        props.curr.wg.screen.screen = `profile uploadPhoto`
     }
 
     async function saveRow(rec) {

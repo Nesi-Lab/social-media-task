@@ -11,13 +11,13 @@ function WebGazeLoader(props) {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
-  const [screen, setScreen] = useState("")
+  const [screen, setScreen] = useState({ screen: ""})  // this is dumb but mutable
   const [participantId, setParticipantId] = useState({ id: props.participantId }) // this is dumb but mutable
 
   function formatTimestamp(unix_ts) {
     const d = new Date(unix_ts)
-    const pad = n => ("0" + n).slice(-2)
-    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth())}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00`
+    const pad = n => ("0" + n).slice(-2), pad3 = n => ("00" + n).slice(-3)
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth())}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}.${pad3(d.getUTCMilliseconds())}+00`
   }
 
   function makeWgRecord(items) {
@@ -73,7 +73,7 @@ function WebGazeLoader(props) {
       onLoad={handleScriptLoad}
       onError={handleScriptError}
     />
-    <Timeline wg={{ wg: wg, screen: screen, "setScreen": setScreen }} participantId={props.participantId} setParticipantId={props.setParticipantId} />
+    <Timeline wg={{ wg: wg, screen: screen }} participantId={props.participantId} setParticipantId={props.setParticipantId} />
   </div>)
 }
 

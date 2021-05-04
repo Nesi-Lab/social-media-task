@@ -8,7 +8,7 @@ export default function FaceCheck(props) {
     const [dummyCounter, setDummyCounter] = useState(0)
 
     useEffect(() => {
-        props.curr.wg.setScreen("facecheck")
+        props.curr.wg.screen.screen = "facecheck"
     }, [])
 
     async function save() {

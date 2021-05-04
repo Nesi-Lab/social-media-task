@@ -43,7 +43,7 @@ function Block(allProps) {
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
 
     useEffect(() => {
-        allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial 1 anticipation`)
+        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 anticipation`
     }, [])
 
     useEffect(() => {
@@ -82,7 +82,7 @@ function Block(allProps) {
         if (trialInd + 1 === props.trials.length) {
             setFinished(true)
         } else {
-            allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`)
+            allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`
             setTrialInd(trialInd + 1)
             setScreenType("anticipation")
             setClickable(props.blockInfo.type === "rating")
@@ -117,7 +117,7 @@ function Block(allProps) {
             const timer = setTimeout(() => {
                 if (screenType === "anticipation") {
                     setScreenType("feedback")
-                    allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial ${trialInd + 1} feedback`)
+                    allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} feedback`
                 } else { // can only be feedback
                     const ratee = document.getElementById("ratee-img")
                     if (ratee !== null) {
@@ -127,7 +127,7 @@ function Block(allProps) {
                     if (props.blockInfo.type === "rated") {
                         setScreenType("interpretation")
                         setClickable("true")
-                        allProps.curr.wg.setScreen(`block ${props.blockInfo.number} trial ${trialInd + 1} interpretation`)
+                        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} interpretation`
                     } else {
                         nextTrial()
                     }

@@ -12,7 +12,7 @@ export default function Calibration(props) {
     const [done, setDone] = useState(false)
 
     useEffect(() => {
-        props.curr.wg.setScreen("calibration")
+        props.curr.wg.screen.screen = "calibration"
     }, [])
 
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint }
