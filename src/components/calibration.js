@@ -19,15 +19,13 @@ export default function Calibration(props) {
 
     useEffect(() => {
         // on load 
-        const canvas = props.curr.wg.wg.getVideoElementCanvas()
-        console.log("wg canvas width/height", canvas.width, canvas.height)
         writeData("metadata", {
             name: "screen-width",
-            value: canvas.width
+            value: window.innerWidth
         }, props.curr.id)
         writeData("metadata", {
             name: "screen-height",
-            value: canvas.height
+            value: window.innerHeight
         }, props.curr.id)
     }, [])
 
