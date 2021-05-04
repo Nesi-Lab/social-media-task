@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
 import * as text from '../assets/text'
-import { tutorialImgs } from '../assets/imgs'
+import { tutorialImgs, logo } from '../assets/imgs'
 import { prevNext } from '../lib/utils'
 
 export default function Instruction(props) {

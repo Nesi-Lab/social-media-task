@@ -81,6 +81,10 @@ export default function Summary(allProps) {
         return () => clearTimeout(timer)
     }, [trialInd, screenType])
 
+    useEffect(() => {
+        document.getElementById("app").style.cursor = setFinished ? "auto" : "none"
+    })
+
     function watchSummary(n) {
         return (<div className="watch-summary">
             <img src={eye} alt="eye" className="summary-eye" />
@@ -101,6 +105,7 @@ export default function Summary(allProps) {
     if (screenType === "loading") {
         return beforeSummaryText[1]
     } else if (!finished) {
+        console.log(props.summaries[trialInd])
         return (<div style={{ textAlign: "center" }}>
             {watchSummary(props.summaries[trialInd].watching)}
             <div className="summary">

@@ -123,25 +123,24 @@ export default function Profile(props) {
                             ], []
                     )}
                 </div>
-                <div style={{width: "60%"}}>
-                    {profileText[3]}
-                    {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
-                        (<div style={{ marginTop: "50px" }}>
-                            {profileText[4]}
-                            <div className="editable-bio">{makeBio(participantBio)}</div>
-                        </div>) :
-                        null
-                    }
-                </div>
-            </div>
-            <div>
-
-                <div className="prev-next">
-                    <button style={{ margin: "5px" }} onClick={handleBioToUpload}>Previous</button>
-                    {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
-                        (<button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleBioToDisplay}>Next</button>) :
-                        null
-                    }
+                <div style={{ width: "60%", display: "flex", flexDirection: "column"}}>
+                    <div style={{flexGrow: 100}}>
+                        {profileText[3]}
+                        {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
+                            (<div style={{ marginTop: "50px" }}>
+                                {profileText[4]}
+                                <div className="editable-bio">{makeBio(participantBio)}</div>
+                            </div>) :
+                            null
+                        }
+                    </div>
+                    <div className="prev-next" style={{flexGrow: 0}}>
+                        <button style={{ margin: "5px" }} onClick={handleBioToUpload}>Previous</button>
+                        {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
+                            (<button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleBioToDisplay}>Next</button>) :
+                            null
+                        }
+                    </div>
                 </div>
             </div>
         </div>)

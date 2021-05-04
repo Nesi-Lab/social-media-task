@@ -70,7 +70,7 @@ function trialProps() {
     const ratedProps = (subnumMaj, blockNum) => {
         const subnum = subnumMaj.subnum, majority = subnumMaj.maj
         const allInfo = blocks.rated[subnum][majority]
-        const lookupSumImp = p => { return {...lookupImp(allInfo.trial[p.ind].rater), mean_score: p.mean_score} }
+        const lookupSumImp = p => { return {...lookupImp(allInfo.trial[p.ind].rater), score: p.mean_score} }
         return {
             blockInfo: {
                 type: "rated",
@@ -88,8 +88,8 @@ function trialProps() {
             summaries: allInfo.summary.raters.map(e => {
                 return {
                     participant: { score: allInfo.summary.ratee_mean_score },
-                    left: lookupSumImp(e[0]),
-                    right: lookupSumImp(e[1]),
+                    left: lookupSumImp(e.raters[0]),
+                    right: lookupSumImp(e.raters[1]),
                     watching: e.num_watching
                 }
             })

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import ReactDOMServer from 'react-dom/server'
 
-import { eye, x } from '../assets/imgs'
+import { eye, x, check } from '../assets/imgs'
 import { rateText, interpretationText, watchText } from '../assets/text'
 import Feeling from './feeling'
 import { slider, writeData } from '../lib/utils'
@@ -148,15 +148,17 @@ function Block(allProps) {
 
     function person(p, isRatee, score = null) {
         const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2)
-        const drawBorder = score !== null && screenType === "feedback" && (score === 3 || score === 4)
-        const X = (<img src={x} alt="x" className="x" />)
+        const drawCheck = score !== null && screenType === "feedback" && (score === 3 || score === 4)
+        const X = (<img src={x} alt="x" className="overlay" />)
+        const ch = (<img src={check} alt="check" className="overlay" />)
 
         const drawRateBox = score !== null && screenType === "feedback"
 
         return (<div className="quadrant">
             <div className="person">
-                <img src={p.img} style={{ border: drawBorder ? "10px solid " + color(score) : "none", marginTop: drawBorder ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
+                <img src={p.img} style={{ border: drawCheck ? "10px solid " + color(score) : "none", marginTop: drawCheck ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
+                <div id="ch" style={{ display: drawCheck ? "inline" : "none" }}>{isRatee ? ch : null}</div>
                 <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
             </div>
             <p className="person-bio">{p.bio}</p>

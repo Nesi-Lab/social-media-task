@@ -1,4 +1,4 @@
-import { loading } from './imgs'
+import { loading, logo } from './imgs'
 
 export const userID = (<p style={{textAlign: "center"}}>Participant ID</p>)
 
@@ -10,7 +10,8 @@ export const loadingText = (<div style={{textAlign: "center"}}>
     </div>)
 
 export const introText = [
-    (<div>
+    (<div style={{textAlign: "center"}}>
+        <img src={logo} alt="logo" class="logo"/>
         <h1>Welcome to <b>Connect</b>.</h1>
         <h1>Connect is a game about how people form first impressions online.</h1>
     </div>),
@@ -41,7 +42,7 @@ export const socialMediaText = [
         <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>3</span> friends on Connect right now!</p>
         <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>15</span> friends-of-friends on Connect right now!</p>
         <p>Connect will randomly pair users with each other. You may or may not be paired up with friends or friends-of-friends.</p>
-    </div>),
+    </div>)
 ]
 
 export const profileText = [
@@ -107,7 +108,7 @@ export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p style={{ color: "red" }}>This information is completely private. Only the researchers will see your ratings.</p>
 </div>)
 
-export const feelingList = ["Joyful", "Miserable", "Cheerful", "Mad", "Afraid", "Happy", "Sad", "Scared", "Lively", "Anxious", "Embarrassed", "Proud", "Annoyed"]
+export const feelingList = ["Excited", "Upset", "Included", "Excluded", "Mad", "Worried", "Relaxed", "Sad", "Happy", "Unpopular", "Popular", "Embarrassed", "Bored", "Proud"]
 
 export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "30px", fontSize: "25px" }}>
     How much would you like to be friends with this person?

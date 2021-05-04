@@ -12,11 +12,17 @@ function WebGazeLoader(props) {
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
   const [screen, setScreen] = useState("")
-  const [participantId, setParticipantId] = useState({id: props.participantId}) // this is dumb but mutable
+  const [participantId, setParticipantId] = useState({ id: props.participantId }) // this is dumb but mutable
+
+  function formatTimestamp(unix_ts) {
+    const d = new Date(unix_ts)
+    const pad = n => ("0" + n).slice(-2)
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth())}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00`
+  }
 
   function makeWgRecord(items) {
     return items.reduce((acc, curr, i) => {
-      return { ...acc, ["timestamp" + i]: curr.timestamp, ["x" + i]: curr.x, ["y" + i]: curr.y }
+      return { ...acc, ["timestamp" + i]: formatTimestamp(curr.timestamp), ["x" + i]: curr.x, ["y" + i]: curr.y }
     }, { screen: screen })
   }
 
@@ -45,7 +51,7 @@ function WebGazeLoader(props) {
           writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
         }
       }
-    }).showVideo(false).showPredictionPoints(true).begin();
+    }).showVideo(false).showPredictionPoints(false).begin();
     setWg(webgazer)
     console.log(webgazer)
   }

@@ -139,9 +139,9 @@ Each impersonator appears twice in the task, once in the first 3 blocks and once
 |                | white | black | hispanic | asian | total |
 | :---           | :---  | :---  | :---     | :---  | :---  |
 | **girl**       | 4     | 1     | 1        | 1     | 7     |
-| **boy**        | 5     | 1     | 1        | 0     | 7     |
+| **boy**        | 4     | 1     | 2        | 0     | 7     |
 | **non-binary** | 1     | 0     | 0        | 0     | 1     |
-| **total**      | 10    | 2     | 2        | 1     | 15     |
+| **total**      | 9     | 2     | 3        | 1     | 15     |
 
 |                | white | black | hispanic | asian | total |
 | :---           | :---  | :---  | :---     | :---  | :---  |
@@ -235,28 +235,28 @@ The overall accuracy is defined as the mean of all the 50 predictions' accuracy 
 
 ## Terms and definitions
 
-| term | definition |
-| :--- | :--- |
-| anticipation screen | a rating event before any score has been selected (3 seconds or however long the participant takes) | 
-| bio | a string of several attributes of a person combined with pipes (i.e. "|") and one of a handful of emojis | 
-| block | a series of 15 trials which can be a "watching" block, a "rating" block of either female or male impersonators, or a "rated" block of either female or male impersonators and either mostly acceptance (positive) or rejection (negative) scores | 
-| feedback screen | a rating event after a score has been selected and displayed (1 second if the participant chose the score; 6 seconds otherwise) | 
-| impersonator | a fake Connect user who rates and is rated by the participant and other impersonators | 
-| interpretation screen | a screen after each rating event in a "rated" block where the participant indicates how much they think their rater wants to be friends with them | 
-| majority | the type of "rated" block which is either "acc" for acceptance (10/15 of the scores are 3 or 4) or "rej" for rejection (10/15 of the scores are 1 or 2) | 
-| participant | a user of the app | 
-| person | either the participant or an impersonator | 
-| profile | a person's combination of profile picture and bio, often displayed together  | 
-| rated block | a block where impersonators rate the participant | 
-| rating block | a block where the participant rates impersonators | 
-| score | a value assigned by one person to another, ranging from 1 (negative) to 4 (positive) inclusively; in a "rated" block, this can also be an ambiguous score stating "no rating provided" | 
-| screen | everything that is displayed at any given time; may change automatically or when the participant uses navigation buttons "previous" or "next" if available | 
+| term                        | definition |
+| :---                        | :--- |
+| anticipation screen         | a rating event before any score has been selected (3 seconds or however long the participant takes) | 
+| bio                         | a string of several attributes of a person combined with pipes (i.e. "|") and one of a handful of emojis | 
+| block                       | a series of 15 trials which can be a "watching" block, a "rating" block of either female or male impersonators, or a "rated" block of either female or male impersonators and either mostly acceptance (positive) or rejection (negative) scores | 
+| feedback screen             | a rating event after a score has been selected and displayed (1 second if the participant chose the score; 6 seconds otherwise) | 
+| impersonator                | a fake Connect user who rates and is rated by the participant and other impersonators | 
+| interpretation screen       | a screen after each rating event in a "rated" block where the participant indicates how much they think their rater wants to be friends with them | 
+| majority                    | the type of "rated" block which is either "acc" for acceptance (10/15 of the scores are 3 or 4) or "rej" for rejection (10/15 of the scores are 1 or 2) | 
+| participant                 | a user of the app | 
+| person                      | either the participant or an impersonator | 
+| profile                     | a person's combination of profile picture and bio, often displayed together  | 
+| rated block                 | a block where impersonators rate the participant | 
+| rating block                | a block where the participant rates impersonators | 
+| score                       | a value assigned by one person to another, ranging from 1 (negative) to 4 (positive) inclusively; in a "rated" block, this can also be an ambiguous score stating "no rating provided" | 
+| screen                      | everything that is displayed at any given time; may change automatically or when the participant uses navigation buttons "previous" or "next" if available | 
 | summary anticipation screen | part of a summary trial where profile images are shown but not average scores (3 seconds) | 
-| summary block | a set of 15 summary trials following each "rated" block | 
-| summary feedback screen | part of a summary trial where profile images and corresponding average scores are shown (6 seconds) | 
-| summary trial | a set of a summary anticipation and a summary feedback screen where two impersonators and the participant's profile images are displayed | 
-| trial | a rating interaction between impersonators and the participant involving an anticipation screen, a feedback screen, and possibly an interpretation screen | 
-| tutorial | screens with images of an example of the game and explanatory text | 
-| user | see "participant" | 
-| watching block | a block where impersonators rate each other the the participant watches | 
-| Webgazer | the modified package used for eye tracking |
+| summary block               | a set of 15 summary trials following each "rated" block | 
+| summary feedback screen     | part of a summary trial where people's profile images and their recieved average scores are shown (6 seconds) | 
+| summary trial               | a set of a summary anticipation and a summary feedback screen where two impersonators and the participant's profile images are displayed | 
+| trial                       | a rating interaction between impersonators and the participant involving an anticipation screen, a feedback screen, and possibly an interpretation screen | 
+| tutorial                    | screens with images of an example of the game and explanatory text | 
+| user                        | see "participant" | 
+| watching block              | a block where impersonators rate each other the the participant watches | 
+| Webgazer                    | the modified package used for eye tracking |

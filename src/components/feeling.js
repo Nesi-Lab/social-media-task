@@ -10,7 +10,7 @@ export default function Feeling(props) {
     const [vals, setVals] = useState(Object.fromEntries(feelingList.map(e => [e, "50"])))
     const [screenNum, setScreenNum] = useState(0)
 
-    const splitInd = Math.floor(feelingList.length / 2) + 1
+    const splitInd = Math.floor(feelingList.length / 2)
     const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]))
     const valsSubset = pick(vals, feelingsToDisplay)
 

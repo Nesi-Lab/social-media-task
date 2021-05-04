@@ -35,6 +35,11 @@ button {
   padding-right: 1rem;
 }
 
+.logo {
+  width: 150px;
+  margin-top: 30px;
+}
+
 .upload-button {
   border: 1px solid darkgrey;
   display: inline-block;
@@ -90,7 +95,7 @@ button {
   border-radius: 10px;
 }
 
-.x {
+.overlay {
   height: 185px;
   width: 185px;
   position: absolute;

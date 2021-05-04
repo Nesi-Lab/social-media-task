@@ -61,7 +61,7 @@ def gen_summaries(block_subtype, participant_mean_score):
     shuffle(mean_scores)
 
     def make_summary(j): return {'ind': order[j], 'mean_score': mean_scores[j]}
-    return [[make_summary(i), make_summary(i+1)] for i in range(0, 14, 2)]
+    return [{"raters": [make_summary(i), make_summary(i+1)], "num_watching": n} for i, n in zip(range(0, 14, 2), gen_num_watchings(num_trials=7))]
 
 
 def even_divide(dividend, divisor):
@@ -95,18 +95,7 @@ def gen_json_blocks():
     # this creates the part of the json called 'blocks'
     participant_mean_score_ranges = {'acc': (2.5, 3.5), 'rej': (1.5, 2.5)}
 
-    impersonator_ids = ['W - 31g', 'B - 36b', 'W - 69o', 'W - 21g', 'W - 28b',
-                        'H - 50g', 'W - 34b', 'W - 30g', 'W - 27b', 'B - 38g',
-                        'W - 18b', 'W - 29g', 'H - 43b', 'W - 19b', 'W - 25g',
-                        'W - 2b', 'B - 44b', 'W - 20g', 'B - 54g', 'W - 47b',
-                        'W - 14g', 'W - 66b', 'B - 49g', 'W - 15b', 'W - 16g',
-                        'H - 57g', 'W - 45b', 'W - 48b', 'H - 12g', 'W - 11g',
-                        'W - 33b', 'H - 68b', 'A - 24g', 'W - 74b', 'H - 13g',
-                        'W - 8g', 'H - 73b', 'W - 994b', 'W - 6g', 'B - 72b',
-                        'W - 5g', 'A - 991b', 'W - 75b', 'W - 23g', 'W - 4g',
-                        'H - 51g', 'W - 9g', 'H - 999b', 'W - 70o', 'W - 997b',
-                        'B - 35g', 'W - 995b', 'W - 993b', 'W - 22g', 'W - 998b',
-                        'A - 46g', 'B - 992b', 'W - 3g', 'A - 996b', 'W - 1g']
+    impersonator_ids = ["A - 46g", "W - 22g", "W - 9g", "W - 4g", "W - 5g", "W - 15b", "W - 1001b", "W - 6g", "W - 8g", "W - 28b", "W - 19b", "W - 27b", "W - 33b", "W - 34b", "B - 36b", "H - 43b", "B - 44b", "W - 37g", "B - 35g", "W - 30g", "W - 45b", "W - 3g", "H - 13g", "H - 12g", "W - 47b", "A - 24g", "H - 57g", "B - 38g", "H - 51g", "B - 49g", "W - 14g", "H - 999b", "W - 11g", "W - 2b", "W - 69o", "W - 48b", "W - 66b", "W - 16g", "B - 54g", "W - 70o", "W - 20g", "H - 68b", "B - 72b", "H - 73b", "W - 21g", "W - 23g", "W - 74b", "W - 75b", "H - 50g", "W - 25g", "W - 76b", "W - 78b", "W - 80b", "W - 77b", "B - 82b", "A - 991b", "A - 996b", "H - 1000b", "W - 1g", "W - 31g"]
 
     breakdown = {}
     for race in ['W', 'B', 'H', 'A']:
@@ -122,7 +111,7 @@ def gen_json_blocks():
     chosen_breakdowns = [
         {
             ('W', 'g'): 4, ('B', 'g'): 1, ('H', 'g'): 1, ('A', 'g'): 1,
-            ('W', 'b'): 5, ('B', 'b'): 1, ('H', 'b'): 1, ('A', 'b'): 0,
+            ('W', 'b'): 4, ('B', 'b'): 1, ('H', 'b'): 2, ('A', 'b'): 0,
             ('W', 'o'): 1, ('B', 'o'): 0, ('H', 'o'): 0, ('A', 'o'): 0
         },
         {
