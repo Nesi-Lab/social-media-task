@@ -75,7 +75,7 @@ function Block(allProps) {
             num_watching: props.trials[trialInd].watching,
             score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score
         }
-        if (interpretationScore) { record["interpretation-score"] = interpretationScore }
+        if (interpretationScore) { record["interpretation_score"] = interpretationScore }
         writeData("trials", record, allProps.curr.id)
 
         if (trialInd + 1 === props.trials.length) {
