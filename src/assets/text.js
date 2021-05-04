@@ -76,8 +76,9 @@ export const calibrationText = [
         <p>You will see a series of <span style={{color: "red"}}>red</span> buttons. Click on each button 5 times while looking at the button, until it turns <span style={{color: "#ffee00"}}>yellow</span>.</p>
         <p>Always follow the mouse with your eyes.</p>
         </div>),
-    (<p>To finish calibrating your eye tracking, the next screen will have a <span style={{color: "#ffee00"}}>yellow</span> dot. Please don't move your mouse and stare at this dot 5 seconds.</p>),
-    (<p style={{textAlign: "center"}}>Calibrated!</p>)
+    (<p>To finish calibrating your eye tracking, the next screen will have a <span style={{color: "#ffee00"}}>yellow</span> dot. Please don't move your mouse and stare at this dot for 5 seconds.</p>),
+    (<p style={{textAlign: "center"}}>All set!</p>),
+    (<p>The next screen will have a <span style={{color: "#ffee00"}}>yellow</span> dot. Please don't move your mouse and stare at this dot for 5 seconds.</p>),
 ]
 
 export const bioQuestions = {

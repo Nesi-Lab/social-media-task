@@ -4,7 +4,7 @@ from collections import Counter
 import json
 
 def randfloat(low, high):
-    return round(uniform(low, high), 2)
+    return round(uniform(low, high), 1)
 
 def gen_rand(low, high, num, is_float=False):
     ret = []

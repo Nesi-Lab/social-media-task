@@ -64,20 +64,34 @@ export default function Timeline(props) {
         (c) => <Instruction id="tutorialText" ind="0" img="4" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="5" next={next} prev={prev} curr={c} />,
 
-        // // getting started screen
+        // accuracy
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        
+        // content
         (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c} />,
-
-        // // content
         (c) => <Block next={next} curr={c} props={blockProps[0]} />,
 
         ////////////
         // RATING //
         ////////////
 
+        // accuracy
+        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
+        // content
         (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[1]} />,
 
+        // accuracy
+        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
+        // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[2]} />,
 
@@ -104,15 +118,33 @@ export default function Timeline(props) {
         (c) => <Block next={next} curr={c} props={blockProps[3]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[3]} />,
 
+        // accuracy
+        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
+        // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[4]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[4]} />,
 
+        // recalibrate again
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
+        // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[5]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[5]} />,
 
+        // accuracy
+        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
+        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+
+        // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[6]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[6]} />,
