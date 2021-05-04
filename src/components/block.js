@@ -44,7 +44,6 @@ function Block(allProps) {
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
-    const [interpretationScore, setInterpretationScore] = useState(null)
 
     useEffect(() => {
         allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 fixation`
@@ -64,7 +63,7 @@ function Block(allProps) {
         setCurrBlock(props.blockInfo.number)
     }
 
-    function nextTrial() {
+    function nextTrial(interpretationScore = null) {
         const record = {
             type: props.blockInfo.type,
             block: props.blockInfo.number,
@@ -86,7 +85,6 @@ function Block(allProps) {
             setTrialInd(trialInd + 1)
             setScreenType("fixation")
             setClickable(props.blockInfo.type === "rating")
-            setInterpretationScore(null)
         }
     }
 
@@ -217,8 +215,7 @@ function Block(allProps) {
     }
 
     function handleInterpretationClick(e) {
-        setInterpretationScore(document.getElementById("interpretation").value)
-        nextTrial()
+        nextTrial(document.getElementById("interpretation").value)
     }
 
     console.log({
