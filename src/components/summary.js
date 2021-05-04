@@ -23,7 +23,6 @@ export default function Summary(allProps) {
         }
     })
 
-
     const [trialInd, setTrialInd] = useState(0)
     const [screenType, setScreenType] = useState("loading")
     const [finished, setFinished] = useState(false)
@@ -82,7 +81,7 @@ export default function Summary(allProps) {
     }, [trialInd, screenType])
 
     useEffect(() => {
-        document.getElementById("app").style.cursor = setFinished ? "auto" : "none"
+        document.getElementById("app").style.cursor = finished ? "auto" : "none"
     })
 
     function watchSummary(n) {

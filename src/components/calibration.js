@@ -75,6 +75,6 @@ export default function Calibration(props) {
     if (!done) {
         return makePoints()
     } else {
-        return (<Instruction id="calibrationText" ind="1" next={props.next} prev={props.prev} curr={props.curr} />)
+        return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />)
     }
 }

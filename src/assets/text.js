@@ -53,7 +53,7 @@ export const profileText = [
         <p style={{ textAlign: "left" }}>Other people participating in Connect will see your photo.</p>
     </div>),
 
-    (<p>How much do you like this photo? (Other people won’t see your answer)</p>),
+    (<p>How much do you like this photo? <span style={{color: "red"}}>(Other people won’t see your answer)</span></p>),
 
     (<div style={{ flex: "auto" }}>
         <p style={{ textAlign: "left" }}>Fill out this quick *personality quiz* so other teens on Connect can get to know you!</p>
@@ -62,7 +62,7 @@ export const profileText = [
 
     (<p>Your bio is:</p>),
 
-    (<p style={{fontSize: "x-large"}}>How much does this bio represent who you are? <br />(Other people won't see your answer)</p>),
+    (<p style={{fontSize: "x-large"}}>How much does this bio represent who you are? <br /><span style={{color: "red"}}>(Other people won’t see your answer)</span></p>),
 
     (<h1>You're all set!</h1>)
 ]
@@ -70,14 +70,14 @@ export const profileText = [
 export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible and that the box is <span style={{color: "#32CD32"}}>green</span>. Try your best not to move too much, especially not closer or further from the screen. This helps us get accurate data.</p>)
 
 export const calibrationText = [
+    (<p>Make sure your screen is set up the way you want. From here on, make sure that you do not resize your screen.</p>),
     (<div>
-        <p>Make sure your screen is set up the way you want. From here on, make sure that you do not resize your screen.</p>
         <p>The following screen will calibrate your eye movements.</p>
         <p>You will see a series of <span style={{color: "red"}}>red</span> buttons. Click on each button 5 times while looking at the button, until it turns <span style={{color: "#ffee00"}}>yellow</span>.</p>
         <p>Always follow the mouse with your eyes.</p>
         </div>),
-    (<p>To finish calibrating your eye tracking, the next screen will have a yellow dot. Please don't move your mouse and stare at this dot 5 seconds.</p>),
-    (<h1>Calibrated!</h1>)
+    (<p>To finish calibrating your eye tracking, the next screen will have a <span style={{color: "#ffee00"}}>yellow</span> dot. Please don't move your mouse and stare at this dot 5 seconds.</p>),
+    (<p>Calibrated!</p>)
 ]
 
 export const bioQuestions = {

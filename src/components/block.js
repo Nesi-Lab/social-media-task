@@ -13,7 +13,7 @@ const timerSecs = {
         "feedback": 6,
     },
     "rating": {
-        "feedback": 1,
+        "feedback": 1.5,
     },
     "rated": {
         "anticipation": 3,

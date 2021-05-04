@@ -60,6 +60,6 @@ export default function Accuracy(props) {
             <input type="button" className="calibration" disabled="true" style={{ backgroundColor: "yellow", position: "absolute", top: '50%' }} />
         </div>)
     } else {
-        return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />)
+        return (<Instruction id="calibrationText" ind="3" next={props.next} prev={props.prev} curr={props.curr} />)
     }
 }
