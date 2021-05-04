@@ -13,6 +13,8 @@ export default function Calibration(props) {
 
     useEffect(() => {
         props.curr.wg.screen.screen = "calibration"
+        const model = props.curr.wg.wg.getRegression()[0]
+        model.train()
     }, [])
 
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint }

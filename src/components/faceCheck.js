@@ -16,17 +16,18 @@ export default function FaceCheck(props) {
     }
 
     useEffect(() => {
-        props.curr.wg.wg.showVideo(true).showFaceOverlay(false)
-        const vid = document.getElementById("webgazerVideoContainer")
+        props.curr.wg.wg.showVideo(true).showFaceOverlay(false).showFaceFeedbackBox(true)
+        const vid = document.getElementById("webgazerVideoFeed")
         if (vid) {
             setVidUp(true)
+            document.getElementById("webgazerVideoFeed").appendChild(document.getElementById("webgazerFaceFeedbackBox"))
             vid.style.position = "relative"
             vid.style.left = "calc(50% - 160px)"
             document.getElementById("webgazerFaceFeedbackBox").style.position = "absolute"
         } else {
             setDummyCounter(dummyCounter + 1)
         }
-    })
+    }, [dummyCounter])
 
     if (!vidUp) {
         return text.loadingText

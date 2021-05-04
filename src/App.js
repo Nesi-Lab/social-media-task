@@ -11,7 +11,7 @@ function WebGazeLoader(props) {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
-  const [screen, setScreen] = useState({ screen: ""})  // this is dumb but mutable
+  const [screen, setScreen] = useState({ screen: "" })  // this is dumb but mutable
   const [participantId, setParticipantId] = useState({ id: props.participantId }) // this is dumb but mutable
 
   function formatTimestamp(unix_ts) {
@@ -31,27 +31,35 @@ function WebGazeLoader(props) {
   }, [props.participantId])
 
   function handleScriptLoad() {
-    webgazer.setGazeListener((data, elapsedTime) => {
-      if (data == null) { return; }
-      const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
-      wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now() })
-      if (wgLogs.length >= 2) {
-        // exists a previous reading
-        const prevReadingSec = calcSecond(wgLogs.length - 2)
-        if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
-          // we entered a different second from the previous reading
-          // so let's write the previous second's data 
-          const toWrite = []
-          for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
-            // for the last 20 readings (ignoring the current reading)
-            if (calcSecond(i) === prevReadingSec) { toWrite.push(wgLogs[i]) }
-            else { break }
+    webgazer.setRegression('ridge')
+      .setTracker('TFFacemesh')
+      .setGazeListener((data, elapsedTime) => {
+        if (data == null) { return; }
+        const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
+        wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now() })
+        if (wgLogs.length >= 2) {
+          // exists a previous reading
+          const prevReadingSec = calcSecond(wgLogs.length - 2)
+          if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
+            // we entered a different second from the previous reading
+            // so let's write the previous second's data 
+            const toWrite = []
+            for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
+              // for the last 20 readings (ignoring the current reading)
+              if (calcSecond(i) === prevReadingSec) { toWrite.push(wgLogs[i]) }
+              else { break }
+            }
+            toWrite.reverse()  // so indices increase with time
+            writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
           }
-          toWrite.reverse()  // so indices increase with time
-          writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
         }
-      }
-    }).showVideo(false).showPredictionPoints(false).begin();
+      })
+      .showVideo(false)
+      .showFaceOverlay(false)
+      .showFaceFeedbackBox(false)
+      .begin()
+      .showPredictionPoints(true);
+    window.applyKalmanFilter = true;
     setWg(webgazer)
     console.log(webgazer)
   }
@@ -69,7 +77,7 @@ function WebGazeLoader(props) {
 
   return (<div>
     <Script
-      url={process.env.PUBLIC_URL + "webgazer.js"}
+      url={process.env.PUBLIC_URL + "webgazerPomona.js"}
       onLoad={handleScriptLoad}
       onError={handleScriptError}
     />
