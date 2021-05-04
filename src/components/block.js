@@ -11,13 +11,16 @@ const timerSecs = {
     "watching": {
         "anticipation": 3,
         "feedback": 6,
+        "fixation": 0.5
     },
     "rating": {
         "feedback": 1.5,
+        "fixation": 0.5
     },
     "rated": {
         "anticipation": 3,
         "feedback": 6,
+        "fixation": 0.5
     }
 }
 
@@ -36,35 +39,32 @@ function Block(allProps) {
     }
 
     const [trialInd, setTrialInd] = useState(0)
-    const [screenType, setScreenType] = useState("anticipation")
+    const [screenType, setScreenType] = useState("fixation")
     const [clickable, setClickable] = useState(props.blockInfo.type === "rating")
     const [finished, setFinished] = useState(false)
     const [currBlock, setCurrBlock] = useState(props.blockInfo.number)
     const [selectedThumb, setSelectedThumb] = useState(null)  // just for logging interactive (i.e. rating) scores
+    const [interpretationScore, setInterpretationScore] = useState(null)
 
     useEffect(() => {
-        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 anticipation`
+        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 fixation`
     }, [])
 
     useEffect(() => {
-        if (!finished) { document.getElementById("app").style.cursor = clickable ? "auto" : "none" }
-    }, [clickable])
-
-    useEffect(() => {
-        if (finished) { document.getElementById("app").style.cursor = "auto" }
-    }, [finished])
+        document.getElementById("app").style.cursor = (finished || (screenType !== "fixation" && clickable)) ? "auto" : "none"
+    }, [clickable, finished, screenType])
 
     if (currBlock !== props.blockInfo.number && finished) {
         // we started a new block and need to reset the state
         setTrialInd(0)
-        setScreenType("anticipation")
+        setScreenType("fixation")
+        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 fixation`
         setClickable(props.blockInfo.type === "rating")
         setFinished(false)
         setCurrBlock(props.blockInfo.number)
     }
 
-
-    function nextTrial(interpretationScore = null) {
+    function nextTrial() {
         const record = {
             type: props.blockInfo.type,
             block: props.blockInfo.number,
@@ -82,10 +82,11 @@ function Block(allProps) {
         if (trialInd + 1 === props.trials.length) {
             setFinished(true)
         } else {
-            allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`
+            allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1 + 1} fixation`
             setTrialInd(trialInd + 1)
-            setScreenType("anticipation")
+            setScreenType("fixation")
             setClickable(props.blockInfo.type === "rating")
+            setInterpretationScore(null)
         }
     }
 
@@ -102,7 +103,7 @@ function Block(allProps) {
             }
         })
         if (screenType === "anticipation") {
-            ["X", "rateBox"].forEach(e => {
+            ["X", "ch", "rateBox"].forEach(e => {
                 const elt = document.getElementById(e)
                 if (elt !== null) { elt.style.display = "none" }
             })
@@ -112,13 +113,13 @@ function Block(allProps) {
         }
 
         // move to next screen
-        if ((screenType === "anticipation" && props.blockInfo.type !== "rating") || screenType === "feedback") {
+        if ((screenType === "anticipation" && props.blockInfo.type !== "rating") || screenType === "feedback" || screenType === "fixation") {
             // move automatically
             const timer = setTimeout(() => {
                 if (screenType === "anticipation") {
                     setScreenType("feedback")
                     allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} feedback`
-                } else { // can only be feedback
+                } else if (screenType === "feedback") {
                     const ratee = document.getElementById("ratee-img")
                     if (ratee !== null) {
                         ratee.style.border = "none"
@@ -131,6 +132,9 @@ function Block(allProps) {
                     } else {
                         nextTrial()
                     }
+                } else {  // can only be fixation
+                    setScreenType("anticipation")
+                    allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} anticipation`
                 }
             }, 1000 * timerSecs[props.blockInfo.type][screenType])
             // Clear timeout if the component is unmounted
@@ -202,16 +206,19 @@ function Block(allProps) {
             } else {
                 document.getElementById("ratee-img").style.border = "10px solid " + color(score)
                 document.getElementById("ratee-img").style.marginTop = "-10px"
+                document.getElementById("ch").style.display = "inline"
             }
             document.getElementById("rateBox").style.display = "inline"
             document.getElementById("rateBox").innerHTML = ReactDOMServer.renderToString(rateBox(score))
             setClickable(false)
             setScreenType("feedback")
+            allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} feedback`
         }
     }
 
     function handleInterpretationClick(e) {
-        nextTrial(document.getElementById("interpretation").value)
+        setInterpretationScore(document.getElementById("interpretation").value)
+        nextTrial()
     }
 
     console.log({
@@ -226,7 +233,9 @@ function Block(allProps) {
     })
 
     if (!finished) {
-        if (screenType !== "interpretation") {
+        if (screenType === "fixation") {
+            return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />)
+        } else if (screenType !== "interpretation") {
             return (<div className="reg-block">
                 {watch(props.trials[trialInd].watching)}
                 {person(props.trials[trialInd].ratee, true, props.trials[trialInd].score)}

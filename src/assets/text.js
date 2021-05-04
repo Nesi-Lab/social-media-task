@@ -77,7 +77,7 @@ export const calibrationText = [
         <p>Always follow the mouse with your eyes.</p>
         </div>),
     (<p>To finish calibrating your eye tracking, the next screen will have a <span style={{color: "#ffee00"}}>yellow</span> dot. Please don't move your mouse and stare at this dot 5 seconds.</p>),
-    (<p>Calibrated!</p>)
+    (<p style={{textAlign: "center"}}>Calibrated!</p>)
 ]
 
 export const bioQuestions = {

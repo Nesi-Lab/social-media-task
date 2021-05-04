@@ -8,7 +8,8 @@ import { writeData } from '../lib/utils'
 const timerSecs = {
     "anticipation": 3,
     "feedback": 6,
-    "loading": 2
+    "loading": 2,
+    "fixation": 0.5
 }
 
 const color = (score) => score < 2.5 ? "red" : "green"
@@ -35,7 +36,7 @@ export default function Summary(allProps) {
     if (currBlock !== props.blockInfo.number && finished) {
         // we started a new block and need to reset the state
         setTrialInd(0)
-        setScreenType("anticipation")
+        setScreenType("loading")
         setFinished(false)
         setCurrBlock(props.blockInfo.number)
     }
@@ -59,21 +60,24 @@ export default function Summary(allProps) {
             setFinished(true)
         } else {
             setTrialInd(trialInd + 1)
-            setScreenType("anticipation")
-            allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1 + 1} anticipation`
+            setScreenType("fixation")
+            allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1 + 1} fixation`
         }
     }
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (screenType === "loading") {
-                setScreenType("anticipation")
-                allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1} anticipation`
-            } if (screenType === "anticipation") {
+                setScreenType("fixation")
+                allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1} fixation`
+            } else if (screenType === "anticipation") {
                 setScreenType("feedback")
                 allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1} feedback`
-            } else { // can only be feedback
+            } else if (screenType === "feedback") {
                 nextTrial()
+            } else { // can only be fixation
+                setScreenType("anticipation")
+                allProps.curr.wg.screen.screen = `summary ${props.blockInfo.number} trial ${trialInd + 1} anticipation`
             }
         }, 1000 * timerSecs[screenType])
         // Clear timeout if the component is unmounted
@@ -103,6 +107,8 @@ export default function Summary(allProps) {
 
     if (screenType === "loading") {
         return beforeSummaryText[1]
+    } else if (screenType === "fixation") {
+        return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />)
     } else if (!finished) {
         console.log(props.summaries[trialInd])
         return (<div style={{ textAlign: "center" }}>
