@@ -46,7 +46,7 @@ export default function Accuracy(props) {
                 props.curr.wg.wg.params.storingPoints = false
                 console.log("wg acc", accuracy(props.curr.wg.wg.getStoredPoints()))
                 writeData("metadata", {
-                    name: "calibration accuracy",
+                    name: `calibration-accuracy${props.loc ? '-' + props.loc : ''}`,
                     value: accuracy(props.curr.wg.wg.getStoredPoints()).toString()
                 }, props.curr.id)
             }, 1000 * staringSecs)

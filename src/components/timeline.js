@@ -37,7 +37,7 @@ export default function Timeline(props) {
         (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="beginning" prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="feelingInstruction" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c} />,
 
@@ -67,7 +67,7 @@ export default function Timeline(props) {
         // accuracy
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before1" prev={prev} next={next} curr={c} />,
         
         // content
         (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c} />,
@@ -80,7 +80,7 @@ export default function Timeline(props) {
         // accuracy
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before2" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c} />,
@@ -89,7 +89,7 @@ export default function Timeline(props) {
         // accuracy
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before3" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
@@ -103,7 +103,7 @@ export default function Timeline(props) {
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before4" prev={prev} next={next} curr={c} />,
 
         // getting started screen
         (c) => <Instruction id="blockBeginningText" ind="2" next={next} curr={c} />,
@@ -121,7 +121,7 @@ export default function Timeline(props) {
         // accuracy
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before5" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
@@ -132,7 +132,7 @@ export default function Timeline(props) {
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
         (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before6" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
@@ -142,7 +142,7 @@ export default function Timeline(props) {
         // accuracy
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
+        (c) => <Accuracy loc="before7" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
