@@ -33,7 +33,10 @@ export default function User(props) {
         <input type="text" className="sign-in" value={usernameValue} onChange={
           e => setUsernameValue(e.target.value)
         } />
-        { usernameValue === "" ? null : prevNext(props, async() => { props.setParticipantId(usernameValue) })}
+        { usernameValue === "" ? null : prevNext(props, async () => {
+          props.setParticipantId(usernameValue)
+          console.log(`id: ${usernameValue}`)
+        })}
       </div>
     )
   }

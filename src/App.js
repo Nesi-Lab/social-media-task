@@ -23,7 +23,7 @@ function WebGazeLoader(props) {
   function makeWgRecord(items) {
     return items.reduce((acc, curr, i) => {
       return { ...acc, ["timestamp" + i]: formatTimestamp(curr.timestamp), ["x" + i]: curr.x, ["y" + i]: curr.y }
-    }, { screen: screen })
+    }, { screen: screen.screen })
   }
 
   useEffect(() => {
