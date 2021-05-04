@@ -57,21 +57,21 @@
       "1": {
         "acc": {
           "trial": [
-            {"rater": "W - 22g", "score": 4, "num_watching": 10},
-            {"rater": "W - 45b", "score": 3, "num_watching": 42},
-            {"rater": "W - 76b", "score": 2, "num_watching": 47},
-            {"rater": "W - 20g", "score": 1, "num_watching": 12},
-            {"rater": "W - 66b", "score": 0, "num_watching": 40},
-            {"rater": "W - 27b", "score": 4, "num_watching": 54},
+            {"rater": "W - 22g", "score": 0, "num_watching": 10},
+            {"rater": "W - 45b", "score": 1, "num_watching": 42},
+            {"rater": "W - 76b", "score": 3, "num_watching": 47},
+            {"rater": "W - 20g", "score": 3, "num_watching": 12},
+            {"rater": "W - 66b", "score": 1, "num_watching": 40},
+            {"rater": "W - 27b", "score": 1, "num_watching": 54},
             {"rater": "W - 19b", "score": 3, "num_watching": 55},
-            {"rater": "H - 57g", "score": 0, "num_watching": 7},
-            {"rater": "W - 3g", "score": 4, "num_watching": 53},
-            {"rater": "B - 49g", "score": 4, "num_watching": 54},
-            {"rater": "B - 82b", "score": 4, "num_watching": 13},
+            {"rater": "H - 57g", "score": 3, "num_watching": 7},
+            {"rater": "W - 3g", "score": 0, "num_watching": 53},
+            {"rater": "B - 49g", "score": 3, "num_watching": 54},
+            {"rater": "B - 82b", "score": 3, "num_watching": 13},
             {"rater": "H - 68b", "score": 3, "num_watching": 11},
-            {"rater": "W - 9g", "score": 3, "num_watching": 12},
-            {"rater": "W - 30g", "score": 4, "num_watching": 9},
-            {"rater": "A - 46g", "score": 2, "num_watching": 8}
+            {"rater": "W - 9g", "score": 4, "num_watching": 12},
+            {"rater": "W - 30g", "score": 3, "num_watching": 9},
+            {"rater": "A - 46g", "score": 3, "num_watching": 8}
           ],
           "summary": {
             "ratee_mean_score": 2.91,
@@ -130,21 +130,21 @@
         },
         "rej": {
           "trial": [
-            {"rater": "W - 23g", "score": 0, "num_watching": 49},
-            {"rater": "W - 34b", "score": 0, "num_watching": 8},
-            {"rater": "B - 44b", "score": 3, "num_watching": 8},
+            {"rater": "W - 23g", "score": 1, "num_watching": 49},
+            {"rater": "W - 34b", "score": 3, "num_watching": 8},
+            {"rater": "B - 44b", "score": 1, "num_watching": 8},
             {"rater": "W - 21g", "score": 2, "num_watching": 10},
-            {"rater": "H - 43b", "score": 1, "num_watching": 46},
-            {"rater": "B - 54g", "score": 1, "num_watching": 48},
-            {"rater": "W - 70o", "score": 2, "num_watching": 57},
+            {"rater": "H - 43b", "score": 2, "num_watching": 46},
+            {"rater": "B - 54g", "score": 2, "num_watching": 48},
+            {"rater": "W - 70o", "score": 0, "num_watching": 57},
             {"rater": "H - 51g", "score": 2, "num_watching": 14},
-            {"rater": "A - 24g", "score": 2, "num_watching": 9},
-            {"rater": "H - 1000b", "score": 1, "num_watching": 11},
+            {"rater": "A - 24g", "score": 1, "num_watching": 9},
+            {"rater": "H - 1000b", "score": 3, "num_watching": 11},
             {"rater": "W - 11g", "score": 2, "num_watching": 15},
-            {"rater": "W - 28b", "score": 2, "num_watching": 56},
+            {"rater": "W - 28b", "score": 0, "num_watching": 56},
             {"rater": "W - 2b", "score": 4, "num_watching": 48},
-            {"rater": "W - 25g", "score": 2, "num_watching": 50},
-            {"rater": "W - 78b", "score": 3, "num_watching": 55}
+            {"rater": "W - 25g", "score": 1, "num_watching": 50},
+            {"rater": "W - 78b", "score": 2, "num_watching": 55}
           ],
           "summary": {
             "ratee_mean_score": 1.89,
@@ -205,21 +205,21 @@
       "2": {
         "acc": {
           "trial": [
-            {"rater": "W - 37g", "score": 1, "num_watching": 40},
-            {"rater": "H - 73b", "score": 0, "num_watching": 55},
-            {"rater": "A - 996b", "score": 3, "num_watching": 14},
-            {"rater": "W - 74b", "score": 4, "num_watching": 10},
-            {"rater": "W - 15b", "score": 2, "num_watching": 40},
+            {"rater": "W - 37g", "score": 0, "num_watching": 40},
+            {"rater": "H - 73b", "score": 3, "num_watching": 55},
+            {"rater": "A - 996b", "score": 0, "num_watching": 14},
+            {"rater": "W - 74b", "score": 2, "num_watching": 10},
+            {"rater": "W - 15b", "score": 3, "num_watching": 40},
             {"rater": "W - 6g", "score": 3, "num_watching": 13},
             {"rater": "W - 80b", "score": 1, "num_watching": 51},
-            {"rater": "W - 14g", "score": 4, "num_watching": 15},
-            {"rater": "W - 5g", "score": 3, "num_watching": 11},
+            {"rater": "W - 14g", "score": 3, "num_watching": 15},
+            {"rater": "W - 5g", "score": 4, "num_watching": 11},
             {"rater": "W - 69o", "score": 3, "num_watching": 9},
             {"rater": "W - 48b", "score": 3, "num_watching": 55},
-            {"rater": "H - 12g", "score": 3, "num_watching": 55},
+            {"rater": "H - 12g", "score": 2, "num_watching": 55},
             {"rater": "W - 8g", "score": 4, "num_watching": 46},
             {"rater": "B - 38g", "score": 3, "num_watching": 9},
-            {"rater": "B - 72b", "score": 0, "num_watching": 12}
+            {"rater": "B - 72b", "score": 3, "num_watching": 12}
           ],
           "summary": {
             "ratee_mean_score": 3.36,
@@ -278,21 +278,21 @@
         },
         "rej": {
           "trial": [
-            {"rater": "W - 33b", "score": 4, "num_watching": 13},
-            {"rater": "H - 13g", "score": 1, "num_watching": 53},
+            {"rater": "W - 33b", "score": 1, "num_watching": 13},
+            {"rater": "H - 13g", "score": 4, "num_watching": 53},
             {"rater": "W - 1001b", "score": 1, "num_watching": 56},
             {"rater": "H - 50g", "score": 2, "num_watching": 14},
-            {"rater": "B - 36b", "score": 2, "num_watching": 41},
+            {"rater": "B - 36b", "score": 1, "num_watching": 41},
             {"rater": "A - 991b", "score": 3, "num_watching": 47},
-            {"rater": "W - 4g", "score": 1, "num_watching": 40},
-            {"rater": "W - 75b", "score": 1, "num_watching": 9},
-            {"rater": "B - 35g", "score": 0, "num_watching": 57},
-            {"rater": "W - 1g", "score": 1, "num_watching": 7},
+            {"rater": "W - 4g", "score": 0, "num_watching": 40},
+            {"rater": "W - 75b", "score": 2, "num_watching": 9},
+            {"rater": "B - 35g", "score": 1, "num_watching": 57},
+            {"rater": "W - 1g", "score": 2, "num_watching": 7},
             {"rater": "W - 16g", "score": 0, "num_watching": 57},
-            {"rater": "W - 77b", "score": 4, "num_watching": 7},
+            {"rater": "W - 77b", "score": 1, "num_watching": 7},
             {"rater": "W - 47b", "score": 2, "num_watching": 9},
-            {"rater": "H - 999b", "score": 2, "num_watching": 15},
-            {"rater": "W - 31g", "score": 1, "num_watching": 11}
+            {"rater": "H - 999b", "score": 4, "num_watching": 15},
+            {"rater": "W - 31g", "score": 2, "num_watching": 11}
           ],
           "summary": {
             "ratee_mean_score": 2.13,
