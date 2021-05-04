@@ -5,21 +5,21 @@
 * [About](#about)
 * [Softwares](#softwares)
 * [File structure](#file-structure)
-* [Deployment](#deployment)
+* [Usage and Deployment](#usage-and-deployment)
 * [Data organization](#data-organization)
 * [Randomization](#randomization)
 * [WebGazer Accuracy](#webgazer-accuracy)
 * [Terms and definitions](#terms-and-definitions)
 
-## About
+# About
 
 This is an app designed as a experimental tool for a psychology study conducted by Dr. Jacqueline Nesi at Brown University and Lifespan Hospital Network. It was built from 2020-2021 by Julia Windham. 
 
 Thanks to:
-* The [Webgazer](https://webgazer.cs.brown.edu/) team from the Brown Human-Computer Interaction team and Pomona College
+* The [WebGazer](https://webgazer.cs.brown.edu/) team from the Brown Human-Computer Interaction team and Pomona College
 * The [Brown Center for Computation and Visualization](https://ccv.brown.edu/)
 
-## Softwares
+# Softwares
 
 * React Javascript app
 * Frontend bootstrapped from [Create React App](https://github.com/facebook/create-react-app), using functional components
@@ -29,7 +29,7 @@ Thanks to:
 
 This app does *not* use [jsPsych](https://www.jspsych.org/) but it is built to be similar to it.
 
-## File structure
+# File structure
 
 This highlights the most important files: there exist others as well that do not normally need to be modified.
 
@@ -37,7 +37,7 @@ This highlights the most important files: there exist others as well that do not
 task/
 |-- public/
 |   |-- index.html                  <-- actual HTML served by the main page
-|   |-- webgazer.js                 <-- full Webgazer file, modified slightly from the published source code to work with React
+|   |-- webgazer.js                 <-- full WebGazer source file, modified slightly from the published source code to work with React
 |-- src/
 |   |-- assets/
 |   |   |-- impersonator-images/    <-- images of fake Connect users where the filename is the impersonator's id
@@ -50,7 +50,7 @@ task/
 |   |   |-- timeline.js             <-- outlines the order of components; controls all other components
 |   |   |-- block.js                <-- the main part of the experiment
 |   |   |-- summary.js              <-- similar to a block, but for summary blocks
-|   |   |-- calibration.js          <-- a series of screens to calibrate Webgazer by clicking dots
+|   |   |-- calibration.js          <-- a series of screens to calibrate WebGazer by clicking dots
 |   |   |-- faceCheck.js            <-- view and correct how the camera sees you
 |   |   |-- feeling.js              <-- two screens for rating how you feel
 |   |   |-- instruction.js          <-- any basic instruction or text screen, including tutorial screens
@@ -60,23 +60,43 @@ task/
 |   |-- lib/
 |   |   |-- trialProps.js           <-- randomly creates the order of blocks
 |   |   |-- utils.js                <-- helper functions including navigation between screens and writing data
-|   |-- App.js                      <-- main App component and handling of Webgazer setup and data writing
+|   |-- App.js                      <-- main App component and handling of WebGazer setup and data writing
 |   |-- index.css                   <-- all the styling for the app
 |-- package.json
 |-- server.js                       <-- Express server with database connection and all GET or POST request handling
 |-- randomize_impersonators.py      <-- Script to generate the randomized aspects of impersonators.json (not run unless manually)
 ```
 
-## Deployment
+# Usage and deployment
 
-### Locally
+## Current deployment
+
+This app is currently running on [https://social-media-game.herokuapp.com/](https://social-media-game.herokuapp.com/)`. 
+
+## Usage
+
+Most importantly, this task is designed to take about 25-30 minutes and stays on the same webpage the entire time. **Refreshing the webpage or going back to the previous page while in the middle of the task will save the data generated, but you will have to start the task over.** Use only the "Previous" and "Next" buttons provided at the bottom of page (if you don't see those, that's on purpose: wait a few seconds or follow the instructions given).
+
+Because it uses WebGazer and it is for a specific study, there are several things to check before using this app:
+
+1. Sit with your head facing directly at the screen and do not move too much, especially not toward or away from the screen
+2. Sit in a well-lit room and try to reduce glare by not being backlit
+3. Make sure you have plenty of charge on your computer, or plug it in (the eye tracking component can consume a lot of power)
+4. Use `https`, not `http`
+5. Use Chrome, ideally on a Mac
+6. Keep the Chrome window large and do not resize it during the task
+7. Allow the app to use your webcam (if you have previously blocked access, you can enable it by clicking the icon of a camera with a red "x" on the right of Chrome's search/URL bar -- for more, see [here](https://support.google.com/chrome/answer/2693767?co=GENIE.Platform%3DDesktop&hl=en))
+8. If the app has been open awhile and idle, the WebGazer capability may unmount: refresh before getting started
+9. If you navigate away from the app in the middle of the task, data will stop being collected, but the trials will continue, so only do so if necessary and if you are not in a section that moves automatically
+
+## How to run locally
 
 1. Make sure that `package.json` > `"scripts"` > `"start"` is set as `"react-scripts start"`
-2. In one terminal, navigate to the root directory and run `npm start` to start the frontend
+2. In one terminal, navigate to the root directory and run `npm start` to start the frontend (if you haven't previously, first run `npm install`)
 3. In another terminal, navigate to the root directory and run `node server.js` to start the backend (skip if not writing to the database)
-4. Visit `http://localhost:3000/` to see the app, and use the server terminal to monitor the server
+4. Visit [http://localhost:3000/](http://localhost:3000/) to see the app, and use the server terminal to monitor the server
 
-### On Heroku
+## How to deploy on Heroku
 
 1. Make sure that `package.json` > `"scripts"` > `"start"` is set as `"node server.js"`
 2. Commit and push to your git repo
@@ -84,7 +104,7 @@ task/
 4. Deploy your app on Heroku in the CLI or web interface (this will create an optimized production build of the app and then start the server)
 5. Visit your Heroku app's link to see the app, and use Heroku's logs to monitor the server
 
-## Data organization
+# Data organization
 
 The PostgreSQL database has a schema of four tables:
 
@@ -115,24 +135,24 @@ The PostgreSQL database has a schema of four tables:
   * `eye_tracking`
     * `participant_id` (string)
     * `screen` (string): a description of the general type and specific screen that the participant was looking at 
-    * `timestamp0` (int): the timestamp at which the estimate (`x0`, `y0`) is generated
+    * `timestamp0` (timestamptz): the timestamp at which the estimate (`x0`, `y0`) is generated
     * `x0` (int): the second's first x coordinate estimate in pixels
     * `y0` (int): the second's first y coordinate estimate in pixels
-    * `timestamp1` (int): the timestamp at which the estimate (`x1`, `y1`) is generated
+    * `timestamp1` (timestamptz): the timestamp at which the estimate (`x1`, `y1`) is generated
     * `x1` (int): the second's second x coordinate estimate in pixels
     * `y1` (int): the second's second y coordinate estimate in pixels
     * ...
-    * `timestamp19` (int): the timestamp at which the estimate (`x19`, `y19`) is generated, almost 1 second after `timestamp0`
+    * `timestamp19` (timestamptz): the timestamp at which the estimate (`x19`, `y19`) is generated, almost 1 second after `timestamp0`
     * `x19` (int): the second's second x coordinate estimate in pixels
     * `y19` (int): the second's second y coordinate estimate in pixels
 
-## Randomization
+# Randomization
 
 As specifically laid out in `randomize_impersonators.py`, most randomization of the task (order of impersonators, scores assigned to the participant, number of people watching) occurs once and is used the same for each participant. Then, for each participant, there is a different randomization that takes place in `src/lib/trialProps.js`.
 
-### What's the same for every participant
+## What's the same for every participant
 
-#### Impersonator appearence randomization
+### Impersonator appearence randomization
 
 Each impersonator appears twice in the task, once in the first 3 blocks and once in the last 4 blocks (the "rated" blocks). Each of the 60 participants' location within either the first or second half of the task is randomly picked for a block to fulfill these four block criteria:
 
@@ -174,13 +194,13 @@ So, for example, a non-binary impersonator has a 50% likelihood of being in the 
 
 Once these random blocks assignments are created twice (for the first and second halves of the task), the order of these four block impersonator assignments are shuffled both between each other and within. 
 
-#### Randomization of the number of people watching an event
+### Randomization of the number of people watching an event
 
 For any block or any summary, half of the trials are given a random low number generated uniformly between 7 and 15 people, and the other half are given a random high number generated uniformly between 40 and 60. 
 
 If there are an uneven number of trials (all except summary blocks are 15 trials), whether they have an extra low or extra high value is randomly determined.
 
-#### Score randomization
+### Score randomization
 
 For each type of block where the participant does not select their own score, we designate some number of trials to be "accepting", meaning the score value is randomized between 3 or 4 with equal likelihood. We also designate some number to be "rejecting" (either 1 or 2 with equal likelihood) and some to be "ambiguous" (meaning no rating is provided to the participant).
 
@@ -194,7 +214,7 @@ Specifically, we use these number of trials:
 
 Once the appropriate randomized values for each trial in a block have been generated, the ordering of the trials in the block is randomized.
 
-#### Summary randomization
+### Summary randomization
 
 For the summary screens of either an "acceptance-majority" or "rejection-majority" "rated" block, only 14 rather than 15 of that block's impersonators are displayed since they are displayed in pairs. The list of 15 impersonators is randomized and the first 14 of those are paired off in order, leaving the last one out. 
 
@@ -209,9 +229,9 @@ Specifically, we choose this many of these for each block type:
 
 Once the appropriate mean scores have been generated, the ordering of them is randomized.
 
-### What's different for each participant
+## What's different for each participant
 
-#### Block ordering randomization
+### Block ordering randomization
 
 The two "rating" blocks' order is shuffled so that either has an equal chance of appearing before the other.
 
@@ -225,7 +245,7 @@ The four "rated" blocks' order is similarly shuffled. Within the labeling of "ac
 * r2, a2, a1, r1
 * r2, a2, r1, a1
 
-## WebGazer accuracy
+# WebGazer accuracy
 
 The accuracy of WebGazer's eye-tracking predictions is calculated at intervals throughout the task after calibration. The participant is asked to stare at a dot, and 50 predictions are taken (about 2.5 seconds' worth). For each prediction, the Euclidean distance between the prediction and the true location of the dot is calculated in pixels. The prediction's accuracy is defined as `100 - (euclidean_distance * 2 / browser_window_height * 100)` (if the Euclidean distance is greater than half of the browser window height, the accuracy is 0). 
 
@@ -233,7 +253,7 @@ This accuracy measure is assigning a value between 0 and 100 where 0 means that 
 
 The overall accuracy is defined as the mean of all the 50 predictions' accuracy measures. 
 
-## Terms and definitions
+# Terms and definitions
 
 | term                        | definition |
 | :---                        | :--- |
@@ -259,4 +279,4 @@ The overall accuracy is defined as the mean of all the 50 predictions' accuracy 
 | tutorial                    | screens with images of an example of the game and explanatory text | 
 | user                        | see "participant" | 
 | watching block              | a block where impersonators rate each other the the participant watches | 
-| Webgazer                    | the modified package used for eye tracking |
+| WebGazer                    | the modified package used for eye tracking |

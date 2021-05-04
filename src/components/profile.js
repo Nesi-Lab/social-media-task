@@ -37,22 +37,22 @@ export default function Profile(props) {
 
     function handleUploadToBio(e) {
         setParticipantImgScore(document.getElementById("participantImgScore").value)
-        screen.screen = "bio"
+        setScreen("bio")
         props.curr.wg.screen.screen = `profile bio`
     }
 
     function handleBioToUpload(e) {
-        screen.screen = "uploadPhoto"
+        setScreen("uploadPhoto")
         props.curr.wg.screen.screen = `profile uploadPhoto`
     }
 
     function handleBioToDisplay(e) {
-        screen.screen = "display"
+        setScreen("display")
         props.curr.wg.screen.screen = `profile display`
     }
 
     function handleDisplayToBio(e) {
-        screen.screen = "bio"
+        setScreen("bio")
         props.curr.wg.screen.screen = `profile uploadPhoto`
     }
 
