@@ -43626,6 +43626,10 @@ function supports_ogg_theora_video() {
      * @return{Array} regression coefficients
      */
     function ridge(y, X, k){
+        if (X.length === 0) { 
+            console.log("not enough eye data to train")
+            return 
+        }
         var nc = X[0].length;
         var m_Coefficients = new Array(nc);
         var xt = webgazer.mat.transpose(X);
@@ -43833,7 +43837,6 @@ function supports_ogg_theora_video() {
         var screenYArray = this.screenYClicksArray.data;
         var eyeFeatures = this.eyeFeaturesClicks.data;
 
-        console.log("here", screenXArray, screenYArray, eyeFeatures)
         this.coefficientsX = ridge(screenXArray, eyeFeatures, ridgeParameter);
         this.coefficientsY = ridge(screenYArray, eyeFeatures, ridgeParameter);
     } 
