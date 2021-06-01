@@ -7,6 +7,8 @@ const staringSecs = 5
 
 export default function Accuracy(props) {
     const [done, setDone] = useState(false)
+    const [storedPoints, setStoredPoints] = useState({ x: [], y: [] })
+    const [storing, setStoring] = useState(null)
 
     useEffect(() => {
         props.curr.wg.screen.screen = "accuracy"
@@ -14,7 +16,8 @@ export default function Accuracy(props) {
 
     function dist(i, past50) {
         const staringPointX = window.innerHeight / 2, staringPointY = window.innerWidth / 2
-        const x50 = past50[0], y50 = past50[1]
+        // const x50 = past50[0], y50 = past50[1]
+        const x50 = past50.x, y50 = past50.y
         return Math.sqrt(Math.pow(x50[i] - staringPointX, 2) + Math.pow(y50[i] - staringPointY, 2))
     }
 
@@ -24,8 +27,21 @@ export default function Accuracy(props) {
     }
 
     useEffect(() => {  // on load
-        props.curr.wg.wg.params.storingPoints = true
+        // props.curr.wg.wg.params.storingPoints = true
+        console.log("wg", props.curr.wg.wg)
+        setStoring(setInterval(async() => {
+            const pred = await props.curr.wg.wg.getCurrentPrediction()
+            // console.log("pred")
+            storedPoints.x.push(pred.x)
+            storedPoints.y.push(pred.y)
+        }, 50))
+
+        // return () => {
+        //     clearInterval(interval)
+        // }
     }, [])
+
+    console.log("storedPoints", storedPoints)
 
     useEffect(() => {
         document.getElementById("app").style.cursor = done ? "auto" : "none"
@@ -43,11 +59,16 @@ export default function Accuracy(props) {
         if (!done) {
             const timer = setTimeout(() => {
                 setDone(true)
-                props.curr.wg.wg.params.storingPoints = false
-                console.log("wg acc", accuracy(props.curr.wg.wg.getStoredPoints()))
+                clearInterval(storing)
+                console.log("stop interval")
+                console.log("storedPoints", storedPoints)
+                // props.curr.wg.wg.params.storingPoints = false
+                // const acc = accuracy(props.curr.wg.wg.getStoredPoints())
+                const acc = accuracy(storedPoints)
+                console.log("wg acc", acc)
                 writeData("metadata", {
                     name: "calibration accuracy",
-                    value: accuracy(props.curr.wg.wg.getStoredPoints()).toString()
+                    value: acc.toString()
                 }, props.curr.id)
             }, 1000 * staringSecs)
             // Clear timeout if the component is unmounted
@@ -56,7 +77,7 @@ export default function Accuracy(props) {
     }, [props.curr.wg.wg])
 
     if (!done) {
-        return (<div style={{height: "100vh", position: "relative"}}>
+        return (<div style={{ height: "100vh", position: "relative" }}>
             <input type="button" className="calibration" disabled="true" style={{ backgroundColor: "yellow", position: "absolute", top: '50%' }} />
         </div>)
     } else {

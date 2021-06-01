@@ -13,9 +13,6 @@ export default function Calibration(props) {
 
     useEffect(() => {
         props.curr.wg.screen.screen = "calibration"
-        const model = props.curr.wg.wg.getRegression()[0]
-        props.curr.wg.wg.recordScreenPosition()
-        model.train()
     }, [])
 
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint }
@@ -35,6 +32,8 @@ export default function Calibration(props) {
     useEffect(() => {
         if (!done && Object.values(points).every(v => v === 0)) {
             setDone(true)
+            const model = props.curr.wg.wg.getRegression()[0]
+            model.train()
         }
     }, [points])
 
@@ -43,6 +42,12 @@ export default function Calibration(props) {
         const point = document.getElementById(e.target.id)
         const newPointClicksLeft = points[pointNum] - 1
         setPoints({ ...points, [pointNum]: newPointClicksLeft })
+
+        const loc = e.target.getBoundingClientRect()
+        const x_loc = loc.left + (loc.right - loc.left) / 2
+        const y_loc = loc.top + (loc.bottom - loc.top) / 2
+        props.curr.wg.wg.recordScreenPosition(x_loc, y_loc)
+
         if (newPointClicksLeft === 0) {
             point.style.backgroundColor = "yellow"
             point.disabled = "true"
