@@ -5,10 +5,10 @@
 * [About](#about)
 * [Softwares](#softwares)
 * [File structure](#file-structure)
-* [Usage and Deployment](#usage-and-deployment)
+* [Usage and deployment](#usage-and-deployment)
 * [Data organization](#data-organization)
 * [Randomization](#randomization)
-* [WebGazer Accuracy](#webgazer-accuracy)
+* [WebGazer accuracy](#webgazer-accuracy)
 * [Terms and definitions](#terms-and-definitions)
 
 # About
