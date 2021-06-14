@@ -351,3 +351,11 @@ form input[type="text"] {
   width: 100vw;
   height: 100vh;
 }
+
+input[type="range"]::-ms-fill-lower {
+  background-color: #0275ff; 
+}
+
+input[type="range"]::-ms-thumb {
+  background: #0275ff; 
+}
