@@ -175,6 +175,28 @@ button {
   display: grid;
   grid-template-columns: auto auto;
   margin: 30px;
+  position: absolute;
+  top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.grid-top {
+  align-self: end;
+}
+
+.grid-bottom {
+  align-self: start;
+}
+
+.grid-left {
+  justify-self: end;
+}
+
+.grid-right {
+  justify-self: start;
 }
 
 .interpretation-img {

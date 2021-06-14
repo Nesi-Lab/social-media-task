@@ -29,7 +29,14 @@ export default function FaceCheck(props) {
     })
 
     if (!vidUp) {
-        return text.loadingText
+        return (<div>
+            {text.loadingText}
+            <details style={{margin: "50px"}}>
+                <summary>Click here for other options</summary>
+                <p>We're waiting for the eye tracking software to load. Do you want to continue the game without it?</p>
+                {<div>{prevNext(props, save)}</div>}
+            </details>
+        </div>)
     } else {
         return (<div>
             {text["faceCheckText"]}

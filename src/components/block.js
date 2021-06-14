@@ -156,7 +156,7 @@ function Block(allProps) {
 
         const drawRateBox = score !== null && screenType === "feedback"
 
-        return (<div className="quadrant">
+        return (<div className={isRatee ? "quadrant grid-top grid-right" : "quadrant grid-bottom grid-left"}>
             <div className="person">
                 <img src={p.img} style={{ border: drawCheck ? "10px solid " + color(score) : "none", marginTop: drawCheck ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
@@ -168,7 +168,7 @@ function Block(allProps) {
     }
 
     function watch(n) {
-        return (<div className="quadrant">
+        return (<div className="quadrant grid-top grid-left">
             <img src={eye} alt="eye" style={{ width: "150px" }} />
             {props.blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
         </div>)
@@ -176,7 +176,7 @@ function Block(allProps) {
 
     function rate() {
         const antRat = (props.blockInfo.type === "rating" && screenType === "anticipation") ? "thumb-anticipation-rating" : ""
-        return (<div className="quadrant">
+        return (<div className="quadrant grid-bottom grid-right">
             {rateText}
             <div className="thumbs">
                 <button className={"thumb thumb-down " + antRat} id="thumb-1" key={"1"} onClick={handleThumbClick}>1</button>
