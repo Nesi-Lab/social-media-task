@@ -88239,6 +88239,7 @@ async function init(stream) {
   // create a video element container to enable customizable placement on the page
   videoContainerElement = document.createElement('div');
   videoContainerElement.id = src_webgazer.params.videoContainerId;
+  console.log('created video container element')
   videoContainerElement.style.display = src_webgazer.params.showVideo ? 'block' : 'none';
   videoContainerElement.style.position = 'fixed';
   videoContainerElement.style.top = topDist;
@@ -88344,6 +88345,7 @@ async function init(stream) {
 function setUserMediaVariable(){
 
   if (navigator.mediaDevices === undefined) {
+    console.log('navigator.mediaDevices is undefined')
     navigator.mediaDevices = {};
   }
 
@@ -88401,9 +88403,16 @@ src_webgazer.begin = function(onFail) {
   return new Promise(async (resolve, reject) => {
     let stream;
     try {
+      console.log('starting stream')
+      console.log('camConstraints', src_webgazer.params.camConstraints)
       stream = await navigator.mediaDevices.getUserMedia( src_webgazer.params.camConstraints );
+      console.log('navigator.mediaDevices', navigator.mediaDevices)
+      console.log('navigator.mediaDevices.getUserMedia', navigator.mediaDevices.getUserMedia)
+      console.log('got stream; initializing')
       init(stream);
+      console.log('initialized; resolving')
       resolve(src_webgazer);
+      console.log('resolved')
     } catch(err) {
       onFail();
       videoElement = null;
