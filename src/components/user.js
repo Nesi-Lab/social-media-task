@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { userID, loadingText } from '../assets/text'
 import { prevNext, setTimezone } from '../lib/utils'
 
-const loadingSecs = 4
+const loadingSecs = 5
 
 export default function User(props) {
   const [usernameValue, setUsernameValue] = useState("")

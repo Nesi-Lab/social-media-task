@@ -247,6 +247,8 @@ The four "rated" blocks' order is similarly shuffled. Within the labeling of "ac
 
 # WebGazer accuracy
 
+All WebGazer predictions recorded are `x` and `y` coordinates measured in pixels. The origin of this coordinate system is in the top left of the screen, so `x` moves left to right and `y` moves top to bottom. The width and height of the screen (maximum values of `x` and `y`) are recorded in the `metadata` table.
+
 The accuracy of WebGazer's eye-tracking predictions is calculated at intervals throughout the task after calibration. The participant is asked to stare at a dot, and 50 predictions are taken (about 2.5 seconds' worth). For each prediction, the Euclidean distance between the prediction and the true location of the dot is calculated in pixels. The prediction's accuracy is defined as `100 - (euclidean_distance * 2 / browser_window_height * 100)` (if the Euclidean distance is greater than half of the browser window height, the accuracy is 0). 
 
 This accuracy measure is assigning a value between 0 and 100 where 0 means that the prediction was as far away as the distance from the dot to the edge of the screen (or further), and 100 means that the distance between the prediction and the dot was zero or very small.

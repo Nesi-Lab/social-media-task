@@ -175,6 +175,28 @@ button {
   display: grid;
   grid-template-columns: auto auto;
   margin: 30px;
+  position: absolute;
+  top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.grid-top {
+  align-self: end;
+}
+
+.grid-bottom {
+  align-self: start;
+}
+
+.grid-left {
+  justify-self: end;
+}
+
+.grid-right {
+  justify-self: start;
 }
 
 .interpretation-img {
@@ -328,4 +350,12 @@ form input[type="text"] {
   grid-gap: 30px;
   width: 100vw;
   height: 100vh;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background-color: #0275ff; 
+}
+
+input[type="range"]::-ms-thumb {
+  background: #0275ff; 
 }
