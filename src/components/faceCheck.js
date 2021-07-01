@@ -15,18 +15,16 @@ export default function FaceCheck(props) {
         props.curr.wg.wg.showVideo(false).showFaceFeedbackBox(false)
     }
 
-    useEffect(() => {
+    useEffect(async() => {
         props.curr.wg.wg.showVideo(true).showFaceFeedbackBox(true) //.showFaceOverlay(false).showFaceFeedbackBox(true)
         const vid = document.getElementById("webgazerVideoFeed"), box = document.getElementById("webgazerFaceFeedbackBox")
         if (vid) {
             setVidUp(true)
-            vid.style.position = "relative"
+            // vid.style.position = "relative"
+            vid.style.top = "50%"
             vid.style.left = "calc(50% - 160px)"
-            var bodyRect = document.body.getBoundingClientRect(),
-                elemRect = vid.getBoundingClientRect(),
-                offset = elemRect.top - bodyRect.top  // janky but works
             box.style.left = "calc(50% - 80px)"
-            box.style.top = offset + 40 + 'px'
+            box.style.top = "calc(50% + 40px)"
         } else {
             setDummyCounter(dummyCounter + 1)
         }

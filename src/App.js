@@ -58,7 +58,7 @@ function WebGazeLoader(props) {
       .showFaceOverlay(false)
       .showFaceFeedbackBox(false)
       .begin()
-      .showPredictionPoints(true);
+      // .showPredictionPoints(true);
     window.applyKalmanFilter = true;
     setWg(webgazer)
     console.log(webgazer)
