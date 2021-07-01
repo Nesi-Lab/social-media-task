@@ -12,7 +12,7 @@ export default function FaceCheck(props) {
     }, [])
 
     async function save() {
-        props.curr.wg.wg.showVideo(false)
+        props.curr.wg.wg.showVideo(false).showFaceFeedbackBox(false)
     }
 
     useEffect(() => {
