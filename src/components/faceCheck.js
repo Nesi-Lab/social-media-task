@@ -16,14 +16,17 @@ export default function FaceCheck(props) {
     }
 
     useEffect(() => {
-        props.curr.wg.wg.showVideo(true).showFaceOverlay(false).showFaceFeedbackBox(true)
-        const vid = document.getElementById("webgazerVideoFeed")
+        props.curr.wg.wg.showVideo(true).showFaceFeedbackBox(true) //.showFaceOverlay(false).showFaceFeedbackBox(true)
+        const vid = document.getElementById("webgazerVideoFeed"), box = document.getElementById("webgazerFaceFeedbackBox")
         if (vid) {
             setVidUp(true)
-            document.getElementById("webgazerVideoFeed").appendChild(document.getElementById("webgazerFaceFeedbackBox"))
             vid.style.position = "relative"
             vid.style.left = "calc(50% - 160px)"
-            document.getElementById("webgazerFaceFeedbackBox").style.position = "absolute"
+            var bodyRect = document.body.getBoundingClientRect(),
+                elemRect = vid.getBoundingClientRect(),
+                offset = elemRect.top - bodyRect.top  // janky but works
+            box.style.left = "calc(50% - 80px)"
+            box.style.top = offset + 40 + 'px'
         } else {
             setDummyCounter(dummyCounter + 1)
         }
@@ -32,7 +35,7 @@ export default function FaceCheck(props) {
     if (!vidUp) {
         return (<div>
             {text.loadingText}
-            <details style={{margin: "50px"}}>
+            <details style={{ margin: "50px" }}>
                 <summary>Click here for other options</summary>
                 <p>We're waiting for the eye tracking software to load. Do you want to continue the game without it?</p>
                 {<div>{prevNext(props, save)}</div>}
