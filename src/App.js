@@ -17,7 +17,7 @@ function WebGazeLoader(props) {
   function formatTimestamp(unix_ts) {
     const d = new Date(unix_ts)
     const pad = n => ("0" + n).slice(-2), pad3 = n => ("00" + n).slice(-3)
-    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}.${pad3(d.getUTCMilliseconds())}+00`
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}.${pad3(d.getUTCMilliseconds())}+00`
   }
 
   function makeWgRecord(items) {
@@ -58,7 +58,7 @@ function WebGazeLoader(props) {
       .showFaceOverlay(false)
       .showFaceFeedbackBox(false)
       .begin()
-      // .showPredictionPoints(true);
+    // .showPredictionPoints(true);
     window.applyKalmanFilter = true;
     setWg(webgazer)
     console.log(webgazer)
@@ -77,7 +77,7 @@ function WebGazeLoader(props) {
 
   return (<div>
     <Script
-      url={process.env.PUBLIC_URL + "webgazerPomona.js"}
+      url={process.env.PUBLIC_URL + "webgazer.js"}
       onLoad={handleScriptLoad}
       onError={handleScriptError}
     />
