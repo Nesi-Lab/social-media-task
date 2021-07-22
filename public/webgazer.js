@@ -45971,7 +45971,7 @@ function store_points(x, y, k) {
             let videoStream;
             try {
                 console.log('starting stream')
-                console.log('camConstraints', src_webgazer.params.camConstraints)
+                console.log('camConstraints', webgazer.params.camConstraints)
                 videoStream = await navigator.mediaDevices.getUserMedia(webgazer.params.camConstraints);
                 console.log('navigator.mediaDevices', navigator.mediaDevices)
                 console.log('navigator.mediaDevices.getUserMedia', navigator.mediaDevices.getUserMedia)

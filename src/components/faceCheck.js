@@ -15,7 +15,7 @@ export default function FaceCheck(props) {
         props.curr.wg.wg.showVideo(false).showFaceFeedbackBox(false)
     }
 
-    useEffect(async() => {
+    useEffect(() => {
         props.curr.wg.wg.showVideo(true).showFaceFeedbackBox(true) //.showFaceOverlay(false).showFaceFeedbackBox(true)
         const vid = document.getElementById("webgazerVideoFeed"), box = document.getElementById("webgazerFaceFeedbackBox")
         if (vid) {
@@ -28,7 +28,7 @@ export default function FaceCheck(props) {
         } else {
             setDummyCounter(dummyCounter + 1)
         }
-    }, [dummyCounter])
+    }, [dummyCounter, props.curr.wg.wg])
 
     if (!vidUp) {
         return (<div>
