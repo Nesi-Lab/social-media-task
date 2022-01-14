@@ -359,3 +359,23 @@ input[type="range"]::-ms-fill-lower {
 input[type="range"]::-ms-thumb {
   background: #0275ff; 
 }
+
+.target {
+  border: 1px solid #000;
+  top: 0px;
+  left: 0px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.smalltarget {
+  border: 1px solid #000;
+  top: 0px;
+  left: 0px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  position: absolute;
+}
