@@ -25,6 +25,7 @@ function sigmoid(x) {
 export default function NewCalibration(props) {
 
     const [done, setDone] = useState(false)
+    const [regressed, setRegressed] = useState(false)
     const [counter, setCounter] = useState(0)
     const [dotLoc, setDotLoc] = useState({x:0, y:0})
     const [dotSize, setDotSize] = useState(NORMAL_DOT_SIZE)
@@ -40,22 +41,18 @@ export default function NewCalibration(props) {
     useEffect(() => {
         if (props.test) {
             props.curr.wg.screen.screen = "accuracy"
+            writeData("metadata", {
+                name: "screen-width",
+                value: window.innerWidth
+            }, props.curr.id)
+            writeData("metadata", {
+                name: "screen-height",
+                value: window.innerHeight
+            }, props.curr.id)
         } else {
             props.curr.wg.screen.screen = "calibration"
             props.curr.wg.wg.clearData()
         }
-    }, [])
-
-    useEffect(() => {
-        // on load 
-        writeData("metadata", {
-            name: "screen-width",
-            value: window.innerWidth
-        }, props.curr.id)
-        writeData("metadata", {
-            name: "screen-height",
-            value: window.innerHeight
-        }, props.curr.id)
     }, [])
 
     /**
@@ -140,9 +137,9 @@ export default function NewCalibration(props) {
         
         // Calibration
         if (!props.test && gap / COLLECT_INTERVAL > numSamples.current + 2 && numSamples.current < NUM_SAMPLES){
-            console.log(props.curr.wg.wg.recordScreenPosition(realX, realY))
+            props.curr.wg.wg.recordScreenPosition(realX, realY)
             numSamples.current = numSamples.current + 1
-            console.log("---- RECORDING ----")
+            // console.log("---- RECORDING ----")
 
         // Testing
         } else if (props.test && gap / COLLECT_INTERVAL > numSamples.current + 2 && numSamples.current < NUM_TEST_POINTS) {
@@ -160,7 +157,7 @@ export default function NewCalibration(props) {
 
         // Done pausing
         if (gap >= PUASE_TIME){
-            console.log("Collection Done")
+            // console.log("Collection Done")
             timeRef.current = undefined
             setCounter(counter + 1)
             setDotSize(NORMAL_DOT_SIZE)
@@ -177,7 +174,7 @@ export default function NewCalibration(props) {
      * @param timestamp 
      */
     function step(timestamp) {
-        console.log("STEPPPING")
+        // console.log("STEPPPING")
         if (timeRef.current == undefined){
             timeRef.current = timestamp;
         }
@@ -217,7 +214,7 @@ export default function NewCalibration(props) {
 
 
     useEffect(() => {
-        console.log("COUNTER:", counter, "LENGTH: ", props.points.length)
+        // console.log("COUNTER:", counter, "LENGTH: ", props.points.length)
         if (!done && counter === props.points.length) {
             setDone(true)
 
@@ -232,10 +229,12 @@ export default function NewCalibration(props) {
 
             // If this was a calibration, train the model
             } else {
+
                 setTimeout(() => {
                     console.log("Regressing")
                     const model = props.curr.wg.wg.getRegression()[0]
                     model.train()
+                    setRegressed(true)
                 }, 0)
 
             }
@@ -245,6 +244,8 @@ export default function NewCalibration(props) {
 
     if (!done){
         return (<Target x={dotLoc.x} y={dotLoc.y} size={dotSize}/>)
+    } else if (!regressed && !props.test){
+        return (<div><p style={{textAlign: "center"}}>Please wait...</p></div>)
     } else {
         if (props.test) {
             return (<Instruction id="calibrationText" ind="3" next={props.next} prev={props.prev} curr={props.curr} />)

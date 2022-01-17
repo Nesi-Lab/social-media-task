@@ -72,13 +72,13 @@ export const faceCheckText = (<p>Please ensure that your face is centered and cl
 export const calibrationText = [
     (<p>Make sure your screen is set up the way you want. From here on, make sure that you do not resize your screen.</p>),
     (<div>
-        <p>The following screen will calibrate your eye movements with a moving red dot with a white dot in the center.</p>
-        <p>Please follow the inner white dot with your eyes, moving your head naturally.</p>
-        <p>Try not to blink when the dot is still, we recommend blinking as the dot moves from one location to another.</p>
+        <p>The following screen will calibrate your eye movements with a moving <span style={{ color: "red"}}>red</span> dot with a <strong>white</strong> dot in the center.</p>
+        <p>Please follow the inner <strong>white</strong> dot with your eyes, moving your head naturally.</p>
+        <p>Try not to blink while the dot is still, we recommend blinking as the dot moves from one location to another.</p>
         </div>),
-    (<p>To finish calibrating your eye tracking, please continue to follow the previous instructions and follow the inner white dot with your eyes.</p>),
+    (<p>To finish calibrating your eye tracking, please continue to follow the previous instructions and follow the inner <strong>white</strong> dot with your eyes.</p>),
     (<p style={{textAlign: "center"}}>All set!</p>),
-    (<p>The next screen will have a moving dot. Please follow the inner white dot with your eyes, moving your head naturally.</p>),
+    (<p>The next screen will have a moving dot. Please follow the inner <strong>white</strong> dot with your eyes, moving your head naturally.</p>),
 ]
 
 export const bioQuestions = {
