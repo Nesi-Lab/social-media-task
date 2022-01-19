@@ -41,6 +41,9 @@ export default function NewCalibration(props) {
     useEffect(() => {
         if (props.test) {
             props.curr.wg.screen.screen = "accuracy"
+        } else {
+            props.curr.wg.screen.screen = "calibration"
+
             writeData("metadata", {
                 name: "screen-width",
                 value: window.innerWidth
@@ -49,8 +52,7 @@ export default function NewCalibration(props) {
                 name: "screen-height",
                 value: window.innerHeight
             }, props.curr.id)
-        } else {
-            props.curr.wg.screen.screen = "calibration"
+
             props.curr.wg.wg.clearData()
         }
     }, [])
@@ -103,7 +105,7 @@ export default function NewCalibration(props) {
      */
     function shrink(timestamp) { 
     
-        if (timeRef.current == undefined){
+        if (timeRef.current === undefined){
             timeRef.current = timestamp;
         }
         const t = (timestamp - timeRef.current) / SHRINK_TIME
@@ -122,7 +124,7 @@ export default function NewCalibration(props) {
      * @param timestamp 
      */
     function collect(timestamp) {
-        if (timeRef.current == undefined){
+        if (timeRef.current === undefined){
             timeRef.current = timestamp;
             numSamples.current = 0
         }
@@ -175,10 +177,10 @@ export default function NewCalibration(props) {
      */
     function step(timestamp) {
         // console.log("STEPPPING")
-        if (timeRef.current == undefined){
+        if (timeRef.current === undefined){
             timeRef.current = timestamp;
         }
-        if (previousTimeRef.current == undefined) {
+        if (previousTimeRef.current === undefined) {
             previousTimeRef.current = timestamp
         }
         const dt = timestamp - previousTimeRef.current
