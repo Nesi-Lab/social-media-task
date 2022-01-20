@@ -10,7 +10,28 @@ import Block from './block'
 import Summary from './summary'
 import FaceCheck from './faceCheck'
 import Calibration from './calibration'
+import NewCalibration from "./newCalibration"
 import Accuracy from './accuracy'
+
+const ninePoints = [
+    [.05, .05], 
+    [.05, .5],
+    [.05, .95],
+    [.5, .95],
+    [.95, .95],
+    [.95, .5],
+    [.95, .05],
+    [.5, .05],
+    [.5, .5]]
+const fourPoints = [
+    [.25, .25],
+    [.25, .75],
+    [.75, .75],
+    [.75, .25]
+]
+
+
+
 
 export default function Timeline(props) {
 
@@ -33,11 +54,9 @@ export default function Timeline(props) {
 
         // setup
         (c) => <User next={next} curr={c} setParticipantId={props.setParticipantId} />,
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy loc="beginning" prev={prev} next={next} curr={c} />,
+
+
+        // (c) => <Accuracy loc="beginning" prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="feelingInstruction" ind="0" next={next} prev={prev} curr={c} />,
         (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c} />,
 
@@ -51,6 +70,14 @@ export default function Timeline(props) {
         // bio setup
         (c) => <Profile next={next} curr={c} setParticipantImgTimeline={setParticipantImgTimeline} setParticipantBioTimeline={setParticipantBioTimeline} />,
 
+        // Calibrate
+        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
+        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
+        // (c) => <Calibration prev={prev} next={next} curr={c}/>,  // must be presented with accuracy
+        (c) => <NewCalibration prev={prev} key="calib0" next={next} curr={c}  points={ninePoints} test={false}/>, 
+        (c) => <NewCalibration prev={prev} key="test0" next={next} curr={c}  loc="1" points={fourPoints} test={true}/>, 
+
         //////////////
         // WATCHING //
         //////////////
@@ -63,11 +90,6 @@ export default function Timeline(props) {
         (c) => <Instruction id="tutorialText" ind="0" img="3" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="4" next={next} prev={prev} curr={c} />,
         (c) => <Instruction id="tutorialText" ind="0" img="5" next={next} prev={prev} curr={c} />,
-
-        // accuracy
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy loc="before1" prev={prev} next={next} curr={c} />,
         
         // content
         (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c} />,
@@ -77,19 +99,9 @@ export default function Timeline(props) {
         // RATING //
         ////////////
 
-        // accuracy
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy loc="before2" prev={prev} next={next} curr={c} />,
-
         // content
         (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[1]} />,
-
-        // accuracy
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy loc="before3" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
@@ -102,8 +114,8 @@ export default function Timeline(props) {
         // recalibrate
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
         (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy loc="before4" prev={prev} next={next} curr={c} />,
+        (c) => <NewCalibration prev={prev} key="calib1" next={next} curr={c}  points={ninePoints} test={false}/>,
+        (c) => <NewCalibration prev={prev} key="test1" next={next} curr={c}  loc="2" points={fourPoints} test={true}/>,
 
         // getting started screen
         (c) => <Instruction id="blockBeginningText" ind="2" next={next} curr={c} />,
@@ -118,11 +130,6 @@ export default function Timeline(props) {
         (c) => <Block next={next} curr={c} props={blockProps[3]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[3]} />,
 
-        // accuracy
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy loc="before5" prev={prev} next={next} curr={c} />,
-
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[4]} />,
@@ -130,24 +137,13 @@ export default function Timeline(props) {
 
         // recalibrate again
         (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy prev={prev} next={next} curr={c} />,
-
-        // more content
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} />,  // must be presented with accuracy
-        (c) => <Accuracy loc="before6" prev={prev} next={next} curr={c} />,
+        (c) => <NewCalibration prev={prev} key="calib1" next={next} curr={c}  points={ninePoints} test={false}/>,
+        (c) => <NewCalibration prev={prev} key="test1" next={next} curr={c}  loc="3" points={fourPoints} test={true}/>,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
         (c) => <Block next={next} curr={c} props={blockProps[5]} />,
         (c) => <Summary next={next} curr={c} props={blockProps[5]} />,
-
-        // accuracy
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="4" next={next} prev={prev} curr={c} />,
-        (c) => <Accuracy loc="before7" prev={prev} next={next} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
