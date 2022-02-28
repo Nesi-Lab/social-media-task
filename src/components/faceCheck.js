@@ -16,15 +16,15 @@ export default function FaceCheck(props) {
     }
 
     useEffect(() => {
-        props.curr.wg.wg.showVideo(true).showFaceFeedbackBox(true) //.showFaceOverlay(false).showFaceFeedbackBox(true)
-        const vid = document.getElementById("webgazerVideoFeed"), box = document.getElementById("webgazerFaceFeedbackBox")
+        props.curr.wg.wg.showVideo(true) // .showFaceFeedbackBox(true).showFaceOverlay(false).showFaceFeedbackBox(true)
+        const vid = document.getElementById("webgazerVideoFeed") // , box = document.getElementById("webgazerFaceFeedbackBox")
         if (vid) {
             setVidUp(true)
             // vid.style.position = "relative"
             vid.style.top = "50%"
             vid.style.left = "calc(50% - 160px)"
-            box.style.left = "calc(50% - 80px)"
-            box.style.top = "calc(50% + 40px)"
+            // box.style.left = "calc(50% - 80px)"
+            // box.style.top = "calc(50% + 40px)"
         } else {
             setDummyCounter(dummyCounter + 1)
         }
