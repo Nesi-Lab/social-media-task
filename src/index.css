@@ -89,8 +89,8 @@ button {
   width: 140px;
   padding: 8px;
   position: absolute;
-  top: 104px;
-  left: 47px;
+  top: 140px;
+  left: 65px;
   background-color: #3C3C3C;
   border-radius: 10px;
 }
@@ -99,18 +99,17 @@ button {
   height: 185px;
   width: 185px;
   position: absolute;
-  top: 7px;
-  left: 35px;
+  top: 26px;
+  left: 52px;
 }
 
 .quadrant {
   background-color: #091147;
   border-radius: 20px;
-  width: 250px;
-  height: 270px;
-  padding: 20px;
-  padding-top: 15px;
-  margin: 25px;
+  width: 290px;
+  height: 300px;
+  padding: 15px 20px 20px;
+  margin: auto 9%;
   text-align: center;
 }
 
@@ -125,12 +124,12 @@ button {
   width: 200px;
   border-radius: 50%;
   position: relative;
-  top: 0;
+  top: 25px;
   left: 0;
 }
 
 .person-bio {
-  margin-top: 0;
+  margin-top: 40px;
   font-size: smaller;
 }
 

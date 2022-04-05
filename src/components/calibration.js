@@ -10,6 +10,7 @@ export default function Calibration(props) {
 
     const [points, setPoints] = useState([...Array(numPoints)].map(_ => numClicksPerPoint))
     const [done, setDone] = useState(false)
+    const [regressed, setRegressed] = useState(false)
 
     useEffect(() => {
         props.curr.wg.screen.screen = "calibration"
@@ -30,12 +31,20 @@ export default function Calibration(props) {
     }, [])
 
     useEffect(() => {
-        if (!done && Object.values(points).every(v => v === 0)) {
-            setDone(true)
-            const model = props.curr.wg.wg.getRegression()[0]
-            model.train()
+        if (!done && !regressed && Object.values(points).every(v => v === 0)) {
+            setDone(true);
         }
     }, [points])
+    useEffect(() => {
+        if (done && !regressed ) {
+            setTimeout(() => {
+                console.log("Regressing")
+                const model = props.curr.wg.wg.getRegression()[0]
+                model.train()
+                setRegressed(true)
+            }, 0)
+        }
+    }, [done])
 
     function handleClick(e) {
         const pointNum = parseInt(e.target.id.replace("pt", ""))
@@ -80,7 +89,9 @@ export default function Calibration(props) {
 
     if (!done) {
         return makePoints()
-    } else {
+    } else if (!regressed){
+        return (<div><p style={{textAlign: "center"}}>Please wait...</p></div>)
+    }  else {
         return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />)
     }
 }

@@ -66,7 +66,16 @@ task/
 |-- server.js                       <-- Express server with database connection and all GET or POST request handling
 |-- randomize_impersonators.py      <-- Script to generate the randomized aspects of impersonators.json (not run unless manually)
 ```
-
+# Version
+### Version 0
+### Version 1
+### Version 2
+- Changed back to 9 point 5 click calibration as opposed to moving dot
+- Moved the calibration back to the front of the program to ensure that it works early on
+- Spread squares out more
+- Increased size of outer blue square
+- Fixed some text
+- Added text reminding users to keep their head still
 # Usage and deployment
 
 ## Current deployment

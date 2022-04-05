@@ -169,7 +169,7 @@ function Block(allProps) {
 
     function watch(n) {
         return (<div className="quadrant grid-top grid-left">
-            <img src={eye} alt="eye" style={{ width: "150px" }} />
+            <img src={eye} alt="eye" style={{ width: "150px", margin: "15px 0px 0px 0px"}} />
             {props.blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
         </div>)
     }

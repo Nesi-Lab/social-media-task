@@ -67,18 +67,19 @@ export const profileText = [
     (<h1>You're all set!</h1>)
 ]
 
-export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible and that the box is <span style={{color: "#32CD32"}}>green</span>. Try your best not to move too much, especially not closer or further from the screen. This helps us get accurate data.</p>)
+export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible. Try your best not to move too much during the experiment, especially not closer or further from the screen. This helps us get accurate data.</p>)
 
 export const calibrationText = [
     (<p>Make sure your screen is set up the way you want. From here on, make sure that you do not resize your screen.</p>),
+    (<p>You will see a series of <span style={{color: "red"}}>red</span> buttons. Click on each button 5 times while looking at the button, until it turns <span style={{color: "#ffee00"}}>yellow</span>.</p>),
     (<div>
-        <p>The following screen will calibrate your eye movements with a moving <span style={{ color: "red"}}>red</span> dot with a <strong>white</strong> dot in the center.</p>
+        <p>The following screen will have a moving <span style={{ color: "red"}}>red</span> dot with a <strong>white</strong> dot in the center.</p>
         <p>Please follow the inner <strong>white</strong> dot with your eyes, moving your head naturally.</p>
         <p>Try not to blink while the dot is still, we recommend blinking as the dot moves from one location to another.</p>
-        </div>),
-    (<p>To finish calibrating your eye tracking, please continue to follow the previous instructions and follow the inner <strong>white</strong> dot with your eyes.</p>),
+    </div>),
     (<p style={{textAlign: "center"}}>All set!</p>),
     (<p>The next screen will have a moving dot. Please follow the inner <strong>white</strong> dot with your eyes, moving your head naturally.</p>),
+    (<p>Please remember to face the screen, sit up, and limit movement as much as possible for accurate eye-tracking.</p>)
 ]
 
 export const bioQuestions = {
@@ -111,7 +112,7 @@ export const feelingText = (<div style={{fontSize: "smaller"}}>
 
 export const feelingList = ["Excited", "Upset", "Included", "Excluded", "Mad", "Worried", "Relaxed", "Sad", "Happy", "Unpopular", "Popular", "Embarrassed", "Bored", "Proud"]
 
-export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "30px", fontSize: "25px" }}>
+export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "50px", fontSize: "25px" }}>
     How much would you like to be friends with this person?
 </p>)
 
@@ -121,8 +122,8 @@ export const interpretationText = (<div>
     </div>)
 
 export const watchText = {
-    withYou: (n) => (<p style={{ marginTop: "10px" }}><b>You</b> and <br /><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> other people are watching</p>),
-    withoutYou: (n) => (<p style={{ marginTop: "20px", fontSize: "larger" }}><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> people are <br />watching</p>),
+    withYou: (n) => (<p style={{ marginTop: "40px" }}><b>You</b> and <br /><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> other people are watching</p>),
+    withoutYou: (n) => (<p style={{ marginTop: "40px", fontSize: "larger" }}><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> people are <br />watching</p>),
     summary: (n) => [
         (<p style={{ fontSize: "60px" }}><b>{n}</b></p>),
         (<span style={{ textAlign: "left" }}>people are <br />watching</span>)

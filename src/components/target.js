@@ -1,4 +1,3 @@
-const SMALL_DOT_RATIO = .2
 export default function Target(props) {
 
     const realX = (props.x * window.innerWidth) - 20
