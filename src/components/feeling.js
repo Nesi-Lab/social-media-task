@@ -1,42 +1,42 @@
 import { useState, useEffect } from 'react';
 
-import { feelingText, feelingList } from '../assets/text'
-import { multiSlider, writeData } from '../lib/utils'
-var pick = require('lodash.pick');
+import { feelingText, feelingList } from '../assets/text';
+import { multiSlider, writeData } from '../lib/utils';
+import { pick } from 'lodash';
 
 export default function Feeling(props) {
 
     // const [curr, setCurr] = useState(props.loc)
-    const [vals, setVals] = useState(Object.fromEntries(feelingList.map(e => [e, "50"])))
-    const [screenNum, setScreenNum] = useState(0)
+    const [vals, setVals] = useState(Object.fromEntries(feelingList.map(e => [e, "50"])));
+    const [screenNum, setScreenNum] = useState(0);
 
-    const splitInd = Math.floor(feelingList.length / 2)
-    const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]))
-    const valsSubset = pick(vals, feelingsToDisplay)
+    const splitInd = Math.floor(feelingList.length / 2);
+    const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]));
+    const valsSubset = pick(vals, feelingsToDisplay);
 
     useEffect(() => {
-        props.curr.wg.screen.screen = `feeling 1`
-    }, [])
+        props.curr.wg.screen.screen = `feeling 1`;
+    }, []);
 
     async function handleSliderChange(e) {
-        const changed = e.target.id
-        setVals({...vals, [changed]: document.getElementById(changed).value})
+        const changed = e.target.id;
+        setVals({...vals, [changed]: document.getElementById(changed).value});
     }
 
     async function save() {
         writeData("feelings", Object.keys(vals).reduce(
-            (a, c) => { return { ...a, [c.toLowerCase()]: vals[c] } },
+            (a, c) => { return { ...a, [c.toLowerCase()]: vals[c] }; },
             { "location": props.loc }
-        ), props.curr.id)
+        ), props.curr.id);
     }
 
     function changeScreen() {
-        setScreenNum(screenNum === 0 ? 1 : 0)
-        props.curr.wg.screen.screen = `feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`
+        setScreenNum(screenNum === 0 ? 1 : 0);
+        props.curr.wg.screen.screen = `feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`;
     }
 
     async function onNext() {
-        save().then(() => props.next(props.curr.i))
+        save().then(() => props.next(props.curr.i));
     }
 
     return (<div>
@@ -48,5 +48,5 @@ export default function Feeling(props) {
             <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={screenNum === 0 ? () => props.prev(props.curr.i) : changeScreen}>Previous</button>
             <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={screenNum === 0 ? changeScreen : onNext}>Next</button>
         </div>
-    </div>)
+    </div>);
 }

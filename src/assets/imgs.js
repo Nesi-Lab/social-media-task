@@ -1,87 +1,87 @@
-import fb from '../assets/src-images/fb.png'
-import ig from '../assets/src-images/ig.png'
-import sc from '../assets/src-images/sc.png'
-import tt from '../assets/src-images/tt.png'
+import fb from '../assets/src-images/fb.png';
+import ig from '../assets/src-images/ig.png';
+import sc from '../assets/src-images/sc.png';
+import tt from '../assets/src-images/tt.png';
 
-import ch from '../assets/src-images/check.png'
-import ld from '../assets/src-images/loading.gif'
+import ch from '../assets/src-images/check.png';
+import ld from '../assets/src-images/loading.gif';
 
-import up from '../assets/src-images/up_thumb.png'
-import dn from '../assets/src-images/down_thumb.png'
-import ey from '../assets/src-images/eye.png'
-import ex from '../assets/src-images/x.png'
-import lg from '../assets/src-images/logo.png'
+import up from '../assets/src-images/up_thumb.png';
+import dn from '../assets/src-images/down_thumb.png';
+import ey from '../assets/src-images/eye.png';
+import ex from '../assets/src-images/x.png';
+import lg from '../assets/src-images/logo.png';
 
-import i24g from '../assets/impersonator-images/A - 24g.jpg'
-import i46g from '../assets/impersonator-images/A - 46g.jpg'
-import i991b from '../assets/impersonator-images/A - 991b.jpg'
-import i996b from '../assets/impersonator-images/A - 996b.jpg'
-import i35g from '../assets/impersonator-images/B - 35g.jpg'
-import i36b from '../assets/impersonator-images/B - 36b.jpg'
-import i38g from '../assets/impersonator-images/B - 38g.jpg'
-import i44b from '../assets/impersonator-images/B - 44b.jpg'
-import i49g from '../assets/impersonator-images/B - 49g.jpg'
-import i54g from '../assets/impersonator-images/B - 54g.jpg'
-import i72b from '../assets/impersonator-images/B - 72b.jpg'
-import i82b from '../assets/impersonator-images/B - 82b.jpeg'
-import i12g from '../assets/impersonator-images/H - 12g.jpg'
-import i13g from '../assets/impersonator-images/H - 13g.jpg'
-import i43b from '../assets/impersonator-images/H - 43b.jpg'
-import i50g from '../assets/impersonator-images/H - 50g.jpg'
-import i51g from '../assets/impersonator-images/H - 51g.jpg'
-import i57g from '../assets/impersonator-images/H - 57g.jpg'
-import i68b from '../assets/impersonator-images/H - 68b.jpg'
-import i73b from '../assets/impersonator-images/H - 73b.jpg'
-import i999b from '../assets/impersonator-images/H - 999b.jpg'
-import i1000b from '../assets/impersonator-images/H - 1000b.jpeg'
-import i11g from '../assets/impersonator-images/W - 11g.jpg'
-import i14g from '../assets/impersonator-images/W - 14g.jpg'
-import i15b from '../assets/impersonator-images/W - 15b.jpg'
-import i16g from '../assets/impersonator-images/W - 16g.jpg'
-import i19b from '../assets/impersonator-images/W - 19b.png'
-import i1g from '../assets/impersonator-images/W - 1g.jpg'
-import i20g from '../assets/impersonator-images/W - 20g.jpg'
-import i21g from '../assets/impersonator-images/W - 21g.jpg'
-import i22g from '../assets/impersonator-images/W - 22g.jpg'
-import i23g from '../assets/impersonator-images/W - 23g.png'
-import i25g from '../assets/impersonator-images/W - 25g.jpg'
-import i27b from '../assets/impersonator-images/W - 27b.png'
-import i28b from '../assets/impersonator-images/W - 28b.jpg'
-import i2b from '../assets/impersonator-images/W - 2b.jpg'
-import i30g from '../assets/impersonator-images/W - 30g.jpg'
-import i31g from '../assets/impersonator-images/W - 31g.jpg'
-import i33b from '../assets/impersonator-images/W - 33b.jpg'
-import i34b from '../assets/impersonator-images/W - 34b.jpg'
-import i37g from '../assets/impersonator-images/W - 37g.jpeg'
-import i3g from '../assets/impersonator-images/W - 3g.jpg'
-import i45b from '../assets/impersonator-images/W - 45b.jpg'
-import i47b from '../assets/impersonator-images/W - 47b.jpg'
-import i48b from '../assets/impersonator-images/W - 48b.jpg'
-import i4g from '../assets/impersonator-images/W - 4g.jpg'
-import i5g from '../assets/impersonator-images/W - 5g.jpg'
-import i66b from '../assets/impersonator-images/W - 66b.jpg'
-import i69o from '../assets/impersonator-images/W - 69o.jpg'
-import i6g from '../assets/impersonator-images/W - 6g.jpg'
-import i70o from '../assets/impersonator-images/W - 70o.jpg'
-import i74b from '../assets/impersonator-images/W - 74b.jpg'
-import i75b from '../assets/impersonator-images/W - 75b.jpg'
-import i76b from '../assets/impersonator-images/W - 76b.jpg'
-import i77b from '../assets/impersonator-images/W - 77b.jpg'
-import i78b from '../assets/impersonator-images/W - 78b.jpeg'
-import i80b from '../assets/impersonator-images/W - 80b.jpeg'
-import i8g from '../assets/impersonator-images/W - 8g.jpg'
-import i9g from '../assets/impersonator-images/W - 9g.jpg'
-import i1001b from '../assets/impersonator-images/W - 1001b.jpeg'
+import i24g from '../assets/impersonator-images/A - 24g.jpg';
+import i46g from '../assets/impersonator-images/A - 46g.jpg';
+import i991b from '../assets/impersonator-images/A - 991b.jpg';
+import i996b from '../assets/impersonator-images/A - 996b.jpg';
+import i35g from '../assets/impersonator-images/B - 35g.jpg';
+import i36b from '../assets/impersonator-images/B - 36b.jpg';
+import i38g from '../assets/impersonator-images/B - 38g.jpg';
+import i44b from '../assets/impersonator-images/B - 44b.jpg';
+import i49g from '../assets/impersonator-images/B - 49g.jpg';
+import i54g from '../assets/impersonator-images/B - 54g.jpg';
+import i72b from '../assets/impersonator-images/B - 72b.jpg';
+import i82b from '../assets/impersonator-images/B - 82b.jpeg';
+import i12g from '../assets/impersonator-images/H - 12g.jpg';
+import i13g from '../assets/impersonator-images/H - 13g.jpg';
+import i43b from '../assets/impersonator-images/H - 43b.jpg';
+import i50g from '../assets/impersonator-images/H - 50g.jpg';
+import i51g from '../assets/impersonator-images/H - 51g.jpg';
+import i57g from '../assets/impersonator-images/H - 57g.jpg';
+import i68b from '../assets/impersonator-images/H - 68b.jpg';
+import i73b from '../assets/impersonator-images/H - 73b.jpg';
+import i999b from '../assets/impersonator-images/H - 999b.jpg';
+import i1000b from '../assets/impersonator-images/H - 1000b.jpeg';
+import i11g from '../assets/impersonator-images/W - 11g.jpg';
+import i14g from '../assets/impersonator-images/W - 14g.jpg';
+import i15b from '../assets/impersonator-images/W - 15b.jpg';
+import i16g from '../assets/impersonator-images/W - 16g.jpg';
+import i19b from '../assets/impersonator-images/W - 19b.png';
+import i1g from '../assets/impersonator-images/W - 1g.jpg';
+import i20g from '../assets/impersonator-images/W - 20g.jpg';
+import i21g from '../assets/impersonator-images/W - 21g.jpg';
+import i22g from '../assets/impersonator-images/W - 22g.jpg';
+import i23g from '../assets/impersonator-images/W - 23g.png';
+import i25g from '../assets/impersonator-images/W - 25g.jpg';
+import i27b from '../assets/impersonator-images/W - 27b.png';
+import i28b from '../assets/impersonator-images/W - 28b.jpg';
+import i2b from '../assets/impersonator-images/W - 2b.jpg';
+import i30g from '../assets/impersonator-images/W - 30g.jpg';
+import i31g from '../assets/impersonator-images/W - 31g.jpg';
+import i33b from '../assets/impersonator-images/W - 33b.jpg';
+import i34b from '../assets/impersonator-images/W - 34b.jpg';
+import i37g from '../assets/impersonator-images/W - 37g.jpeg';
+import i3g from '../assets/impersonator-images/W - 3g.jpg';
+import i45b from '../assets/impersonator-images/W - 45b.jpg';
+import i47b from '../assets/impersonator-images/W - 47b.jpg';
+import i48b from '../assets/impersonator-images/W - 48b.jpg';
+import i4g from '../assets/impersonator-images/W - 4g.jpg';
+import i5g from '../assets/impersonator-images/W - 5g.jpg';
+import i66b from '../assets/impersonator-images/W - 66b.jpg';
+import i69o from '../assets/impersonator-images/W - 69o.jpg';
+import i6g from '../assets/impersonator-images/W - 6g.jpg';
+import i70o from '../assets/impersonator-images/W - 70o.jpg';
+import i74b from '../assets/impersonator-images/W - 74b.jpg';
+import i75b from '../assets/impersonator-images/W - 75b.jpg';
+import i76b from '../assets/impersonator-images/W - 76b.jpg';
+import i77b from '../assets/impersonator-images/W - 77b.jpg';
+import i78b from '../assets/impersonator-images/W - 78b.jpeg';
+import i80b from '../assets/impersonator-images/W - 80b.jpeg';
+import i8g from '../assets/impersonator-images/W - 8g.jpg';
+import i9g from '../assets/impersonator-images/W - 9g.jpg';
+import i1001b from '../assets/impersonator-images/W - 1001b.jpeg';
 
-import t0 from '../assets/tutorial-images/tut0.jpg'
-import t1 from '../assets/tutorial-images/tut1.jpg'
-import t2 from '../assets/tutorial-images/tut2.jpg'
-import t3 from '../assets/tutorial-images/tut3.jpg'
-import t4 from '../assets/tutorial-images/tut4.jpg'
-import t5 from '../assets/tutorial-images/tut5.jpg'
-import t6 from '../assets/tutorial-images/tut6.jpg'
-import t7 from '../assets/tutorial-images/tut7.jpg'
-import t8 from '../assets/tutorial-images/tut8.jpg'
+import t0 from '../assets/tutorial-images/tut0.jpg';
+import t1 from '../assets/tutorial-images/tut1.jpg';
+import t2 from '../assets/tutorial-images/tut2.jpg';
+import t3 from '../assets/tutorial-images/tut3.jpg';
+import t4 from '../assets/tutorial-images/tut4.jpg';
+import t5 from '../assets/tutorial-images/tut5.jpg';
+import t6 from '../assets/tutorial-images/tut6.jpg';
+import t7 from '../assets/tutorial-images/tut7.jpg';
+import t8 from '../assets/tutorial-images/tut8.jpg';
 
 
 export const socialMediaImgs = {
@@ -89,16 +89,16 @@ export const socialMediaImgs = {
     ig: ig,
     sc: sc,
     tt: tt
-}
+};
 
-export const check = ch
-export const loading = ld
+export const check = ch;
+export const loading = ld;
 
-export const upThumb = up
-export const downThumb = dn
-export const eye = ey
-export const x = ex
-export const logo = lg
+export const upThumb = up;
+export const downThumb = dn;
+export const eye = ey;
+export const x = ex;
+export const logo = lg;
 
 export const impersonatorImgs = {
     "A - 24g": i24g,
@@ -161,8 +161,8 @@ export const impersonatorImgs = {
     "W - 8g": i8g,
     "W - 9g": i9g,
     "W - 1001b": i1001b
-}
+};
 
 export const tutorialImgs = [
     t0, t1, t2, t3, t4, t5, t6, t7, t8
-]
+];

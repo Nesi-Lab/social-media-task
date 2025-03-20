@@ -1,43 +1,43 @@
-import { impersonatorImgs } from '../assets/imgs'
+import { impersonatorImgs } from '../assets/imgs';
 
 // shuffle the items in an array randomly
 function shuffleArray(array) {
-    let currentIndex = array.length
-    let temporaryValue, randomIndex
+    let currentIndex = array.length;
+    let temporaryValue, randomIndex;
     // While there remain elements to shuffle
     while (0 !== currentIndex) {
         // Pick a remaining element
-        randomIndex = Math.floor(Math.random() * currentIndex)
-        currentIndex -= 1
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
         // And swap it with the current element
-        temporaryValue = array[currentIndex]
-        array[currentIndex] = array[randomIndex]
-        array[randomIndex] = temporaryValue
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
     }
-    return array
+    return array;
 }
 
 function trialProps() {
-    const allData = require('../assets/impersonators.json')
-    const blocks = allData.blocks, bios = allData.bios
+    const allData = require('../assets/impersonators.json');
+    const blocks = allData.blocks, bios = allData.bios;
 
     const lookupImp = (id) => {
         if (!(id in bios)) {
-            throw `${id} not in bios`
+            throw `${id} not in bios`;
         }
         return {
             img: impersonatorImgs[id],
             bio: bios[id],
             id: id
-        }
-    }
+        };
+    };
 
-    const ratingOrd = shuffleArray(["1", "2"])
+    const ratingOrd = shuffleArray(["1", "2"]);
 
     const ratedOrd = shuffleArray([
         shuffleArray([{ subnum: "1", maj: "acc" }, { subnum: "1", maj: "rej" }]),
         shuffleArray([{ subnum: "2", maj: "acc" }, { subnum: "2", maj: "rej" }])
-    ])
+    ]);
 
     const watchingProps = {
         blockInfo: { type: "watching", number: 1 },
@@ -47,9 +47,9 @@ function trialProps() {
                 ratee: lookupImp(e.ratee),
                 watching: e.num_watching,
                 score: e.score
-            }
+            };
         })
-    }
+    };
 
     const ratingProps = (subnum, blockNum) => {
         return {
@@ -62,15 +62,15 @@ function trialProps() {
                 return {
                     ratee: lookupImp(e.ratee),
                     watching: e.num_watching
-                }
+                };
             })
-        }
-    }
+        };
+    };
 
     const ratedProps = (subnumMaj, blockNum) => {
-        const subnum = subnumMaj.subnum, majority = subnumMaj.maj
-        const allInfo = blocks.rated[subnum][majority]
-        const lookupSumImp = p => { return {...lookupImp(allInfo.trial[p.ind].rater), score: p.mean_score} }
+        const subnum = subnumMaj.subnum, majority = subnumMaj.maj;
+        const allInfo = blocks.rated[subnum][majority];
+        const lookupSumImp = p => { return {...lookupImp(allInfo.trial[p.ind].rater), score: p.mean_score}; };
         return {
             blockInfo: {
                 type: "rated",
@@ -83,7 +83,7 @@ function trialProps() {
                     rater: lookupImp(e.rater),
                     watching: e.num_watching,
                     score: e.score
-                }
+                };
             }),
             summaries: allInfo.summary.raters.map(e => {
                 return {
@@ -91,10 +91,10 @@ function trialProps() {
                     left: lookupSumImp(e.raters[0]),
                     right: lookupSumImp(e.raters[1]),
                     watching: e.num_watching
-                }
+                };
             })
-        }
-    }
+        };
+    };
 
     return [
         watchingProps,
@@ -104,7 +104,7 @@ function trialProps() {
         ratedProps(ratedOrd[0][1], 5),
         ratedProps(ratedOrd[1][0], 6),
         ratedProps(ratedOrd[1][1], 7)
-    ]
+    ];
 }
 
-export default trialProps
+export default trialProps;

@@ -1,82 +1,82 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
-import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text'
-import { prevNext, slider, writeData } from '../lib/utils'
+import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text';
+import { prevNext, slider, writeData } from '../lib/utils';
 
 export default function Profile(props) {
 
-    const [screen, setScreen] = useState("uploadPhoto")
-    const [participantImg, setParticipantImg] = useState("#")
-    const [participantImgScore, setParticipantImgScore] = useState("")
-    const [participantBio, setParticipantBio] = useState({})
+    const [screen, setScreen] = useState("uploadPhoto");
+    const [participantImg, setParticipantImg] = useState("#");
+    const [participantImgScore, setParticipantImgScore] = useState("");
+    const [participantBio, setParticipantBio] = useState({});
 
     useEffect(() => {
-        props.curr.wg.screen.screen = `profile uploadPhoto`
-    }, [])
+        props.curr.wg.screen.screen = `profile uploadPhoto`;
+    }, []);
 
-    const reader = new FileReader()
+    const reader = new FileReader();
 
     reader.onload = function (e) {
-        setParticipantImg(reader.result)
-    }
+        setParticipantImg(reader.result);
+    };
 
     function handleUpload(input) {
         if (input.target.files && input.target.files[0]) {
-            reader.readAsDataURL(input.target.files[0])
+            reader.readAsDataURL(input.target.files[0]);
         }
     }
 
     function handleBio(e) {
-        const id = e.target.id
-        setParticipantBio({ ...participantBio, [id]: document.getElementById(id).value.toLowerCase() })
+        const id = e.target.id;
+        setParticipantBio({ ...participantBio, [id]: document.getElementById(id).value.toLowerCase() });
     }
 
     function handleBioEmoji(e) {
-        setParticipantBio({ ...participantBio, emoji: e.target.id })
+        setParticipantBio({ ...participantBio, emoji: e.target.id });
     }
 
     function handleUploadToBio(e) {
-        setParticipantImgScore(document.getElementById("participantImgScore").value)
-        setScreen("bio")
-        props.curr.wg.screen.screen = `profile bio`
+        setParticipantImgScore(document.getElementById("participantImgScore").value);
+        setScreen("bio");
+        props.curr.wg.screen.screen = `profile bio`;
     }
 
     function handleBioToUpload(e) {
-        setScreen("uploadPhoto")
-        props.curr.wg.screen.screen = `profile uploadPhoto`
+        setScreen("uploadPhoto");
+        props.curr.wg.screen.screen = `profile uploadPhoto`;
     }
 
     function handleBioToDisplay(e) {
-        setScreen("display")
-        props.curr.wg.screen.screen = `profile display`
+        setScreen("display");
+        props.curr.wg.screen.screen = `profile display`;
     }
 
     function handleDisplayToBio(e) {
-        setScreen("bio")
-        props.curr.wg.screen.screen = `profile uploadPhoto`
+        setScreen("bio");
+        props.curr.wg.screen.screen = `profile uploadPhoto`;
     }
 
     async function saveRow(rec) {
-        writeData("metadata", rec, props.curr.id)
+        writeData("metadata", rec, props.curr.id);
     }
 
 
     async function save() {
-        const bio = makeBioPlain(participantBio)
-        props.setParticipantImgTimeline(participantImg)
-        props.setParticipantBioTimeline(makeBio(participantBio))
+        const bio = makeBioPlain(participantBio);
+        props.setParticipantImgTimeline(participantImg);
+        props.setParticipantBioTimeline(makeBio(participantBio));
         await saveRow({
             name: "participant-img-score",
             value: participantImgScore.toString(),
-        })
+        });
         await saveRow({
             name: "participant-bio",
             value: bio,
-        })
+        });
         await saveRow({
             name: "participant-bio-score",
             value: document.getElementById("participantBioScore").value,
-        })
+        });
     }
 
     if (screen === "uploadPhoto") {
@@ -100,7 +100,7 @@ export default function Profile(props) {
                     <button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleUploadToBio}>Next</button>
                 </div>
             }
-        </div>)
+        </div>);
     } else if (screen === "bio") {
         return (<div>
             {profileText[0]}
@@ -126,7 +126,7 @@ export default function Profile(props) {
                 <div style={{ width: "60%", display: "flex", flexDirection: "column"}}>
                     <div style={{flexGrow: 100}}>
                         {profileText[3]}
-                        {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
+                        {Object.keys(bioQuestions).every(e => Object.prototype.hasOwnProperty.call(participantBio, e)) ?
                             (<div style={{ marginTop: "50px" }}>
                                 {profileText[4]}
                                 <div className="editable-bio">{makeBio(participantBio)}</div>
@@ -136,14 +136,14 @@ export default function Profile(props) {
                     </div>
                     <div className="prev-next" style={{flexGrow: 0}}>
                         <button style={{ margin: "5px" }} onClick={handleBioToUpload}>Previous</button>
-                        {Object.keys(bioQuestions).every(e => participantBio.hasOwnProperty(e)) ?
+                        {Object.keys(bioQuestions).every(e => Object.prototype.hasOwnProperty.call(participantBio, e)) ?
                             (<button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleBioToDisplay}>Next</button>) :
                             null
                         }
                     </div>
                 </div>
             </div>
-        </div>)
+        </div>);
     } else {  // display
         return (<div style={{ textAlign: "center", margin: "0px" }}>
             {profileText[6]}
@@ -156,6 +156,6 @@ export default function Profile(props) {
                 {slider("participantBioScore")}
             </div>
             {prevNext({ ...props, prev: handleDisplayToBio }, save)}
-        </div>)
+        </div>);
     }
 }

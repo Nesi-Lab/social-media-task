@@ -1,13 +1,13 @@
-import { loading, logo } from './imgs'
+import { loading, logo } from './imgs';
 
-export const userID = (<p style={{textAlign: "center"}}>Participant ID</p>)
+export const userID = (<p style={{textAlign: "center"}}>Participant ID</p>);
 
-const loadingImg = (<img src={loading} alt="loading gif" className="loading-gif" />)
+const loadingImg = (<img src={loading} alt="loading gif" className="loading-gif" />);
 
 export const loadingText = (<div style={{textAlign: "center"}}>
     {loadingImg}
     <p>Loading...</p>
-    </div>)
+</div>);
 
 export const introText = [
     (<div style={{textAlign: "center"}}>
@@ -30,7 +30,7 @@ export const introText = [
         <p>There will be multiple rounds of the game.</p>
         <p>In each round, users will be providing their first impressions of the people they are paired with.</p>
     </div>)
-]
+];
 
 export const socialMediaText = [
     (<p style={{textAlign: "left"}}>Please enter your phone number and check any social media sites you use. <b>Connect</b> will search your contacts to see if anyone you know is participating...</p>),
@@ -43,7 +43,7 @@ export const socialMediaText = [
         <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>15</span> friends-of-friends on Connect right now!</p>
         <p>Connect will randomly pair users with each other. You may or may not be paired up with friends or friends-of-friends.</p>
     </div>)
-]
+];
 
 export const profileText = [
     (<h1 style={{ textAlign: "left", fontWeight: "bold" }}>Time to create your profile!</h1>),
@@ -65,9 +65,9 @@ export const profileText = [
     (<p style={{fontSize: "x-large"}}>How much does this bio represent who you are? <br /><span style={{color: "red"}}>(Other people won’t see your answer)</span></p>),
 
     (<h1>You're all set!</h1>)
-]
+];
 
-export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible. Try your best not to move too much during the experiment, especially not closer or further from the screen. This helps us get accurate data.</p>)
+export const faceCheckText = (<p>Please ensure that your face is centered and clearly visible. Try your best not to move too much during the experiment, especially not closer or further from the screen. This helps us get accurate data.</p>);
 
 export const calibrationText = [
     (<p>Make sure your screen is set up the way you want. From here on, make sure that you do not resize your screen.</p>),
@@ -80,7 +80,7 @@ export const calibrationText = [
     (<p style={{textAlign: "center"}}>All set!</p>),
     (<p>The next screen will have a moving dot. Please follow the inner <strong>white</strong> dot with your eyes, moving your head naturally.</p>),
     (<p>Please remember to face the screen, sit up, and limit movement as much as possible for accurate eye-tracking.</p>)
-]
+];
 
 export const bioQuestions = {
     word: "One word that describes you:",
@@ -89,37 +89,37 @@ export const bioQuestions = {
     artist: "One artist you’re listening to right now:",
     color: "Your favorite color:",
     emoji: "Pick one emoji:"
-}
+};
 
-export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"]
+export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"];
 
 // the variable names like "town" in "info.town" correspond to the ids in bioQuestions
 // export const makeBio = (info) => (<span><i>{info.show} </i>{info.emoji}<i> {info.activity}</i></span>)
 // export const makeBioPlain = (info) => `${info.show} ${info.emoji} ${info.activity}`
-export const makeBioPlain = (info) => [info.word, info.activity, info.place, info.artist, info.color].join("  |  ") + " " + info.emoji
-export const makeBio = (info) => (<span>{makeBioPlain(info)}</span>)
+export const makeBioPlain = (info) => [info.word, info.activity, info.place, info.artist, info.color].join("  |  ") + " " + info.emoji;
+export const makeBio = (info) => (<span>{makeBioPlain(info)}</span>);
 
 export const feelingInstruction = [(<div>
     <p>Throughout the task, you will be instructed to rate how you feel.</p>
     <p style={{ color: "red" }}>This information will be completely private. Only the researchers will see your ratings.</p>
-</div>)]
+</div>)];
 
 export const feelingText = (<div style={{fontSize: "smaller"}}>
     <p>Here are a number of words that describe different feelings and emotions.</p>
     <p>Please indicate how much you feel this way <i>right now</i>, in the present moment.</p>
     <p style={{ color: "red" }}>This information is completely private. Only the researchers will see your ratings.</p>
-</div>)
+</div>);
 
-export const feelingList = ["Excited", "Upset", "Included", "Excluded", "Mad", "Worried", "Relaxed", "Sad", "Happy", "Unpopular", "Popular", "Embarrassed", "Bored", "Proud"]
+export const feelingList = ["Excited", "Upset", "Included", "Excluded", "Mad", "Worried", "Relaxed", "Sad", "Happy", "Unpopular", "Popular", "Embarrassed", "Bored", "Proud"];
 
 export const rateText = (<p style={{ backgroundColor: "#3C3C3C", borderRadius: "10px", padding: "10px", marginTop: "50px", fontSize: "25px" }}>
     How much would you like to be friends with this person?
-</p>)
+</p>);
 
 export const interpretationText = (<div>
     <h1>How much does this person want to be friends with you?</h1>
     <p style={{color: "red"}}>This information won't be seen by other users.</p>
-    </div>)
+</div>);
 
 export const watchText = {
     withYou: (n) => (<p style={{ marginTop: "40px" }}><b>You</b> and <br /><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> other people are watching</p>),
@@ -128,11 +128,11 @@ export const watchText = {
         (<p style={{ fontSize: "60px" }}><b>{n}</b></p>),
         (<span style={{ textAlign: "left" }}>people are <br />watching</span>)
     ]
-}
+};
 
 export const tutorialText = [
     (<h1 style={{textAlign: "left"}}>Here's how it will look...</h1>)
-]
+];
 
 export const blockBeginningText = [
     (<div>
@@ -153,15 +153,15 @@ export const blockBeginningText = [
     </div>),
     
     (<h1>Let's get started!</h1>)
-]
+];
 
 export const betweenBlocksText = [
     (<h1>Let's continue.</h1>)
-]
+];
 
 export const endingText = [
     (<h1>You're all done.</h1>)
-]
+];
 
 export const beforeSummaryText = [
     (<h1>See how you did compared to other Connect users!</h1>),
@@ -169,10 +169,10 @@ export const beforeSummaryText = [
         {loadingImg}
         <p>Calculating average scores...</p>
     </div>)
-]
+];
 
 export const sliderLabels = [
     (<span style={{ fontSize: "smaller", textAlign: "left" }}>Not at all</span>),
     (<span style={{ fontSize: "smaller", textAlign: "center" }}>Somewhat</span>),
     (<span style={{ fontSize: "smaller", textAlign: "right" }}>A lot</span>)
-]
+];

@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
-import Instruction from './instruction'
-import LinkSM from './linkSM'
-import User from './user'
-import Profile from './profile'
-import Feeling from './feeling'
-import trialProps from '../lib/trialProps'
-import Block from './block'
-import Summary from './summary'
-import FaceCheck from './faceCheck'
-import Calibration from './calibration'
-import NewCalibration from "./newCalibration"
-import Accuracy from './accuracy'
+import Instruction from './instruction';
+import LinkSM from './linkSM';
+import User from './user';
+import Profile from './profile';
+import Feeling from './feeling';
+import trialProps from '../lib/trialProps';
+import Block from './block';
+import Summary from './summary';
+import FaceCheck from './faceCheck';
+import Calibration from './calibration';
+import NewCalibration from "./newCalibration";
+import Accuracy from './accuracy';
 
 const ninePoints = [
     [.05, .05], 
@@ -22,29 +22,29 @@ const ninePoints = [
     [.95, .5],
     [.95, .05],
     [.5, .05],
-    [.5, .5]]
+    [.5, .5]];
 const fourPoints = [
     [.25, .25],
     [.25, .75],
     [.75, .75],
     [.75, .25]
-]
+];
 
 
 
 
 export default function Timeline(props) {
 
-    const [currScreen, setCurrScreen] = useState(0)
-    const [participantImgTimeline, setParticipantImgTimeline] = useState(null)
-    const [participantBioTimeline, setParticipantBioTimeline] = useState(null)
-    const [wg, setWg] = useState(props.wg)
-    const [blockProps, setBlockProps] = useState(trialProps())
+    const [currScreen, setCurrScreen] = useState(0);
+    const [participantImgTimeline, setParticipantImgTimeline] = useState(null);
+    const [participantBioTimeline, setParticipantBioTimeline] = useState(null);
+    const [wg, setWg] = useState(props.wg);
+    const [blockProps, setBlockProps] = useState(trialProps());
 
-    useEffect(() => { setWg(props.wg) }, [props.wg])
+    useEffect(() => { setWg(props.wg); }, [props.wg]);
 
-    const prev = (c) => { setCurrScreen(c - 1) }
-    const next = (c) => { setCurrScreen(c + 1) }
+    const prev = (c) => { setCurrScreen(c - 1); };
+    const next = (c) => { setCurrScreen(c + 1); };
 
     const timeline = [
 
@@ -154,12 +154,12 @@ export default function Timeline(props) {
 
         // ending
         (c) => <Instruction id="endingText" ind="0" curr={c} />,
-    ]
+    ];
     return timeline[currScreen]({
         i: currScreen,
         img: participantImgTimeline,
         bio: participantBioTimeline,
         id: props.participantId,
         wg: wg
-    })
+    });
 }
