@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text';
 import { prevNext, slider, writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
+import ImageCropper from './ImageCropper';
 
 export default function Profile(props) {
 
@@ -10,6 +11,8 @@ export default function Profile(props) {
     const [participantImg, setParticipantImg] = useState("#");
     const [participantImgScore, setParticipantImgScore] = useState("");
     const [participantBio, setParticipantBio] = useState({});
+    const [showCropper, setShowCropper] = useState(false);
+    const [originalImg, setOriginalImg] = useState(null);
 
     useEffect(() => {
         setScreen(`profile uploadPhoto`);
@@ -18,13 +21,24 @@ export default function Profile(props) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
-        setParticipantImg(reader.result);
+        setOriginalImg(reader.result);
+        setShowCropper(true);
     };
 
     function handleUpload(input) {
         if (input.target.files && input.target.files[0]) {
             reader.readAsDataURL(input.target.files[0]);
         }
+    }
+
+    function handleCropSave(croppedImage) {
+        setParticipantImg(croppedImage);
+        setShowCropper(false);
+    }
+
+    function handleCropCancel() {
+        setShowCropper(false);
+        setOriginalImg(null);
     }
 
     function handleBio(e) {
@@ -77,27 +91,36 @@ export default function Profile(props) {
     }
 
     if (screen === "profile uploadPhoto") {
-        return (<div>
-            {profileText[0]}
-            <div className="upload">
-                <div className="profile-quadrant quadrant-square">
-                    <img id="participantImg" src={participantImg} alt="participant" style={{ height: "250px", width: "250px", borderRadius: "50%", display: participantImg === "#" ? "none" : "inline" }} />
+        return (
+            <div>
+                {profileText[0]}
+                <div className="upload">
+                    <div className="profile-quadrant quadrant-square" style={{ width: '250px', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 'auto' }}>
+                        <img id="participantImg" src={participantImg} alt="participant" style={{ height: "100%", width: "100%", borderRadius: "50%", objectFit: "cover", display: participantImg === "#" ? "none" : "inline" }} />
+                    </div>
+                    <div>
+                        {profileText[1]}
+                        <label htmlFor="fileUpload" className="upload-button">Upload Image</label>
+                        <input type='file' id="fileUpload" style={{ display: "none" }} onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
+                    </div>
                 </div>
-                <div>
-                    {profileText[1]}
-                    <label htmlFor="fileUpload" className="upload-button">Upload Image</label>
-                    <input type='file' id="fileUpload" style={{ display: "none" }} onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
-                </div>
+                {participantImg === "#" ?
+                    null :
+                    <div style={{ textAlign: "center" }}>
+                        {profileText[2]}
+                        {slider("participantImgScore")}
+                        <button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleUploadToBio}>Next</button>
+                    </div>
+                }
+                {showCropper && originalImg && (
+                    <ImageCropper 
+                        imageSrc={originalImg}
+                        onSave={handleCropSave}
+                        onCancel={handleCropCancel}
+                    />
+                )}
             </div>
-            {participantImg === "#" ?
-                null :
-                <div style={{ textAlign: "center" }}>
-                    {profileText[2]}
-                    {slider("participantImgScore")}
-                    <button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleUploadToBio}>Next</button>
-                </div>
-            }
-        </div>);
+        );
     } else if (screen === "profile bio") {
         return (<div>
             {profileText[0]}
@@ -144,9 +167,9 @@ export default function Profile(props) {
     } else {  // display
         return (<div style={{ textAlign: "center", margin: "0px" }}>
             {profileText[6]}
-            <div className="profile-quadrant" style={{ margin: "auto", width: "275px" }}>
-                <img id="participantImg" src={participantImg} alt="participant" className="display-profile-img" />
-                <p className="display-profile-bio">{makeBio(participantBio)}</p>
+            <div className="profile-quadrant" style={{ margin: "auto", width: "290px", height: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+                <img id="participantImg" src={participantImg} alt="participant" className="display-profile-img" style={{ height: "250px", width: "250px", borderRadius: "50%", objectFit: "cover", marginBottom: '16px' }} />
+                <p className="display-profile-bio" style={{ marginTop: 0 }}>{makeBio(participantBio)}</p>
             </div>
             <div>
                 {profileText[5]}
