@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
 import * as text from '../assets/text';
 import { prevNext } from '../lib/utils';
+import { useWebgazer } from './WebgazerContext';
+import { useScreen } from './ScreenContext';
 
 export default function FaceCheck(props) {
 
     const [vidUp, setVidUp] = useState(false);
     const [dummyCounter, setDummyCounter] = useState(0);
+    const wg = useWebgazer();
+    const { setScreen } = useScreen();
 
     useEffect(() => {
-        props.curr.wg.screen.screen = "facecheck";
+        setScreen("facecheck");
     }, []);
 
     async function save() {
-        props.curr.wg.wg.showVideo(false).showFaceFeedbackBox(false);
+        wg.showVideo(false).showFaceFeedbackBox(false);
     }
 
     useEffect(() => {
-        props.curr.wg.wg.showVideo(true); // .showFaceFeedbackBox(true).showFaceOverlay(false).showFaceFeedbackBox(true)
+        wg.showVideo(true); // .showFaceFeedbackBox(true).showFaceOverlay(false).showFaceFeedbackBox(true)
         const vid = document.getElementById("webgazerVideoFeed"); // , box = document.getElementById("webgazerFaceFeedbackBox")
         if (vid) {
             setVidUp(true);
@@ -28,7 +32,7 @@ export default function FaceCheck(props) {
         } else {
             setDummyCounter(dummyCounter + 1);
         }
-    }, [dummyCounter, props.curr.wg.wg]);
+    }, [dummyCounter, wg]);
 
     if (!vidUp) {
         return (<div>

@@ -6,6 +6,7 @@ import { rateText, interpretationText, watchText } from '../assets/text';
 import Feeling from './feeling';
 import { slider, writeData } from '../lib/utils';
 import Instruction from "./instruction";
+import { useScreen } from './ScreenContext';
 
 const timerSecs = {
     "watching": {
@@ -26,65 +27,66 @@ const timerSecs = {
 
 const color = (score) => score < 2.5 ? "red" : "green";
 
-function Block(allProps) {
-    const props = allProps.props;
-    console.log(props);
-    const participant = { img: allProps.curr.img, bio: allProps.curr.bio, id: "participant" };
+function Block({ curr, next, blockInfo, trials, ...rest }) {
+    const participant = { img: curr.img, bio: curr.bio, id: "participant" };
 
     // add participant into props where appropriate
-    if (props.blockInfo.type === "rating") {
-        props.trials = props.trials.map(e => { return { ...e, rater: participant }; });
-    } else if (props.blockInfo.type === "rated") {
-        props.trials = props.trials.map(e => { return { ...e, ratee: participant }; });
+    let trialsCopy = trials;
+    if (blockInfo.type === "rating") {
+        trialsCopy = trials.map(e => { return { ...e, rater: participant }; });
+    } else if (blockInfo.type === "rated") {
+        trialsCopy = trials.map(e => { return { ...e, ratee: participant }; });
     }
 
     const [trialInd, setTrialInd] = useState(0);
     const [screenType, setScreenType] = useState("fixation");
-    const [clickable, setClickable] = useState(props.blockInfo.type === "rating");
+    const [clickable, setClickable] = useState(blockInfo.type === "rating");
     const [finished, setFinished] = useState(false);
-    const [currBlock, setCurrBlock] = useState(props.blockInfo.number);
+    const [currBlock, setCurrBlock] = useState(blockInfo.number);
     const [selectedThumb, setSelectedThumb] = useState(null);  // just for logging interactive (i.e. rating) scores
 
+    const { setScreen } = useScreen();
+
     useEffect(() => {
-        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 fixation`;
+        setScreen(`block ${blockInfo.number} trial 1 fixation`);
     }, []);
 
     useEffect(() => {
         document.getElementById("app").style.cursor = (finished || (screenType !== "fixation" && clickable)) ? "auto" : "none";
     }, [clickable, finished, screenType]);
 
-    if (currBlock !== props.blockInfo.number && finished) {
+    if (currBlock !== blockInfo.number && finished) {
         // we started a new block and need to reset the state
         setTrialInd(0);
         setScreenType("fixation");
-        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial 1 fixation`;
-        setClickable(props.blockInfo.type === "rating");
+        setScreen(`block ${blockInfo.number} trial 1 fixation`);
+        setClickable(blockInfo.type === "rating");
         setFinished(false);
-        setCurrBlock(props.blockInfo.number);
+        setCurrBlock(blockInfo.number);
     }
 
     function nextTrial(interpretationScore = null) {
         const record = {
-            type: props.blockInfo.type,
-            block: props.blockInfo.number,
-            subnum: props.blockInfo.subnum,
-            majority: props.blockInfo.majority,
+            type: blockInfo.type,
+            block: blockInfo.number,
+            subnum: blockInfo.subnum,
+            majority: blockInfo.majority,
             trial: trialInd + 1,
-            rater_id: props.trials[trialInd].rater.id,
-            ratee_id: props.trials[trialInd].ratee.id,
-            num_watching: props.trials[trialInd].watching,
-            score: (props.blockInfo.type === "rating") ? selectedThumb : props.trials[trialInd].score
+            rater_id: trialsCopy[trialInd].rater.id,
+            ratee_id: trialsCopy[trialInd].ratee.id,
+            num_watching: trialsCopy[trialInd].watching,
+            score: (blockInfo.type === "rating") ? selectedThumb : trialsCopy[trialInd].score
         };
         if (interpretationScore) { record["interpretation_score"] = interpretationScore; }
-        writeData("trials", record, allProps.curr.id);
+        writeData("trials", record, curr.id);
 
-        if (trialInd + 1 === props.trials.length) {
+        if (trialInd + 1 === trialsCopy.length) {
             setFinished(true);
         } else {
-            allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1 + 1} fixation`;
+            setScreen(`block ${blockInfo.number} trial ${trialInd + 1 + 1} fixation`);
             setTrialInd(trialInd + 1);
             setScreenType("fixation");
-            setClickable(props.blockInfo.type === "rating");
+            setClickable(blockInfo.type === "rating");
         }
     }
 
@@ -106,39 +108,38 @@ function Block(allProps) {
                 if (elt !== null) { elt.style.display = "none"; }
             });
         }
-        if (screenType === "feedback" && props.blockInfo.type !== "rating" && props.trials[trialInd].score !== 0) {
-            highlightThumb("thumb-" + props.trials[trialInd].score);
+        if (screenType === "feedback" && blockInfo.type !== "rating" && trialsCopy[trialInd].score !== 0) {
+            highlightThumb("thumb-" + trialsCopy[trialInd].score);
         }
 
         // move to next screen
-        if ((screenType === "anticipation" && props.blockInfo.type !== "rating") || screenType === "feedback" || screenType === "fixation") {
+        if ((screenType === "anticipation" && blockInfo.type !== "rating") || screenType === "feedback" || screenType === "fixation") {
             // move automatically
             const timer = setTimeout(() => {
                 if (screenType === "anticipation") {
                     setScreenType("feedback");
-                    allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} feedback`;
+                    setScreen(`block ${blockInfo.number} trial ${trialInd + 1} feedback`);
                 } else if (screenType === "feedback") {
                     const ratee = document.getElementById("ratee-img");
                     if (ratee !== null) {
                         ratee.style.border = "none";
                         ratee.style.marginTop = "0px";
                     }
-                    if (props.blockInfo.type === "rated") {
+                    if (blockInfo.type === "rated") {
                         setScreenType("interpretation");
                         setClickable("true");
-                        allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} interpretation`;
+                        setScreen(`block ${blockInfo.number} trial ${trialInd + 1} interpretation`);
                     } else {
                         nextTrial();
                     }
                 } else {  // can only be fixation
                     setScreenType("anticipation");
-                    allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} anticipation`;
+                    setScreen(`block ${blockInfo.number} trial ${trialInd + 1} anticipation`);
                 }
-            }, 1000 * timerSecs[props.blockInfo.type][screenType]);
+            }, 1000 * timerSecs[blockInfo.type][screenType]);
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer);
         }
-
     }, [trialInd, screenType, clickable]);
 
     function rateBox(score) {
@@ -170,12 +171,12 @@ function Block(allProps) {
     function watch(n) {
         return (<div className="quadrant grid-top grid-left">
             <img src={eye} alt="eye" style={{ width: "150px", margin: "15px 0px 0px 0px"}} />
-            {props.blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
+            {blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
         </div>);
     }
 
     function rate() {
-        const antRat = (props.blockInfo.type === "rating" && screenType === "anticipation") ? "thumb-anticipation-rating" : "";
+        const antRat = (blockInfo.type === "rating" && screenType === "anticipation") ? "thumb-anticipation-rating" : "";
         return (<div className="quadrant grid-bottom grid-right">
             {rateText}
             <div className="thumbs">
@@ -210,7 +211,7 @@ function Block(allProps) {
             document.getElementById("rateBox").innerHTML = ReactDOMServer.renderToString(rateBox(score));
             setClickable(false);
             setScreenType("feedback");
-            allProps.curr.wg.screen.screen = `block ${props.blockInfo.number} trial ${trialInd + 1} feedback`;
+            setScreen(`block ${blockInfo.number} trial ${trialInd + 1} feedback`);
         }
     }
 
@@ -219,14 +220,14 @@ function Block(allProps) {
     }
 
     console.log({
-        type: props.blockInfo.type,
-        block: props.blockInfo.number,
-        subnum: props.blockInfo.subnum,
-        majority: props.blockInfo.majority,
+        type: blockInfo.type,
+        block: blockInfo.number,
+        subnum: blockInfo.subnum,
+        majority: blockInfo.majority,
         trial: trialInd + 1,
-        rater_id: props.trials[trialInd].rater.id,
-        ratee_id: props.trials[trialInd].ratee.id,
-        num_watching: props.trials[trialInd].watching
+        rater_id: trialsCopy[trialInd].rater.id,
+        ratee_id: trialsCopy[trialInd].ratee.id,
+        num_watching: trialsCopy[trialInd].watching
     });
 
     if (!finished) {
@@ -234,24 +235,24 @@ function Block(allProps) {
             return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />);
         } else if (screenType !== "interpretation") {
             return (<div className="reg-block">
-                {watch(props.trials[trialInd].watching)}
-                {person(props.trials[trialInd].ratee, true, props.trials[trialInd].score)}
-                {person(props.trials[trialInd].rater, false)}
+                {watch(trialsCopy[trialInd].watching)}
+                {person(trialsCopy[trialInd].ratee, true, trialsCopy[trialInd].score)}
+                {person(trialsCopy[trialInd].rater, false)}
                 {rate()}
             </div>);
         } else {
             return (<div style={{ textAlign: "center" }}>
                 {interpretationText}
-                <img src={props.trials[trialInd].rater.img} alt="rater" className="interpretation-img" />
+                <img src={trialsCopy[trialInd].rater.img} alt="rater" className="interpretation-img" />
                 {slider("interpretation")}
                 <button style={{ marginTop: "60px" }} onClick={handleInterpretationClick}>Next</button>
             </div>);
         }
     } else {
-        if (props.blockInfo.type === "rated") {
-            return <Instruction id="beforeSummaryText" ind="0" next={allProps.next} curr={allProps.curr} />;
+        if (blockInfo.type === "rated") {
+            return <Instruction id="beforeSummaryText" ind="0" next={next} curr={curr} />;
         } else {
-            return <Feeling loc={"after block " + JSON.stringify(props.blockInfo)} next={allProps.next} curr={allProps.curr} />;
+            return <Feeling loc={"after block " + JSON.stringify(blockInfo)} next={next} curr={curr} />;
         }
     }
 }

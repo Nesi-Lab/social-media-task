@@ -3,11 +3,13 @@ import { useEffect } from "react";
 import * as text from '../assets/text';
 import { tutorialImgs, logo } from '../assets/imgs';
 import { prevNext } from '../lib/utils';
+import { useScreen } from './ScreenContext';
 
 export default function Instruction(props) {
+    const { setScreen } = useScreen();
 
     useEffect(() => {
-        props.curr.wg.screen.screen = `instruction ${props.id} ${props.ind}`;
+        setScreen(`instruction ${props.id} ${props.ind}`);
     }, []);
 
     return (<div>

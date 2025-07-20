@@ -3,19 +3,21 @@ import { useState, useEffect } from 'react';
 import { feelingText, feelingList } from '../assets/text';
 import { multiSlider, writeData } from '../lib/utils';
 import { pick } from 'lodash';
+import { useScreen } from './ScreenContext';
 
 export default function Feeling(props) {
 
     // const [curr, setCurr] = useState(props.loc)
     const [vals, setVals] = useState(Object.fromEntries(feelingList.map(e => [e, "50"])));
     const [screenNum, setScreenNum] = useState(0);
+    const { setScreen } = useScreen();
 
     const splitInd = Math.floor(feelingList.length / 2);
     const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]));
     const valsSubset = pick(vals, feelingsToDisplay);
 
     useEffect(() => {
-        props.curr.wg.screen.screen = `feeling 1`;
+        setScreen(`feeling 1`);
     }, []);
 
     async function handleSliderChange(e) {
@@ -32,7 +34,7 @@ export default function Feeling(props) {
 
     function changeScreen() {
         setScreenNum(screenNum === 0 ? 1 : 0);
-        props.curr.wg.screen.screen = `feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`;
+        setScreen(`feeling ${screenNum === 0 ? 1 + 1 : 0 + 1}`);
     }
 
     async function onNext() {

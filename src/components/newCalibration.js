@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import Instruction from './instruction';
 import Target from './target';
 import { writeData } from '../lib/utils';
+import { useWebgazer } from './WebgazerContext';
+import { useScreen } from './ScreenContext';
 
 const NUM_SAMPLES = 5;
 const PUASE_TIME = 2000;
@@ -37,12 +39,15 @@ export default function NewCalibration(props) {
     const previousTimeRef = useRef();
     const numSamples = useRef();
 
+    const wg = useWebgazer();
+    const { setScreen } = useScreen();
+
     // Set screen for logging
     useEffect(() => {
         if (props.test) {
-            props.curr.wg.screen.screen = "accuracy";
+            setScreen("accuracy");
         } else {
-            props.curr.wg.screen.screen = "calibration";
+            setScreen("calibration");
 
             writeData("metadata", {
                 name: "screen-width",
@@ -53,7 +58,7 @@ export default function NewCalibration(props) {
                 value: window.innerHeight
             }, props.curr.id);
 
-            props.curr.wg.wg.clearData();
+            wg.clearData();
         }
     }, []);
 
@@ -139,13 +144,13 @@ export default function NewCalibration(props) {
         
         // Calibration
         if (!props.test && gap / COLLECT_INTERVAL > numSamples.current + 2 && numSamples.current < NUM_SAMPLES){
-            props.curr.wg.wg.recordScreenPosition(realX, realY);
+            wg.recordScreenPosition(realX, realY);
             numSamples.current = numSamples.current + 1;
             // console.log("---- RECORDING ----")
 
         // Testing
         } else if (props.test && gap / COLLECT_INTERVAL > numSamples.current + 2 && numSamples.current < NUM_TEST_POINTS) {
-            const pred = props.curr.wg.wg.getCurrentPrediction();
+            const pred = wg.getCurrentPrediction();
 
             if (pred) {
                 pred.then(value => {
@@ -234,7 +239,7 @@ export default function NewCalibration(props) {
 
                 setTimeout(() => {
                     console.log("Regressing");
-                    const model = props.curr.wg.wg.getRegression()[0];
+                    const model = wg.getRegression()[0];
                     model.train();
                     setRegressed(true);
                 }, 0);
