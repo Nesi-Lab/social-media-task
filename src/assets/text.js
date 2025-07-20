@@ -91,7 +91,7 @@ export const bioQuestions = {
     emoji: "Pick one emoji:"
 };
 
-export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😻","🌎"];
+export const emojis = ["🙃","🐳","✨","🎉","🌸","🏆","😍","🌎"];
 
 // the variable names like "town" in "info.town" correspond to the ids in bioQuestions
 // export const makeBio = (info) => (<span><i>{info.show} </i>{info.emoji}<i> {info.activity}</i></span>)

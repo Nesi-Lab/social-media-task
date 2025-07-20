@@ -5,6 +5,89 @@ import { socialMediaText } from '../assets/text';
 import { prevNext, writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
 
+function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
+    const [phoneFilled, setPhoneFilled] = useState(false);
+
+    function handlePhoneTyped(e) {
+        // Remove all non-digit characters
+        const digits = e.target.value.replace(/\D/g, '');
+        
+        // Only allow up to 10 digits
+        const limitedDigits = digits.slice(0, 10);
+        
+        // Format as phone number
+        let formatted = '';
+        if (limitedDigits.length > 0) {
+            if (limitedDigits.length <= 3) {
+                formatted = `(${limitedDigits}`;
+            } else if (limitedDigits.length <= 6) {
+                formatted = `(${limitedDigits.slice(0, 3)}) ${limitedDigits.slice(3)}`;
+            } else {
+                formatted = `(${limitedDigits.slice(0, 3)}) ${limitedDigits.slice(3, 6)}-${limitedDigits.slice(6)}`;
+            }
+        }
+        
+        // Update the input value with formatted number
+        e.target.value = formatted;
+        
+        // Check if we have exactly 10 digits
+        if (limitedDigits.length === 10) {
+            setPhoneFilled(true);
+            if (onPhoneValid) onPhoneValid(formatted);
+        } else {
+            setPhoneFilled(false);
+            if (onPhoneInvalid) onPhoneInvalid();
+        }
+    }
+
+    return (
+        <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            gap: '16px',
+            marginBottom: '40px'
+        }}>
+            <label htmlFor="phone" style={{ 
+                fontSize: '18px', 
+                fontWeight: '500',
+                color: '#ffffff',
+                marginBottom: '8px'
+            }}>
+                Phone number:
+            </label>
+            <input 
+                type="tel" 
+                placeholder="(XXX) XXX-XXXX" 
+                autoComplete="off" 
+                onInput={handlePhoneTyped} 
+                id="phone" 
+                maxLength="14"
+                style={{ 
+                    width: "220px",
+                    padding: "12px 16px",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    border: "2px solid #333",
+                    backgroundColor: "#1a1a1a",
+                    color: "#ffffff",
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    boxSizing: "border-box"
+                }}
+                onFocus={(e) => {
+                    e.target.style.borderColor = "#0275ff";
+                    e.target.style.backgroundColor = "#2a2a2a";
+                }}
+                onBlur={(e) => {
+                    e.target.style.borderColor = "#333";
+                    e.target.style.backgroundColor = "#1a1a1a";
+                }}
+            />
+        </div>
+    );
+}
+
 function makeOption(socialMedia) {
     const img = socialMediaImgs[socialMedia];
     return (<div className="social-media">
@@ -67,20 +150,22 @@ export default function LinkSM(props) {
         }, props.curr.id);
     }
 
-    function handlePhoneTyped(e) {
-        // const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-        // if (phoneRegex.test(e.target.value)) { setPhoneFilled(true) }
-        const nums = e.target.value.match(/\d+/g).map(a => a.split("")).flat();
-        if (nums != null && nums.length >= 10) { setPhoneFilled(true); }
+    function handlePhoneValid() {
+        setPhoneFilled(true);
     }
 
+    function handlePhoneInvalid() {
+        setPhoneFilled(false);
+    }
 
     if (!isLoad) {
         return (<div style={{ textAlign: "center"}}>
             {socialMediaText[0]}
             <div style={{ margin: "60px" }}>
-                <label htmlFor="phone" style={{ marginRight: "20px" }}>Phone number:</label>
-                <input type="text" placeholder={"(XXX) XXX-XXXX"} autoComplete="off" onInput={handlePhoneTyped} id="phone" style={{ width: "180px" }} />
+                <PhoneInput 
+                    onPhoneValid={handlePhoneValid}
+                    onPhoneInvalid={handlePhoneInvalid}
+                />
                 <div className="social-medias">
                     {Object.keys(socialMediaImgs).map(makeOption)}
                 </div>
