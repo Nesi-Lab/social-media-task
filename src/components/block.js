@@ -108,7 +108,7 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
                 if (elt !== null) { elt.style.display = "none"; }
             });
         }
-        if (screenType === "feedback" && trialsCopy[trialInd].score !== 0) {
+        if (screenType === "feedback" && blockInfo.type !== "rating" && trialsCopy[trialInd].score !== 0) {
             highlightThumb("thumb-" + trialsCopy[trialInd].score);
         }
 
