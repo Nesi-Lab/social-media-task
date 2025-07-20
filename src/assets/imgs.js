@@ -1,4 +1,3 @@
-import fb from '../assets/src-images/fb.png';
 import ig from '../assets/src-images/ig.png';
 import sc from '../assets/src-images/sc.png';
 import tt from '../assets/src-images/tt.png';
@@ -85,7 +84,6 @@ import t8 from '../assets/tutorial-images/tut8.jpg';
 
 
 export const socialMediaImgs = {
-    fb: fb,
     ig: ig,
     sc: sc,
     tt: tt
