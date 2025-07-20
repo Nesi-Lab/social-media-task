@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useWebgazer } from './WebgazerContext';
+import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 import Instruction from './instruction';
 import LinkSM from './linkSM';
@@ -33,15 +36,12 @@ const fourPoints = [
 
 
 
-export default function Timeline(props) {
-
+export default function Timeline() {
+    const { participantId, setParticipantId } = useParticipant();
     const [currScreen, setCurrScreen] = useState(0);
     const [participantImgTimeline, setParticipantImgTimeline] = useState(null);
     const [participantBioTimeline, setParticipantBioTimeline] = useState(null);
-    const [wg, setWg] = useState(props.wg);
     const [blockProps, setBlockProps] = useState(trialProps());
-
-    useEffect(() => { setWg(props.wg); }, [props.wg]);
 
     const prev = (c) => { setCurrScreen(c - 1); };
     const next = (c) => { setCurrScreen(c + 1); };
@@ -53,7 +53,7 @@ export default function Timeline(props) {
         ///////////////
 
         // setup
-        (c) => <User next={next} curr={c} setParticipantId={props.setParticipantId} />,
+        (c) => <User next={next} curr={c} setParticipantId={setParticipantId} />,
 
         // Calibrate
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
@@ -92,7 +92,7 @@ export default function Timeline(props) {
         
         // content
         (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[0]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[0]} />,
 
         ////////////
         // RATING //
@@ -100,12 +100,12 @@ export default function Timeline(props) {
 
         // content
         (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[1]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[1]} />,
         (c) => <Instruction id="calibrationText" ind="5" next={next} prev={prev} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[2]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[2]} />,
 
         ///////////
         // RATED //
@@ -127,14 +127,14 @@ export default function Timeline(props) {
 
         // content
         (c) => <Instruction id="blockBeginningText" ind="3" next={next} prev={prev} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[3]} />,
-        (c) => <Summary next={next} curr={c} props={blockProps[3]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[3]} />,
+        (c) => <Summary next={next} curr={c} {...blockProps[3]} />,
         (c) => <Instruction id="calibrationText" ind="5" next={next} prev={prev} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[4]} />,
-        (c) => <Summary next={next} curr={c} props={blockProps[4]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[4]} />,
+        (c) => <Summary next={next} curr={c} {...blockProps[4]} />,
 
         // recalibrate again
         (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
@@ -143,14 +143,14 @@ export default function Timeline(props) {
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[5]} />,
-        (c) => <Summary next={next} curr={c} props={blockProps[5]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[5]} />,
+        (c) => <Summary next={next} curr={c} {...blockProps[5]} />,
         (c) => <Instruction id="calibrationText" ind="5" next={next} prev={prev} curr={c} />,
 
         // content
         (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} props={blockProps[6]} />,
-        (c) => <Summary next={next} curr={c} props={blockProps[6]} />,
+        (c) => <Block next={next} curr={c} {...blockProps[6]} />,
+        (c) => <Summary next={next} curr={c} {...blockProps[6]} />,
 
         // ending
         (c) => <Instruction id="endingText" ind="0" curr={c} />,
@@ -159,7 +159,8 @@ export default function Timeline(props) {
         i: currScreen,
         img: participantImgTimeline,
         bio: participantBioTimeline,
-        id: props.participantId,
-        wg: wg
+        id: participantId,
+        setParticipantId,
+        // wg and screen are now available via context
     });
 }

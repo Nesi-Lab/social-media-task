@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { socialMediaImgs, check, loading } from '../assets/imgs';
 import { socialMediaText } from '../assets/text';
 import { prevNext, writeData } from '../lib/utils';
+import { useScreen } from './ScreenContext';
 
 function makeOption(socialMedia) {
     const img = socialMediaImgs[socialMedia];
@@ -14,6 +15,7 @@ function makeOption(socialMedia) {
 
 export default function LinkSM(props) {
 
+    const { setScreen } = useScreen();
     const [selected, setSelected] = useState(null);
     const [isLoad, setIsLoad] = useState(false);
     const [checked, setChecked] = useState(null);
@@ -21,7 +23,7 @@ export default function LinkSM(props) {
     const [phoneFilled, setPhoneFilled] = useState(false);
 
     useEffect(() => {
-        props.curr.wg.screen.screen = `linksm selecting`;
+        setScreen(`linksm selecting`);
     }, []);
 
     useEffect(() => {
@@ -30,7 +32,7 @@ export default function LinkSM(props) {
                 const ind = checked.findIndex(e => !e);
                 if (ind === -1) {
                     setFinished(true);
-                    props.curr.wg.screen.screen = `linksm finished`;
+                    setScreen(`linksm finished`);
                 }
                 const copy = [...checked];
                 copy[ind] = true;
@@ -53,7 +55,7 @@ export default function LinkSM(props) {
         setSelected(sel);
         setChecked(sel.map(_ => false));
         setFinished(sel.length === 0);
-        props.curr.wg.screen.screen = `linksm ${sel.length === 0 ? "finished" : "selecting"}`;
+        setScreen(`linksm ${sel.length === 0 ? "finished" : "selecting"}`);
     }
 
     async function save() {

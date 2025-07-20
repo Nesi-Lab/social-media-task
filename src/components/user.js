@@ -2,15 +2,19 @@ import { useState, useEffect } from "react";
 
 import { userID, loadingText } from '../assets/text';
 import { prevNext, setTimezone } from '../lib/utils';
+import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 const loadingSecs = 5;
 
 export default function User(props) {
+    const { setScreen } = useScreen();
+    const { setParticipantId } = useParticipant();
     const [usernameValue, setUsernameValue] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        props.curr.wg.screen.screen = "user";
+        setScreen("user");
     }, []);
 
     useEffect(() => {
@@ -34,7 +38,7 @@ export default function User(props) {
                     e => setUsernameValue(e.target.value)
                 } />
                 { usernameValue === "" ? null : prevNext(props, async () => {
-                    props.setParticipantId(usernameValue);
+                    setParticipantId(usernameValue);
                     console.log(`id: ${usernameValue}`);
                 })}
             </div>

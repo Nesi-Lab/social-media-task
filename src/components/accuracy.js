@@ -2,16 +2,20 @@ import { useState, useEffect } from 'react';
 
 import { writeData } from '../lib/utils';
 import Instruction from './instruction';
+import { useWebgazer } from './WebgazerContext';
+import { useScreen } from './ScreenContext';
 
 const staringSecs = 5;
 
 export default function Accuracy(props) {
+    const wg = useWebgazer();
+    const { setScreen } = useScreen();
     const [done, setDone] = useState(false);
     const [storedPoints, setStoredPoints] = useState({ x: [], y: [] });
     const [storing, setStoring] = useState(null);
 
     useEffect(() => {
-        props.curr.wg.screen.screen = "accuracy";
+        setScreen("accuracy");
     }, []);
 
     function dist(i, past50) {
@@ -27,10 +31,10 @@ export default function Accuracy(props) {
     }
 
     useEffect(() => {  // on load
-        // props.curr.wg.wg.params.storingPoints = true
-        console.log("wg", props.curr.wg.wg);
+        // wg.params.storingPoints = true
+        console.log("wg", wg);
         setStoring(setInterval(async() => {
-            const pred = await props.curr.wg.wg.getCurrentPrediction();
+            const pred = await wg.getCurrentPrediction();
             // console.log("pred")
             storedPoints.x.push(pred.x);
             storedPoints.y.push(pred.y);
@@ -62,8 +66,8 @@ export default function Accuracy(props) {
                 clearInterval(storing);
                 console.log("stop interval");
                 console.log("storedPoints", storedPoints);
-                // props.curr.wg.wg.params.storingPoints = false
-                // const acc = accuracy(props.curr.wg.wg.getStoredPoints())
+                // wg.params.storingPoints = false
+                // const acc = accuracy(wg.getStoredPoints())
                 const acc = accuracy(storedPoints);
                 console.log("wg acc", acc);
                 writeData("metadata", {
@@ -74,7 +78,7 @@ export default function Accuracy(props) {
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer);
         }
-    }, [props.curr.wg.wg]);
+    }, [wg]);
 
     if (!done) {
         return (<div style={{ height: "100vh", position: "relative" }}>

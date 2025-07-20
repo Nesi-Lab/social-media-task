@@ -1,18 +1,28 @@
 import Script from 'react-load-script'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import './App.css';
 import Timeline from './components/timeline'
 import { writeData } from './lib/utils'
+import { WebgazerProvider } from './components/WebgazerContext';
+import { ScreenProvider, useScreen } from './components/ScreenContext';
+import { ParticipantProvider, useParticipant } from './components/ParticipantContext';
 
 declare var webgazer;
 
-function WebGazeLoader(props) {
+function WebGazeLoader() {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
-  const [screen, setScreen] = useState({ screen: "" })  // this is dumb but mutable
-  const [participantId, setParticipantId] = useState({ id: props.participantId }) // this is dumb but mutable
+  const { screen } = useScreen();
+  const { participantId } = useParticipant();
+
+  // Refs for latest values
+  const screenRef = useRef(screen);
+  const participantIdRef = useRef(participantId);
+
+  useEffect(() => { screenRef.current = screen; }, [screen]);
+  useEffect(() => { participantIdRef.current = participantId; }, [participantId]);
 
   function formatTimestamp(unix_ts) {
     const d = new Date(unix_ts)
@@ -23,12 +33,9 @@ function WebGazeLoader(props) {
   function makeWgRecord(items) {
     return items.reduce((acc, curr, i) => {
       return { ...acc, ["timestamp" + i]: formatTimestamp(curr.timestamp), ["x" + i]: curr.x, ["y" + i]: curr.y }
-    }, { screen: screen.screen })
+    }, { screen: screenRef.current })
   }
 
-  useEffect(() => {
-    participantId.id = props.participantId
-  }, [props.participantId])
 
   function handleScriptLoad() {
     webgazer.setRegression('ridge')
@@ -50,7 +57,7 @@ function WebGazeLoader(props) {
               else { break }
             }
             toWrite.reverse()  // so indices increase with time
-            writeData("eye_tracking", makeWgRecord(toWrite), participantId.id)
+            writeData("eye_tracking", makeWgRecord(toWrite), participantIdRef.current)
           }
         }
       })
@@ -81,17 +88,20 @@ function WebGazeLoader(props) {
       onLoad={handleScriptLoad}
       onError={handleScriptError}
     />
-    <Timeline wg={{ wg: wg, screen: screen }} participantId={props.participantId} setParticipantId={props.setParticipantId} />
+    <WebgazerProvider value={wg}>
+        <Timeline />
+    </WebgazerProvider>
   </div>)
 }
 
 function App() {
-
-  const [participantId, setParticipantId] = useState(null)
-
   return (
     <div className="App" id="app" style={{ display: "flex", justifyContent: "center" }}>
-      <WebGazeLoader participantId={participantId} setParticipantId={setParticipantId} />
+      <ScreenProvider>
+        <ParticipantProvider>
+          <WebGazeLoader />
+        </ParticipantProvider>
+      </ScreenProvider>
     </div>
   );
 }

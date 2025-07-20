@@ -2,16 +2,17 @@ import { useState, useEffect } from "react";
 
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text';
 import { prevNext, slider, writeData } from '../lib/utils';
+import { useScreen } from './ScreenContext';
 
 export default function Profile(props) {
 
-    const [screen, setScreen] = useState("uploadPhoto");
+    const { screen, setScreen } = useScreen();
     const [participantImg, setParticipantImg] = useState("#");
     const [participantImgScore, setParticipantImgScore] = useState("");
     const [participantBio, setParticipantBio] = useState({});
 
     useEffect(() => {
-        props.curr.wg.screen.screen = `profile uploadPhoto`;
+        setScreen(`profile uploadPhoto`);
     }, []);
 
     const reader = new FileReader();
@@ -37,23 +38,19 @@ export default function Profile(props) {
 
     function handleUploadToBio(e) {
         setParticipantImgScore(document.getElementById("participantImgScore").value);
-        setScreen("bio");
-        props.curr.wg.screen.screen = `profile bio`;
+        setScreen(`profile bio`);
     }
 
     function handleBioToUpload(e) {
-        setScreen("uploadPhoto");
-        props.curr.wg.screen.screen = `profile uploadPhoto`;
+        setScreen(`profile uploadPhoto`);
     }
 
     function handleBioToDisplay(e) {
-        setScreen("display");
-        props.curr.wg.screen.screen = `profile display`;
+        setScreen(`profile display`);
     }
 
     function handleDisplayToBio(e) {
-        setScreen("bio");
-        props.curr.wg.screen.screen = `profile uploadPhoto`;
+        setScreen(`profile uploadPhoto`);
     }
 
     async function saveRow(rec) {
@@ -79,7 +76,7 @@ export default function Profile(props) {
         });
     }
 
-    if (screen === "uploadPhoto") {
+    if (screen === "profile uploadPhoto") {
         return (<div>
             {profileText[0]}
             <div className="upload">
@@ -101,7 +98,7 @@ export default function Profile(props) {
                 </div>
             }
         </div>);
-    } else if (screen === "bio") {
+    } else if (screen === "profile bio") {
         return (<div>
             {profileText[0]}
             <div className="bio-screen">

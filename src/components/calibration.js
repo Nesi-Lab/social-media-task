@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 
 import { writeData } from '../lib/utils';
 import Instruction from './instruction';
+import { useWebgazer } from './WebgazerContext';
+import { useScreen } from './ScreenContext';
 
 const numPoints = 9;  // changing this is not as easy: careful
 const numClicksPerPoint = 5;  // changing this messes up the instructions 
@@ -12,8 +14,11 @@ export default function Calibration(props) {
     const [done, setDone] = useState(false);
     const [regressed, setRegressed] = useState(false);
 
+    const wg = useWebgazer();
+    const { setScreen } = useScreen();
+
     useEffect(() => {
-        props.curr.wg.screen.screen = "calibration";
+        setScreen("calibration");
     }, []);
 
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint; }
@@ -39,7 +44,7 @@ export default function Calibration(props) {
         if (done && !regressed ) {
             setTimeout(() => {
                 console.log("Regressing");
-                const model = props.curr.wg.wg.getRegression()[0];
+                const model = wg.getRegression()[0];
                 model.train();
                 setRegressed(true);
             }, 0);
@@ -55,7 +60,7 @@ export default function Calibration(props) {
         const loc = e.target.getBoundingClientRect();
         const x_loc = loc.left + (loc.right - loc.left) / 2;
         const y_loc = loc.top + (loc.bottom - loc.top) / 2;
-        props.curr.wg.wg.recordScreenPosition(x_loc, y_loc);
+        wg.recordScreenPosition(x_loc, y_loc);
 
         if (newPointClicksLeft === 0) {
             point.style.backgroundColor = "yellow";
