@@ -109,6 +109,9 @@ export default function Profile(props) {
                     <div style={{ textAlign: "center" }}>
                         {profileText[2]}
                         {slider("participantImgScore")}
+                        <div className="prev-next">
+                            {prevNext(props)}
+                        </div>
                     </div>
                 }
                 {showCropper && originalImg && (
