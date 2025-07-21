@@ -359,22 +359,50 @@ input[type="range"]::-ms-thumb {
   background: #0275ff; 
 }
 
-.target {
-  border: 1px solid #000;
+.target-wrapper {
+  position: absolute;
   top: 0px;
   left: 0px;
-  height: 40px;
-  width: 40px;
+  width: 50px;
+  height: 50px;
+}
+
+.target {
+  border: 1px solid #000;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  background-color: red;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: none;
+}
+
+.target.small {
+  transform: scale(0.5);
+}
+
+.smalltarget-wrapper {
   position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 12px;
+  height: 12px;
 }
 
 .smalltarget {
   border: 1px solid #000;
-  top: 0px;
-  left: 0px;
-  height: 10px;
-  width: 10px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  position: absolute;
+  background-color: white;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: none;
+}
+
+.smalltarget.small {
+  transform: scale(0.5);
 }
