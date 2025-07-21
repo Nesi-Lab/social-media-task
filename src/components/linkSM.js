@@ -172,10 +172,7 @@ export default function LinkSM(props) {
             </div>
             {socialMediaText[1]}
             <div className="prev-next">
-                <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={onPrev}>Previous</button>
-                {phoneFilled ?
-                    <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={setupLoad}>Next</button> :
-                    null}
+                {prevNext({ ...props, disableNext: !phoneFilled })}
             </div>
         </div>);
     } else {

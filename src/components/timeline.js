@@ -75,7 +75,7 @@ export default function Timeline() {
         (c) => <LinkSM next={next} prev={prev} curr={c} />,
 
         // bio setup
-        (c) => <Profile next={next} curr={c} setParticipantImgTimeline={setParticipantImgTimeline} setParticipantBioTimeline={setParticipantBioTimeline} />,
+        (c) => <Profile prev={prev} next={next} curr={c} setParticipantImgTimeline={setParticipantImgTimeline} setParticipantBioTimeline={setParticipantBioTimeline} />,
 
         //////////////
         // WATCHING //

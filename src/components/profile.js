@@ -109,7 +109,9 @@ export default function Profile(props) {
                     <div style={{ textAlign: "center" }}>
                         {profileText[2]}
                         {slider("participantImgScore")}
-                        <button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleUploadToBio}>Next</button>
+                        <div className="prev-next">
+                            {prevNext(props)}
+                        </div>
                     </div>
                 }
                 {showCropper && originalImg && (
@@ -154,12 +156,8 @@ export default function Profile(props) {
                             null
                         }
                     </div>
-                    <div className="prev-next" style={{flexGrow: 0}}>
-                        <button style={{ margin: "5px" }} onClick={handleBioToUpload}>Previous</button>
-                        {Object.keys(bioQuestions).every(e => Object.prototype.hasOwnProperty.call(participantBio, e)) ?
-                            (<button style={{ margin: "30px", display: props.next ? "inline" : "none" }} onClick={handleBioToDisplay}>Next</button>) :
-                            null
-                        }
+                    <div className="prev-next">
+                        {prevNext(props)}
                     </div>
                 </div>
             </div>

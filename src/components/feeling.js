@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { feelingText, feelingList } from '../assets/text';
-import { multiSlider, writeData } from '../lib/utils';
+import { multiSlider, writeData, prevNext } from '../lib/utils';
 import { pick } from 'lodash';
 import { useScreen } from './ScreenContext';
 
@@ -47,8 +47,11 @@ export default function Feeling(props) {
             {multiSlider(valsSubset, handleSliderChange)}
         </div>
         <div className="prev-next">
-            <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={screenNum === 0 ? () => props.prev(props.curr.i) : changeScreen}>Previous</button>
-            <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={screenNum === 0 ? changeScreen : onNext}>Next</button>
+            {prevNext({
+                ...props,
+                prev: changeScreen,
+                next: screenNum === 0 ? changeScreen : onNext
+            })}
         </div>
     </div>);
 }
