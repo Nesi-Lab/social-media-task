@@ -3,20 +3,23 @@ import { useState, useEffect } from "react";
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text';
 import { prevNext, slider, writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 import ImageCropper from './ImageCropper';
 
 export default function Profile(props) {
 
     const { screen, setScreen } = useScreen();
+    const { participantId, setImg, setBio } = useParticipant();
     const [participantImg, setParticipantImg] = useState("#");
     const [participantImgScore, setParticipantImgScore] = useState("");
     const [participantBio, setParticipantBio] = useState({});
     const [showCropper, setShowCropper] = useState(false);
     const [originalImg, setOriginalImg] = useState(null);
+    const [profileStep, setProfileStep] = useState("uploadPhoto"); // 'uploadPhoto', 'bio', 'display'
 
     useEffect(() => {
-        setScreen(`profile uploadPhoto`);
-    }, []);
+        setScreen(`profile ${profileStep}`);
+    }, [profileStep, setScreen]);
 
     const reader = new FileReader();
 
@@ -52,23 +55,23 @@ export default function Profile(props) {
 
     function handleUploadToBio(e) {
         setParticipantImgScore(document.getElementById("participantImgScore").value);
-        setScreen(`profile bio`);
+        setProfileStep("bio");
     }
 
     function handleBioToUpload(e) {
-        setScreen(`profile uploadPhoto`);
+        setProfileStep("uploadPhoto");
     }
 
     function handleBioToDisplay(e) {
-        setScreen(`profile display`);
+        setProfileStep("display");
     }
 
     function handleDisplayToBio(e) {
-        setScreen(`profile uploadPhoto`);
+        setProfileStep("uploadPhoto");
     }
 
     async function saveRow(rec) {
-        writeData("metadata", rec, props.curr.id);
+        writeData("metadata", rec, participantId);
     }
 
 
@@ -76,6 +79,8 @@ export default function Profile(props) {
         const bio = makeBioPlain(participantBio);
         props.setParticipantImgTimeline(participantImg);
         props.setParticipantBioTimeline(makeBio(participantBio));
+        setImg(participantImg);
+        setBio(makeBio(participantBio));
         await saveRow({
             name: "participant-img-score",
             value: participantImgScore.toString(),
@@ -90,7 +95,12 @@ export default function Profile(props) {
         });
     }
 
-    if (screen === "profile uploadPhoto") {
+    // Only call props.next when profile is fully complete (display screen)
+    function handleFinalNext() {
+        save().then(() => props.next(props.curr.i));
+    }
+
+    if (profileStep === "uploadPhoto") {
         return (
             <div>
                 {profileText[0]}
@@ -110,7 +120,7 @@ export default function Profile(props) {
                         {profileText[2]}
                         {slider("participantImgScore")}
                         <div className="prev-next">
-                            {prevNext(props)}
+                            {prevNext({ ...props, next: handleUploadToBio })}
                         </div>
                     </div>
                 }
@@ -123,7 +133,7 @@ export default function Profile(props) {
                 )}
             </div>
         );
-    } else if (screen === "profile bio") {
+    } else if (profileStep === "bio") {
         return (<div>
             {profileText[0]}
             <div className="bio-screen">
@@ -157,7 +167,7 @@ export default function Profile(props) {
                         }
                     </div>
                     <div className="prev-next">
-                        {prevNext(props)}
+                        {prevNext({ ...props, prev: handleBioToUpload, next: handleBioToDisplay })}
                     </div>
                 </div>
             </div>
@@ -173,7 +183,7 @@ export default function Profile(props) {
                 {profileText[5]}
                 {slider("participantBioScore")}
             </div>
-            {prevNext({ ...props, prev: handleDisplayToBio }, save)}
+            {prevNext({ ...props, prev: handleDisplayToBio, next: handleFinalNext }, save)}
         </div>);
     }
 }

@@ -4,6 +4,7 @@ import { writeData } from '../lib/utils';
 import Instruction from './instruction';
 import { useWebgazer } from './WebgazerContext';
 import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 const numPoints = 9;  // changing this is not as easy: careful
 const numClicksPerPoint = 5;  // changing this messes up the instructions 
@@ -16,6 +17,7 @@ export default function Calibration(props) {
 
     const wg = useWebgazer();
     const { setScreen } = useScreen();
+    const { participantId } = useParticipant();
 
     useEffect(() => {
         setScreen("calibration");
@@ -28,11 +30,11 @@ export default function Calibration(props) {
         writeData("metadata", {
             name: "screen-width",
             value: window.innerWidth
-        }, props.curr.id);
+        }, participantId);
         writeData("metadata", {
             name: "screen-height",
             value: window.innerHeight
-        }, props.curr.id);
+        }, participantId);
     }, []);
 
     useEffect(() => {

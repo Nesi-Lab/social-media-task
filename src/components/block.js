@@ -7,6 +7,7 @@ import Feeling from './feeling';
 import { slider, writeData, prevNext } from '../lib/utils';
 import Instruction from "./instruction";
 import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 const timerSecs = {
     "watching": {
@@ -28,7 +29,8 @@ const timerSecs = {
 const color = (score) => score < 2.5 ? "red" : "green";
 
 function Block({ curr, next, blockInfo, trials, ...rest }) {
-    const participant = { img: curr.img, bio: curr.bio, id: "participant" };
+    const { participantId, img, bio } = useParticipant();
+    const participant = { img, bio, id: "participant" };
 
     // add participant into props where appropriate
     let trialsCopy = trials;
@@ -78,7 +80,7 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
             score: (blockInfo.type === "rating") ? selectedThumb : trialsCopy[trialInd].score
         };
         if (interpretationScore) { record["interpretation_score"] = interpretationScore; }
-        writeData("trials", record, curr.id);
+        writeData("trials", record, participantId);
 
         if (trialInd + 1 === trialsCopy.length) {
             setFinished(true);

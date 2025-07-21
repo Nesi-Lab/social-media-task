@@ -5,6 +5,7 @@ import { watchText, beforeSummaryText } from '../assets/text';
 import Feeling from './feeling';
 import { writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 const timerSecs = {
     "anticipation": 3,
@@ -16,6 +17,7 @@ const timerSecs = {
 const color = (score) => score < 2.5 ? "red" : "green";
 
 export default function Summary({ curr, next, blockInfo, summaries, trials, ...rest }) {
+    const { participantId } = useParticipant();
     const participant = { img: curr.img, bio: curr.bio, id: "participant" };
     const summariesCopy = summaries.map(e => {
         return {
@@ -56,13 +58,13 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
     }
 
     function nextTrial() {
-        writeData("trials", blockDescription(), curr.id);
+        writeData("trials", blockDescription(), participantId);
         if (trialInd + 1 === summariesCopy.length) {
             setFinished(true);
         } else {
+            setScreen(`summary ${blockInfo.number} trial ${trialInd + 2} loading`);
             setTrialInd(trialInd + 1);
-            setScreenType("fixation");
-            setScreen(`summary ${blockInfo.number} trial ${trialInd + 1 + 1} fixation`);
+            setScreenType("loading");
         }
     }
 
