@@ -80,7 +80,6 @@ const propInjectors = {
         next: helpers.next,
         curr: { i: helpers.currScreen },
     }),
-    // Add more as needed...
 };
 
 export default function Timeline() {
@@ -124,9 +123,6 @@ export default function Timeline() {
         setParticipantImgTimeline,
         setParticipantBioTimeline,
         blockProps,
-        // participantId,
-        // participantImgTimeline,
-        // participantBioTimeline,
     };
     return renderStep(timelineConfig[currScreen], currScreen, helpers);
 }

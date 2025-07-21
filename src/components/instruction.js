@@ -11,7 +11,6 @@ export default function Instruction(props) {
     useEffect(() => {
         setScreen(`instruction ${props.id} ${props.ind}`);
     }, []);
-    console.log(props, "props")
     return (<div>
         {text[props.id][props.ind]}
         {Object.keys(props).includes("img") ?
