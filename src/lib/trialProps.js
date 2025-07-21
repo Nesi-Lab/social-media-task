@@ -1,4 +1,5 @@
 import { impersonatorImgs } from '../assets/imgs';
+import { NUM_TRIALS_PER_BLOCK } from '../components/timeline';
 
 // shuffle the items in an array randomly
 function shuffleArray(array) {
