@@ -4,7 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import { eye, x, check } from '../assets/imgs';
 import { rateText, interpretationText, watchText } from '../assets/text';
 import Feeling from './feeling';
-import { slider, writeData } from '../lib/utils';
+import { slider, writeData, prevNext } from '../lib/utils';
 import Instruction from "./instruction";
 import { useScreen } from './ScreenContext';
 
@@ -245,7 +245,7 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
                 {interpretationText}
                 <img src={trialsCopy[trialInd].rater.img} alt="rater" className="interpretation-img" />
                 {slider("interpretation")}
-                <button style={{ marginTop: "60px" }} onClick={handleInterpretationClick}>Next</button>
+                {prevNext({ ...rest, prev: undefined, next: handleInterpretationClick })}
             </div>);
         }
     } else {

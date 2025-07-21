@@ -1,4 +1,5 @@
 import { sliderLabels } from '../assets/text';
+import Button from '../components/Button';
 
 export function prevNext(props, save = (async function () { })) {
     async function onPrev() {
@@ -7,10 +8,26 @@ export function prevNext(props, save = (async function () { })) {
     async function onNext() {
         save().then(() => props.next(props.curr.i));
     }
-    return (<div className="prev-next">
-        <button style={{ margin: "5px", display: props.prev ? "inline" : "none" }} onClick={onPrev}>Previous</button>
-        <button style={{ margin: "5px", display: props.next ? "inline" : "none" }} onClick={onNext}>Next</button>
-    </div>);
+    return (
+        <div className="prev-next" style={{ display: 'flex', gap: '16px', justifyContent: 'center', margin: '32px 0' }}>
+            <Button
+                variant="secondary"
+                style={{ minWidth: 120 }}
+                onClick={onPrev}
+                disabled={!props.prev}
+            >
+                Previous
+            </Button>
+            <Button
+                variant="primary"
+                style={{ minWidth: 120 }}
+                onClick={onNext}
+                disabled={!props.next}
+            >
+                Next
+            </Button>
+        </div>
+    );
 }
 
 const labels = (<div className="slider-labels">
