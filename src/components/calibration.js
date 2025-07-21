@@ -62,7 +62,11 @@ export default function Calibration(props) {
         const y_loc = loc.top + (loc.bottom - loc.top) / 2;
         wg.recordScreenPosition(x_loc, y_loc);
 
+        // Update opacity immediately for instant visual feedback
+        point.style.opacity = newPointClicksLeft === 0 ? 1 : newPointClicksLeft / numClicksPerPoint;
+
         if (newPointClicksLeft === 0) {
+            // Update color immediately for instant feedback
             point.style.backgroundColor = "yellow";
             point.disabled = "true";
         }

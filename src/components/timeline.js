@@ -54,8 +54,6 @@ export default function Timeline() {
 
         // setup
         (c) => <User next={next} curr={c} setParticipantId={setParticipantId} />,
-        (c) => <LinkSM next={next} prev={prev} curr={c} />,
-
 
         // Calibrate
         (c) => <FaceCheck prev={prev} next={next} curr={c} />,
