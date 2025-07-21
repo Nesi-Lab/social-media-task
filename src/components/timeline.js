@@ -1,40 +1,86 @@
-import { useState, useEffect } from "react";
-import { useWebgazer } from './WebgazerContext';
-import { useScreen } from './ScreenContext';
+import { useState } from "react";
+import timelineConfig from './timeline.config.json';
 import { useParticipant } from './ParticipantContext';
-
-import Instruction from './instruction';
-import LinkSM from './linkSM';
-import User from './user';
-import Profile from './profile';
-import Feeling from './feeling';
 import trialProps from '../lib/trialProps';
-import Block from './block';
-import Summary from './summary';
+import User from './user';
 import FaceCheck from './faceCheck';
+import Instruction from './instruction';
 import Calibration from './calibration';
 import NewCalibration from "./newCalibration";
-import Accuracy from './accuracy';
+import Feeling from './feeling';
+import LinkSM from './linkSM';
+import Profile from './profile';
+import Block from './block';
+import Summary from './summary';
 
-const ninePoints = [
-    [.05, .05], 
-    [.05, .5],
-    [.05, .95],
-    [.5, .95],
-    [.95, .95],
-    [.95, .5],
-    [.95, .05],
-    [.5, .05],
-    [.5, .5]];
+// Points arrays for calibration steps
 const fourPoints = [
     [.25, .25],
     [.25, .75],
     [.75, .75],
     [.75, .25]
 ];
+const ninePoints = [
+    [.05, .05], [.05, .5], [.05, .95], [.5, .95], [.95, .95], [.95, .5], [.95, .05], [.5, .05], [.5, .5]
+];
 
+// Map config 'type' to React component
+const componentMap = {
+    User,
+    FaceCheck,
+    Instruction,
+    Calibration,
+    NewCalibration,
+    Feeling,
+    LinkSM,
+    Profile,
+    Block,
+    Summary
+};
 
-
+// Map of prop injectors for special-case handling
+const propInjectors = {
+    Profile: (props, helpers) => ({
+        ...props,
+        setParticipantImgTimeline: helpers.setParticipantImgTimeline,
+        setParticipantBioTimeline: helpers.setParticipantBioTimeline,
+    }),
+    User: (props, helpers) => ({
+        ...props,
+        setParticipantId: helpers.setParticipantId,
+    }),
+    Block: (props, helpers) => ({
+        ...props,
+        ...helpers.blockProps[props.blockPropsIndex],
+    }),
+    Summary: (props, helpers) => ({
+        ...props,
+        ...helpers.blockProps[props.blockPropsIndex],
+    }),
+    NewCalibration: (props) => ({
+        ...props,
+        points: props.points === "fourPoints" ? fourPoints : props.points === "ninePoints" ? ninePoints : props.points,
+    }),
+    Instruction: (props, helpers) => ({
+        ...props,
+        prev: helpers.prev,
+        next: helpers.next,
+        curr: { i: helpers.currScreen },
+    }),
+    Feeling: (props, helpers) => ({
+        ...props,
+        prev: helpers.prev,
+        next: helpers.next,
+        curr: { i: helpers.currScreen },
+        loc: props.loc,
+    }),
+    LinkSM: (props, helpers) => ({
+        ...props,
+        prev: helpers.prev,
+        next: helpers.next,
+        curr: { i: helpers.currScreen },
+    }),
+};
 
 export default function Timeline() {
     const { participantId, setParticipantId } = useParticipant();
@@ -43,124 +89,40 @@ export default function Timeline() {
     const [participantBioTimeline, setParticipantBioTimeline] = useState(null);
     const [blockProps, setBlockProps] = useState(trialProps());
 
-    const prev = (c) => { setCurrScreen(c - 1); };
-    const next = (c) => { setCurrScreen(c + 1); };
+    // Clamp navigation to valid range
+    const goTo = (i) => {
+        if (i < 0) i = 0;
+        if (i >= timelineConfig.length) i = timelineConfig.length - 1;
+        setCurrScreen(i);
+    };
+    const prev = (curr) => goTo(curr - 1);
+    const next = (curr) => goTo(curr + 1);
 
-    const timeline = [
+    // Render a timeline step from config, using prop injectors for special cases
+    function renderStep(step, i, helpers) {
+        if (!step) return <div>Invalid timeline step (index {i})</div>;
+        const Comp = componentMap[step.type];
+        if (!Comp) return <div>Unknown component type: {step.type}</div>;
+        let props = { ...step, curr: { i }, next: helpers.next, prev: helpers.prev };
+        // Apply prop injector if exists
+        if (propInjectors[step.type]) {
+            props = propInjectors[step.type](props, { ...helpers, currScreen: i });
+        }
+        return <Comp key={i} {...props} />;
+    }
 
-        ///////////////
-        // BEGINNING //
-        ///////////////
-
-        // setup
-        (c) => <User next={next} curr={c} setParticipantId={setParticipantId} />,
-
-        // Calibrate
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} key="calib0"/>,  // must be presented with accuracy
-        // (c) => <NewCalibration prev={prev} key="calib0" next={next} curr={c}  points={ninePoints} test={false}/>,
-        (c) => <NewCalibration prev={prev} key="test0" next={next} curr={c}  loc="1" points={fourPoints} test={true}/>,
-
-        // (c) => <Accuracy loc="beginning" prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="feelingInstruction" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Feeling loc="beginning" prev={prev} next={next} curr={c} />,
-
-        // // first set of instructions
-        (c) => <Instruction id="introText" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="introText" ind="1" next={next} prev={prev} curr={c} />,
-
-        // // social media pages
-        (c) => <LinkSM next={next} prev={prev} curr={c} />,
-
-        // bio setup
-        (c) => <Profile prev={prev} next={next} curr={c} setParticipantImgTimeline={setParticipantImgTimeline} setParticipantBioTimeline={setParticipantBioTimeline} />,
-
-        //////////////
-        // WATCHING //
-        //////////////
-
-        // beginning tutorial images
-        (c) => <Instruction id="introText" ind="2" next={next} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="0" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="1" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="2" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="3" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="4" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="5" next={next} prev={prev} curr={c} />,
-        
-        // content
-        (c) => <Instruction id="blockBeginningText" ind="0" next={next} prev={prev} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[0]} />,
-
-        ////////////
-        // RATING //
-        ////////////
-
-        // content
-        (c) => <Instruction id="blockBeginningText" ind="1" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[1]} />,
-        (c) => <Instruction id="calibrationText" ind="5" next={next} prev={prev} curr={c} />,
-
-        // content
-        (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[2]} />,
-
-        ///////////
-        // RATED //
-        ///////////
-
-        // recalibrate
-        (c) => <FaceCheck prev={prev} next={next} curr={c} />,
-        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} key="calib1"/>,  // must be presented with accuracy
-        (c) => <NewCalibration prev={prev} key="test1" next={next} curr={c}  loc="2" points={fourPoints} test={true}/>,
-
-        // getting started screen
-        (c) => <Instruction id="blockBeginningText" ind="2" next={next} curr={c} />,
-
-        // rated tutorial images
-        (c) => <Instruction id="tutorialText" ind="0" img="6" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="7" next={next} prev={prev} curr={c} />,
-        (c) => <Instruction id="tutorialText" ind="0" img="8" next={next} prev={prev} curr={c} />,
-
-        // content
-        (c) => <Instruction id="blockBeginningText" ind="3" next={next} prev={prev} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[3]} />,
-        (c) => <Summary next={next} curr={c} {...blockProps[3]} />,
-        (c) => <Instruction id="calibrationText" ind="5" next={next} prev={prev} curr={c} />,
-
-        // content
-        (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[4]} />,
-        (c) => <Summary next={next} curr={c} {...blockProps[4]} />,
-
-        // recalibrate again
-        (c) => <Instruction id="calibrationText" ind="1" next={next} prev={prev} curr={c} />,
-        (c) => <Calibration prev={prev} next={next} curr={c} key="calib2"/>,  // must be presented with accuracy
-        (c) => <NewCalibration prev={prev} key="test2" next={next} curr={c}  loc="3" points={fourPoints} test={true}/>,
-
-        // content
-        (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[5]} />,
-        (c) => <Summary next={next} curr={c} {...blockProps[5]} />,
-        (c) => <Instruction id="calibrationText" ind="5" next={next} prev={prev} curr={c} />,
-
-        // content
-        (c) => <Instruction id="betweenBlocksText" ind="0" next={next} curr={c} />,
-        (c) => <Block next={next} curr={c} {...blockProps[6]} />,
-        (c) => <Summary next={next} curr={c} {...blockProps[6]} />,
-
-        // ending
-        (c) => <Instruction id="endingText" ind="0" curr={c} />,
-    ];
-    return timeline[currScreen]({
-        i: currScreen,
-        img: participantImgTimeline,
-        bio: participantBioTimeline,
-        id: participantId,
+    // Guard against out-of-bounds
+    if (currScreen < 0 || currScreen >= timelineConfig.length) {
+        return <div>End of timeline</div>;
+    }
+    // Pass all helpers needed for prop injection
+    const helpers = {
+        next,
+        prev,
         setParticipantId,
-        // wg and screen are now available via context
-    });
+        setParticipantImgTimeline,
+        setParticipantBioTimeline,
+        blockProps,
+    };
+    return renderStep(timelineConfig[currScreen], currScreen, helpers);
 }

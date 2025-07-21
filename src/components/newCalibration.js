@@ -4,6 +4,7 @@ import Target from './target';
 import { writeData } from '../lib/utils';
 import { useWebgazer } from './WebgazerContext';
 import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 const NUM_SAMPLES = 5;
 const PUASE_TIME = 2000;
@@ -37,6 +38,7 @@ export default function NewCalibration(props) {
 
     const wg = useWebgazer();
     const { setScreen } = useScreen();
+    const { participantId } = useParticipant();
 
     // Set screen for logging
     useEffect(() => {
@@ -48,11 +50,11 @@ export default function NewCalibration(props) {
             writeData("metadata", {
                 name: "screen-width",
                 value: window.innerWidth
-            }, props.curr.id);
+            }, participantId);
             writeData("metadata", {
                 name: "screen-height",
                 value: window.innerHeight
-            }, props.curr.id);
+            }, participantId);
 
             wg.clearData();
         }
@@ -168,7 +170,7 @@ export default function NewCalibration(props) {
                 writeData("metadata", {
                     name: `calibration-accuracy${props.loc ? '-' + props.loc : ''}`,
                     value: acc.toString()
-                }, props.curr.id);
+                }, participantId);
 
             // If this was a calibration, train the model
             } else {
@@ -180,7 +182,7 @@ export default function NewCalibration(props) {
                 }, 0);
             }
         }
-    }, [counter, done, props.test, props.loc, props.curr.id, wg]);
+    }, [counter, done, props.test, props.loc, participantId, wg]);
 
     // Cleanup intervals on unmount
     useEffect(() => {

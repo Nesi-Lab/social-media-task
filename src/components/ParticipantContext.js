@@ -4,8 +4,10 @@ export const ParticipantContext = createContext(null);
 
 export function ParticipantProvider({ children }) {
     const [participantId, setParticipantId] = useState(null);
+    const [img, setImg] = useState(null);
+    const [bio, setBio] = useState(null);
     return (
-        <ParticipantContext.Provider value={{ participantId, setParticipantId }}>
+        <ParticipantContext.Provider value={{ participantId, setParticipantId, img, setImg, bio, setBio }}>
             {children}
         </ParticipantContext.Provider>
     );
