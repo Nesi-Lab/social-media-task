@@ -47,7 +47,11 @@ export default function Feeling(props) {
             {multiSlider(valsSubset, handleSliderChange)}
         </div>
         <div className="prev-next">
-            {prevNext(props)}
+            {prevNext({
+                ...props,
+                prev: changeScreen,
+                next: screenNum === 0 ? changeScreen : onNext
+            })}
         </div>
     </div>);
 }
