@@ -17,7 +17,7 @@ export const introText = [
     </div>),
 
     (<div>
-        <h1>Here’s how it works...</h1>
+        <h1>Here’s how it works!</h1>
         <p>Connect is a live simulation game. People are participating <i>right now</i> at multiple sites throughout Rhode Island.</p>
         <p>Connect will search your social media networks to see if anyone you know is participating right now.</p>
         <p>On Connect, you will give your first impressions of other people and they will give their first impressions of you.</p>
