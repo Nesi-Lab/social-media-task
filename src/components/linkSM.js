@@ -172,7 +172,7 @@ export default function LinkSM(props) {
             </div>
             {socialMediaText[1]}
             <div className="prev-next">
-                {prevNext(props)}
+                {prevNext({ ...props, disableNext: !phoneFilled })}
             </div>
         </div>);
     } else {
