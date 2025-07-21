@@ -3,6 +3,8 @@ from math import ceil, floor
 from collections import Counter
 import json
 
+NUM_TRIALS_PER_BLOCK = 15
+
 def randfloat(low, high):
     return round(uniform(low, high), 1)
 
@@ -13,7 +15,7 @@ def gen_rand(low, high, num, is_float=False):
         ret.append(f(low, high))
     return ret
 
-def gen_num_watchings(num_trials=15):
+def gen_num_watchings(num_trials=NUM_TRIALS_PER_BLOCK):
     low_range, high_range = (7, 15), (40, 60)  # inclusive
     l = gen_rand(*low_range, ceil(num_trials / 2)) + \
         gen_rand(*high_range, ceil(num_trials / 2))
@@ -31,7 +33,7 @@ def gen_scores(block_type, block_subtype=None):
     }
 
     for s in [num_scores['watching'], num_scores['rated']['acc'], num_scores['rated']['rej']]:
-        assert(sum(s.values()) == 15)
+        assert(sum(s.values()) == NUM_TRIALS_PER_BLOCK)
 
     nums = num_scores[block_type]
     if block_subtype != None:
@@ -49,11 +51,11 @@ def gen_summaries(block_subtype, participant_mean_score):
     }
 
     for s in num_mean_scores.values():
-        assert(sum(s.values()) == 14)
+        assert(sum(s.values()) == NUM_TRIALS_PER_BLOCK - 1)
 
-    order = list(range(15))
+    order = list(range(NUM_TRIALS_PER_BLOCK))
     shuffle(order)
-    order = order[:14]
+    order = order[:NUM_TRIALS_PER_BLOCK - 1]
     ab = num_mean_scores[block_subtype]
 
     mean_scores = gen_rand(1, participant_mean_score, ab['below'], is_float=True) + \
@@ -61,7 +63,7 @@ def gen_summaries(block_subtype, participant_mean_score):
     shuffle(mean_scores)
 
     def make_summary(j): return {'ind': order[j], 'mean_score': mean_scores[j]}
-    return [{"raters": [make_summary(i), make_summary(i+1)], "num_watching": n} for i, n in zip(range(0, 14, 2), gen_num_watchings(num_trials=7))]
+    return [{"raters": [make_summary(i), make_summary(i+1)], "num_watching": n} for i, n in zip(range(0, NUM_TRIALS_PER_BLOCK - 1, 2), gen_num_watchings(num_trials=(NUM_TRIALS_PER_BLOCK - 1)//2))]
 
 
 def even_divide(dividend, divisor):
@@ -144,10 +146,10 @@ def gen_json_blocks():
         breakdown, chosen_breakdowns)
 
     ret =  {
-        'watching': [{'rater': early_ids[0][i], 'ratee': early_ids[1][i], 'score': sc, 'num_watching': nw} for sc, nw, i in zip(gen_scores('watching'), gen_num_watchings(), range(15))],
-        'rating': {str(i + 1): [{'ratee': early_ids[i+2][j], 'num_watching': nw} for nw, j in zip(gen_num_watchings(), range(15))] for i in range(2)},
+        'watching': [{'rater': early_ids[0][i], 'ratee': early_ids[1][i], 'score': sc, 'num_watching': nw} for sc, nw, i in zip(gen_scores('watching'), gen_num_watchings(), range(NUM_TRIALS_PER_BLOCK))],
+        'rating': {str(i + 1): [{'ratee': early_ids[i+2][j], 'num_watching': nw} for nw, j in zip(gen_num_watchings(), range(NUM_TRIALS_PER_BLOCK))] for i in range(2)},
         'rated': {str(i + 1): {ar: {
-            'trial': [{'rater': rated_ids[i + 2*(1 if ar == 'acc' else 0)][j], 'score': sc, 'num_watching': nw} for sc, nw, j in zip(gen_scores('rated', ar), gen_num_watchings(), range(15))],
+            'trial': [{'rater': rated_ids[i + 2*(1 if ar == 'acc' else 0)][j], 'score': sc, 'num_watching': nw} for sc, nw, j in zip(gen_scores('rated', ar), gen_num_watchings(), range(NUM_TRIALS_PER_BLOCK))],
             'summary': {
                 'ratee_mean_score': randfloat(*participant_mean_score_ranges[ar]),
                 'raters': []
