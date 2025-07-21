@@ -245,7 +245,7 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
                 {interpretationText}
                 <img src={trialsCopy[trialInd].rater.img} alt="rater" className="interpretation-img" />
                 {slider("interpretation")}
-                {prevNext({ ...rest, prev: undefined, next: handleInterpretationClick })}
+                {prevNext({ ...rest, prev: undefined, next: () => handleInterpretationClick(document.getElementById("interpretation").value) })}
             </div>);
         }
     } else {
