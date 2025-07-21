@@ -20,19 +20,19 @@ function WebGazeLoader() {
   // Refs for latest values
   const screenRef = useRef(screen);
   const participantIdRef = useRef(participantId);
+  const initialTimestampRef = useRef(null);
 
   useEffect(() => { screenRef.current = screen; }, [screen]);
   useEffect(() => { participantIdRef.current = participantId; }, [participantId]);
 
-  function formatTimestamp(unix_ts) {
-    const d = new Date(unix_ts)
-    const pad = n => ("0" + n).slice(-2), pad3 = n => ("00" + n).slice(-3)
-    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}.${pad3(d.getUTCMilliseconds())}+00`
+  function formatRelativeTimestamp(ts) {
+    if (initialTimestampRef.current === null) return 0;
+    return ts - initialTimestampRef.current;
   }
 
   function makeWgRecord(items) {
     return items.reduce((acc, curr, i) => {
-      return { ...acc, ["timestamp" + i]: formatTimestamp(curr.timestamp), ["x" + i]: curr.x, ["y" + i]: curr.y }
+      return { ...acc, ["timestamp" + i]: formatRelativeTimestamp(curr.timestamp), ["x" + i]: curr.x, ["y" + i]: curr.y }
     }, { screen: screenRef.current })
   }
 
@@ -43,7 +43,9 @@ function WebGazeLoader() {
       .setGazeListener((data, elapsedTime) => {
         if (data == null) { return; }
         const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
-        wgLogs.push({ ...webgazer.util.bound(data), timestamp: Date.now() })
+        const now = Date.now();
+        if (initialTimestampRef.current === null) initialTimestampRef.current = now;
+        wgLogs.push({ ...webgazer.util.bound(data), timestamp: now })
         if (wgLogs.length >= 2) {
           // exists a previous reading
           const prevReadingSec = calcSecond(wgLogs.length - 2)
