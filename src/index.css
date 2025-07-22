@@ -104,11 +104,11 @@ button {
 }
 
 .quadrant {
-  background-color: #091147;
-  border-radius: 20px;
+  background: linear-gradient(135deg, #0d1a4a 0%, #1a237e 100%);
+  border-radius: 16px;
   width: 290px;
-  height: 300px;
-  padding: 15px 20px 20px;
+  height: 340px;
+  padding: 24px 24px 28px;
   margin: auto 9%;
   text-align: center;
 }

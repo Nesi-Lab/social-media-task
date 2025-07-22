@@ -9,6 +9,117 @@ import Instruction from "./instruction";
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
 
+const positionClassMap = {
+    'top-left': 'quadrant grid-top grid-left',
+    'top-right': 'quadrant grid-top grid-right',
+    'bottom-left': 'quadrant grid-bottom grid-left',
+    'bottom-right': 'quadrant grid-bottom grid-right',
+};
+function BlockQuadrant({ position, children }) {
+    return (
+        <div className={positionClassMap[position] || 'quadrant'}>
+            {children}
+        </div>
+    );
+}
+
+function WatchQuadrant({ n, blockInfo }) {
+    return (
+        <>
+            <img src={eye} alt="eye" style={{ width: "150px", margin: "15px 0px 0px 0px"}} />
+            {blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
+        </>
+    );
+}
+
+const color = (score) => score < 2.5 ? "red" : "green";
+// Add a pill style for bio items (copied from profile.js)
+const bioPillStyle = {
+  display: 'inline-block',
+  background: 'white',
+  color: 'black',
+  borderRadius: '6px', // much less rounded
+  padding: '2px 8px', // boxier
+  margin: '2px',
+  fontWeight: 500,
+  fontSize: '0.95rem',
+  boxShadow: '0 1px 4px rgba(0,0,0,0.07)'
+};
+
+function BioPillsFromString({ bioString }) {
+  if (!bioString) return null;
+  // Split on |, then for the last item, if it contains both color and emoji, split them
+  let items = bioString.split('|').map(s => s.trim()).filter(Boolean);
+  let emoji = null;
+  if (items.length > 0) {
+    // Check if the last item contains an emoji
+    const last = items[items.length - 1];
+    // Regex to match color + emoji (e.g., 'blue 😎')
+    const match = last.match(/^(.*?)(\p{Emoji}+)$/u);
+    if (match) {
+      // Separate color and emoji
+      items[items.length - 1] = match[1].trim();
+      emoji = match[2];
+    } else if (/^\p{Emoji}+$/u.test(last)) {
+      // If the last item is just an emoji
+      emoji = items.pop();
+    }
+  }
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2px' }}>
+      {items.map((item, i) => (
+        <span key={i} style={bioPillStyle}>{item}</span>
+      ))}
+      {emoji && <span key="emoji" style={bioPillStyle}>{emoji}</span>}
+    </div>
+  );
+}
+
+function PersonQuadrant({ p, isRatee, score = null, screenType }) {
+    const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2);
+    const drawCheck = score !== null && screenType === "feedback" && (score === 3 || score === 4);
+    const X = (<img src={x} alt="x" className="overlay" />);
+    const ch = (<img src={check} alt="check" className="overlay" />);
+    const drawRateBox = score !== null && screenType === "feedback";
+    const rateBox = (score) => {
+        const makeRateBox = inner => <p className="rate-box">{inner}</p>;
+        return score === 0 ?
+            makeRateBox(<span style={{ fontSize: "large" }}>NO RATING PROVIDED</span>) :
+            makeRateBox([
+                <span style={{ fontSize: "larger" }}>Rating: </span>,
+                <span style={{ color: color(score), fontSize: "larger" }}>{score}</span>
+            ]);
+    };
+    return (
+        <>
+            <div className="person">
+                <img src={p.img} style={{ border: drawCheck ? "10px solid " + color(score) : "none", marginTop: drawCheck ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
+                <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
+                <div id="ch" style={{ display: drawCheck ? "inline" : "none" }}>{isRatee ? ch : null}</div>
+                <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
+            </div>
+            <div className="person-bio"><BioPillsFromString bioString={p.bio} /></div>
+        </>
+    );
+}
+
+export { PersonQuadrant };
+
+function RateQuadrant({ blockInfo, screenType, handleThumbClick, clickable }) {
+    const antRat = (blockInfo.type === "rating" && screenType === "anticipation") ? "thumb-anticipation-rating" : "";
+    return (
+        <>
+            {rateText}
+            <div className="thumbs">
+                <button className={"thumb thumb-down " + antRat} id="thumb-1" key={"1"} onClick={handleThumbClick} disabled={!clickable}>1</button>
+                <button className={"thumb thumb-down " + antRat} id="thumb-2" key={"2"} onClick={handleThumbClick} disabled={!clickable}>2</button>
+                <button className={"thumb thumb-up " + antRat} id="thumb-3" key={"3"} onClick={handleThumbClick} disabled={!clickable}>3</button>
+                <button className={"thumb thumb-up " + antRat} id="thumb-4" key={"4"} onClick={handleThumbClick} disabled={!clickable}>4</button>
+            </div>
+        </>
+    );
+}
+
 const timerSecs = {
     "watching": {
         "anticipation": 3,
@@ -25,8 +136,6 @@ const timerSecs = {
         "fixation": 0.5
     }
 };
-
-const color = (score) => score < 2.5 ? "red" : "green";
 
 function Block({ curr, next, blockInfo, trials, ...rest }) {
     const { participantId, img, bio } = useParticipant();
@@ -236,12 +345,22 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
         if (screenType === "fixation") {
             return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />);
         } else if (screenType !== "interpretation") {
-            return (<div className="reg-block">
-                {watch(trialsCopy[trialInd].watching)}
-                {person(trialsCopy[trialInd].ratee, true, trialsCopy[trialInd].score)}
-                {person(trialsCopy[trialInd].rater, false)}
-                {rate()}
-            </div>);
+            return (
+                <div className="reg-block">
+                    <BlockQuadrant position="top-left">
+                        <WatchQuadrant n={trialsCopy[trialInd].watching} blockInfo={blockInfo} />
+                    </BlockQuadrant>
+                    <BlockQuadrant position="top-right">
+                        <PersonQuadrant p={trialsCopy[trialInd].ratee} isRatee={true} score={trialsCopy[trialInd].score} screenType={screenType} />
+                    </BlockQuadrant>
+                    <BlockQuadrant position="bottom-left">
+                        <PersonQuadrant p={trialsCopy[trialInd].rater} isRatee={false} screenType={screenType} />
+                    </BlockQuadrant>
+                    <BlockQuadrant position="bottom-right">
+                        <RateQuadrant blockInfo={blockInfo} screenType={screenType} handleThumbClick={handleThumbClick} clickable={clickable} />
+                    </BlockQuadrant>
+                </div>
+            );
         } else {
             return (<div style={{ textAlign: "center" }}>
                 {interpretationText}
