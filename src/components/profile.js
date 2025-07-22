@@ -5,6 +5,7 @@ import { prevNext, slider, writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
 import ImageCropper from './ImageCropper';
+import { PersonQuadrant } from './block';
 
 export default function Profile(props) {
 
@@ -80,7 +81,7 @@ export default function Profile(props) {
         props.setParticipantImgTimeline(participantImg);
         props.setParticipantBioTimeline(makeBio(participantBio));
         setImg(participantImg);
-        setBio(makeBio(participantBio));
+        setBio(participantBio); // Store the full object, not the formatted string
         await saveRow({
             name: "participant-img-score",
             value: participantImgScore.toString(),
@@ -161,7 +162,7 @@ export default function Profile(props) {
                         {Object.keys(bioQuestions).every(e => Object.prototype.hasOwnProperty.call(participantBio, e)) ?
                             (<div style={{ marginTop: "50px" }}>
                                 {profileText[4]}
-                                <div className="editable-bio">{makeBio(participantBio)}</div>
+                                <div className="editable-bio"><PersonQuadrant p={{img: participantImg, bio: makeBioPlain(participantBio)}} isRatee={true} screenType="profile" score={null} /></div>
                             </div>) :
                             null
                         }
@@ -176,8 +177,7 @@ export default function Profile(props) {
         return (<div style={{ textAlign: "center", margin: "0px" }}>
             {profileText[6]}
             <div className="profile-quadrant" style={{ margin: "auto", width: "290px", height: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
-                <img id="participantImg" src={participantImg} alt="participant" className="display-profile-img" style={{ height: "250px", width: "250px", borderRadius: "50%", objectFit: "cover", marginBottom: '16px' }} />
-                <p className="display-profile-bio" style={{ marginTop: 0 }}>{makeBio(participantBio)}</p>
+                <PersonQuadrant p={{img: participantImg, bio: makeBioPlain(participantBio)}} isRatee={true} screenType="profile" score={null} />
             </div>
             <div>
                 {profileText[5]}

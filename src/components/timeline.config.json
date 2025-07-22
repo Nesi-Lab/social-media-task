@@ -20,7 +20,6 @@
   { "type": "Instruction", "id": "tutorialText", "ind": 0, "img": "4" },
   { "type": "Instruction", "id": "tutorialText", "ind": 0, "img": "5" },
   { "type": "Instruction", "id": "blockBeginningText", "ind": 0 },
-  { "type": "Block", "blockPropsIndex": 0 },
   { "type": "Instruction", "id": "blockBeginningText", "ind": 1 },
   { "type": "Block", "blockPropsIndex": 1 },
   { "type": "Instruction", "id": "calibrationText", "ind": 5 },
