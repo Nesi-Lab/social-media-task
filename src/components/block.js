@@ -71,7 +71,7 @@ function BioPillsFromString({ bioString }) {
     }
   }
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2px' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '2px', maxWidth: 220, margin: '0 auto', rowGap: '6px' }}>
       {items.map((item, i) => (
         <span key={i} style={bioPillStyle}>{item}</span>
       ))}
@@ -81,6 +81,7 @@ function BioPillsFromString({ bioString }) {
 }
 
 function PersonQuadrant({ p, isRatee, score = null, screenType }) {
+    const [imgLoaded, setImgLoaded] = useState(false);
     const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2);
     const drawCheck = score !== null && screenType === "feedback" && (score === 3 || score === 4);
     const X = (<img src={x} alt="x" className="overlay" />);
@@ -97,8 +98,42 @@ function PersonQuadrant({ p, isRatee, score = null, screenType }) {
     };
     return (
         <>
-            <div className="person">
-                <img src={p.img} style={{ border: drawCheck ? "10px solid " + color(score) : "none", marginTop: drawCheck ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
+            <div className="person" style={{ position: "relative" }}>
+                <div style={{ width: 200, height: 200, position: "relative", margin: "0 auto" }}>
+                    <div
+                        style={{
+                            width: 200,
+                            height: 200,
+                            background: "#e0e0e0",
+                            borderRadius: "50%",
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            zIndex: 1,
+                            display: imgLoaded ? "none" : "block"
+                        }}
+                    />
+                    <img
+                      src={p.img}
+                      width={200}
+                      height={200}
+                      style={{
+                        border: drawCheck ? "10px solid " + color(score) : "none",
+                        marginTop: drawCheck ? "-10px" : "0px",
+                        objectFit: "cover",
+                        width: "200px",
+                        height: "200px",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        display: "block"
+                      }}
+                      alt={isRatee ? "ratee" : "rater"}
+                      className="person-img"
+                      id={isRatee ? "ratee-img" : "rater-img"}
+                      onLoad={() => setImgLoaded(true)}
+                    />
+                </div>
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
                 <div id="ch" style={{ display: drawCheck ? "inline" : "none" }}>{isRatee ? ch : null}</div>
                 <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
@@ -170,6 +205,21 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
     useEffect(() => {
         document.getElementById("app").style.cursor = (finished || (screenType !== "fixation" && clickable)) ? "auto" : "none";
     }, [clickable, finished, screenType]);
+
+    // Preload next trial's images during fixation/anticipation
+    useEffect(() => {
+        if (!finished && trialInd + 1 < trialsCopy.length) {
+            if (screenType === "fixation" || screenType === "anticipation") {
+                const nextTrial = trialsCopy[trialInd + 1];
+                [nextTrial.rater?.img, nextTrial.ratee?.img].forEach(src => {
+                    if (src) {
+                        const img = new window.Image();
+                        img.src = src;
+                    }
+                });
+            }
+        }
+    }, [trialInd, screenType, finished, trialsCopy]);
 
     if (currBlock !== blockInfo.number && finished) {
         // we started a new block and need to reset the state
