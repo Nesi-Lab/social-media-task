@@ -135,6 +135,7 @@ export default function Profile(props) {
             </div>
         );
     } else if (profileStep === "bio") {
+        const allFieldsFilled = Object.keys(bioQuestions).every(e => participantBio[e] && participantBio[e].trim() !== "");
         return (<div>
             {profileText[0]}
             <div className="bio-screen">
@@ -159,7 +160,7 @@ export default function Profile(props) {
                 <div style={{ width: "60%", display: "flex", flexDirection: "column"}}>
                     <div style={{flexGrow: 100}}>
                         {profileText[3]}
-                        {Object.keys(bioQuestions).every(e => Object.prototype.hasOwnProperty.call(participantBio, e)) ?
+                        {allFieldsFilled ?
                             (<div style={{ marginTop: "50px" }}>
                                 {profileText[4]}
                                 <div className="editable-bio"><PersonQuadrant p={{img: participantImg, bio: makeBioPlain(participantBio)}} isRatee={true} screenType="profile" score={null} /></div>
@@ -168,7 +169,7 @@ export default function Profile(props) {
                         }
                     </div>
                     <div className="prev-next">
-                        {prevNext({ ...props, prev: handleBioToUpload, next: handleBioToDisplay })}
+                        {prevNext({ ...props, prev: handleBioToUpload, next: handleBioToDisplay, disableNext: !allFieldsFilled })}
                     </div>
                 </div>
             </div>

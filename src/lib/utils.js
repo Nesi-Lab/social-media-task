@@ -22,7 +22,7 @@ export function prevNext(props, save = (async function () { })) {
                 variant="primary"
                 style={{ minWidth: 120 }}
                 onClick={onNext}
-                disabled={!props.next}
+                disabled={!props.next || props.disableNext}
             >
                 Next
             </Button>
