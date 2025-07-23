@@ -188,7 +188,7 @@ export default function LinkSM(props) {
                     {imgs}
                 </div>
                 {socialMediaText[2]}
-                {prevNext({ curr: props.curr, next: props.next }, save)}
+                {prevNext({ curr: props.curr, next: props.next, disableNext: !phoneFilled }, save)}
             </div>);
         }
     }

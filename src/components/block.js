@@ -48,21 +48,26 @@ const bioPillStyle = {
 
 function BioPillsFromString({ bioString }) {
   if (!bioString) return null;
-  // Split on |, then for the last item, if it contains both color and emoji, split them
-  let items = bioString.split('|').map(s => s.trim()).filter(Boolean);
+  // If it's an object, use its values; otherwise, split the string
+  let items = [];
   let emoji = null;
-  if (items.length > 0) {
-    // Check if the last item contains an emoji
-    const last = items[items.length - 1];
-    // Regex to match color + emoji (e.g., 'blue 😎')
-    const match = last.match(/^(.*?)(\p{Emoji}+)$/u);
-    if (match) {
-      // Separate color and emoji
-      items[items.length - 1] = match[1].trim();
-      emoji = match[2];
-    } else if (/^\p{Emoji}+$/u.test(last)) {
-      // If the last item is just an emoji
-      emoji = items.pop();
+  if (typeof bioString === 'object') {
+    // Assume keys are word, activity, place, artist, color, emoji
+    const { word, activity, place, artist, color, emoji: emj } = bioString;
+    items = [word, activity, place, artist, color].map(v => v && String(v).trim()).filter(Boolean);
+    if (emj) emoji = String(emj).trim();
+  } else {
+    const bio = String(bioString);
+    items = bio.split('|').map(s => s.trim()).filter(Boolean);
+    if (items.length > 0) {
+      const last = items[items.length - 1];
+      const match = last.match(/^(.*?)(\p{Emoji}+)$/u);
+      if (match) {
+        items[items.length - 1] = match[1].trim();
+        emoji = match[2];
+      } else if (/^\p{Emoji}+$/u.test(last)) {
+        emoji = items.pop();
+      }
     }
   }
   return (
@@ -366,7 +371,7 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
                 {interpretationText}
                 <img src={trialsCopy[trialInd].rater.img} alt="rater" className="interpretation-img" />
                 {slider("interpretation")}
-                {prevNext({ ...rest, prev: undefined, next: () => handleInterpretationClick(document.getElementById("interpretation").value) })}
+                {prevNext({ ...rest, curr, prev: undefined, next: () => handleInterpretationClick(document.getElementById("interpretation").value) })}
             </div>);
         }
     } else {
