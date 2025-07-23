@@ -20,6 +20,7 @@
   { "type": "Calibration", "key": "calib0" },
   { "type": "NewCalibration", "key": "test0", "loc": "1", "points": "fourPoints", "test": true },
   { "type": "Instruction", "id": "blockBeginningText", "ind": 0 },
+  { "type": "Block", "blockPropsIndex": 0 },
   { "type": "Instruction", "id": "blockBeginningText", "ind": 1 },
   { "type": "Block", "blockPropsIndex": 1 },
   { "type": "Instruction", "id": "calibrationText", "ind": 5 },

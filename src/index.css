@@ -105,12 +105,15 @@ button {
 
 .quadrant {
   background: linear-gradient(135deg, #0d1a4a 0%, #1a237e 100%);
-  border-radius: 16px;
+  border-radius: 18px;
   width: 290px;
   height: 340px;
   padding: 24px 24px 28px;
   margin: auto 9%;
   text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1.5px 4px rgba(0,0,0,0.12);
+  border: 3px solid #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .person {
