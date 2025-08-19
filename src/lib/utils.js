@@ -8,24 +8,38 @@ export function prevNext(props, save = (async function () { })) {
     async function onNext() {
         save().then(() => props.next(props.curr.i));
     }
+
+    // Check if prev/next should be shown based on config
+    const showPrev = props.showPrev !== false;
+    const showNext = props.showNext !== false;
+    
+    // If neither button should be shown, return null
+    if (!showPrev && !showNext) {
+        return null;
+    }
+
     return (
         <div className="prev-next" style={{ display: 'flex', gap: '16px', justifyContent: 'center', margin: '32px 0' }}>
-            <Button
-                variant="secondary"
-                style={{ minWidth: 120 }}
-                onClick={onPrev}
-                disabled={!props.prev}
-            >
-                Previous
-            </Button>
-            <Button
-                variant="primary"
-                style={{ minWidth: 120 }}
-                onClick={onNext}
-                disabled={!props.next || props.disableNext}
-            >
-                Next
-            </Button>
+            {showPrev && (
+                <Button
+                    variant="secondary"
+                    style={{ minWidth: 120 }}
+                    onClick={onPrev}
+                    disabled={!props.prev}
+                >
+                    Previous
+                </Button>
+            )}
+            {showNext && (
+                <Button
+                    variant="primary"
+                    style={{ minWidth: 120 }}
+                    onClick={onNext}
+                    disabled={!props.next || props.disableNext}
+                >
+                    Next
+                </Button>
+            )}
         </div>
     );
 }

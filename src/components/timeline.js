@@ -61,23 +61,25 @@ const propInjectors = {
         ...props,
         points: props.points === "fourPoints" ? fourPoints : props.points === "ninePoints" ? ninePoints : props.points,
     }),
+    FaceCheck: (props, helpers) => ({
+        ...props,
+        curr: { i: helpers.currScreen },
+    }),
+    Calibration: (props, helpers) => ({
+        ...props,
+        curr: { i: helpers.currScreen },
+    }),
     Instruction: (props, helpers) => ({
         ...props,
-        prev: helpers.prev,
-        next: helpers.next,
         curr: { i: helpers.currScreen },
     }),
     Feeling: (props, helpers) => ({
         ...props,
-        prev: helpers.prev,
-        next: helpers.next,
         curr: { i: helpers.currScreen },
         loc: props.loc,
     }),
     LinkSM: (props, helpers) => ({
         ...props,
-        prev: helpers.prev,
-        next: helpers.next,
         curr: { i: helpers.currScreen },
     }),
 };
@@ -103,11 +105,14 @@ export default function Timeline() {
         if (!step) return <div>Invalid timeline step (index {i})</div>;
         const Comp = componentMap[step.type];
         if (!Comp) return <div>Unknown component type: {step.type}</div>;
-        let props = { ...step, curr: { i }, next: helpers.next, prev: helpers.prev };
+        let props = { ...step, curr: { i }, prev: helpers.prev, next: helpers.next };
         // Apply prop injector if exists
         if (propInjectors[step.type]) {
             props = propInjectors[step.type](props, { ...helpers, currScreen: i });
         }
+        // Set show flags based on original config values
+        props.showPrev = step.prev !== false;
+        props.showNext = step.next !== false;
         return <Comp key={i} {...props} />;
     }
 

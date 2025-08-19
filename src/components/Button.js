@@ -8,7 +8,7 @@ export default function Button({ onClick, children, disabled = false, variant = 
     fontWeight: 600,
     fontSize: '16px',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    background: variant === 'primary' ? 'linear-gradient(90deg, #4f8cff, #235390)' : '#f0f0f0',
+    background: variant === 'primary' ? '#4f8cff' : '#f0f0f0',
     color: variant === 'primary' ? '#fff' : '#222',
     boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
     opacity: disabled ? 0.6 : 1,
