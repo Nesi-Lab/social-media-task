@@ -1,11 +1,11 @@
 [
-  { "type": "User" },
-  { "type": "Instruction", "id": "feelingInstruction", "ind": 0 },
+  { "type": "User", "prev": false },
+  { "type": "Instruction", "id": "feelingInstruction", "ind": 0, "prev": false },
   { "type": "Feeling", "loc": "beginning" },
-  { "type": "Instruction", "id": "introText", "ind": 0 },
+  { "type": "Instruction", "id": "introText", "ind": 0, "prev": false },
   { "type": "Instruction", "id": "introText", "ind": 1 },
   { "type": "LinkSM" },
-  { "type": "Instruction", "id": "socialMediaText", "ind": 2 },
+  { "type": "Instruction", "id": "socialMediaText", "ind": 2, "prev": false },
   { "type": "Profile" },
   { "type": "Instruction", "id": "introText", "ind": 2 },
   { "type": "Instruction", "id": "tutorialText", "ind": 0, "img": "0" },
@@ -17,8 +17,9 @@
   { "type": "Instruction", "id": "calibrationText", "ind": 0 },
   { "type": "Instruction", "id": "calibrationText", "ind": 1 },
   { "type": "FaceCheck" },
-  { "type": "Calibration", "key": "calib0" },
-  { "type": "NewCalibration", "key": "test0", "loc": "1", "points": "fourPoints", "test": true },
+  { "type": "Instruction", "id": "calibrationText", "ind": 1 },
+  { "type": "Calibration", "key": "calib0", "prev": false },
+  { "type": "NewCalibration", "key": "test0", "loc": "1", "points": "fourPoints", "test": true, "prev": false },
   { "type": "Instruction", "id": "blockBeginningText", "ind": 0 },
   { "type": "Block", "blockPropsIndex": 0 },
   { "type": "Instruction", "id": "blockBeginningText", "ind": 1 },
@@ -51,5 +52,5 @@
   { "type": "Instruction", "id": "betweenBlocksText", "ind": 0 },
   { "type": "Block", "blockPropsIndex": 6 },
   { "type": "Summary", "blockPropsIndex": 6 },
-  { "type": "Instruction", "id": "endingText", "ind": 0 }
+  { "type": "Instruction", "id": "endingText", "ind": 0, "next": false }
 ] 
