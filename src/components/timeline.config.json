@@ -15,7 +15,6 @@
   { "type": "Instruction", "id": "tutorialText", "ind": 0, "img": "4" },
   { "type": "Instruction", "id": "tutorialText", "ind": 0, "img": "5" },
   { "type": "Instruction", "id": "calibrationText", "ind": 0 },
-  { "type": "Instruction", "id": "calibrationText", "ind": 1 },
   { "type": "FaceCheck" },
   { "type": "Instruction", "id": "calibrationText", "ind": 1 },
   { "type": "Calibration", "key": "calib0", "prev": false },

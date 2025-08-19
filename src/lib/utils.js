@@ -35,7 +35,7 @@ export function prevNext(props, save = (async function () { })) {
                     variant="primary"
                     style={{ minWidth: 120 }}
                     onClick={onNext}
-                    disabled={props.disableNext}
+                    disabled={!props.next || props.disableNext}
                 >
                     Next
                 </Button>
