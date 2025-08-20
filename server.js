@@ -4,7 +4,32 @@ const path = require('path');
 const { Pool } = require('pg');
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'build')));
+
+// Enable compression for better performance
+app.use(compression());
+
+// Serve static files with proper caching headers
+app.use(express.static(path.join(__dirname, 'build'), {
+  maxAge: '1d', // Cache static assets for 1 day
+  etag: true,
+  lastModified: true,
+  setHeaders: (res, path) => {
+    // Set different cache headers based on file type
+    if (path.endsWith('.html')) {
+      // HTML files should not be cached long-term
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    } else if (path.endsWith('.js') || path.endsWith('.css')) {
+      // JS and CSS files with hashes can be cached for 1 day
+      res.setHeader('Cache-Control', 'public, max-age=86400, immutable');
+    } else if (path.match(/\.(jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
+      // Images and fonts can be cached for 1 day
+      res.setHeader('Cache-Control', 'public, max-age=86400, immutable');
+    }
+  }
+}));
+
 var jsonParser = bodyParser.json()
 
 
