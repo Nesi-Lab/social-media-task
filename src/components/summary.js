@@ -105,7 +105,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
         </div>);
     }
 
-        function renderGrid() {
+    function renderGrid() {
         const raters = summariesCopy[trialInd].raters;
         const participant = summariesCopy[trialInd].participant;
 
@@ -118,13 +118,6 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
             selectedRaters[3], participant, selectedRaters[4],
             selectedRaters[5], selectedRaters[6], selectedRaters[7]
         ];
-
-        // Preload images for instant rendering
-        const allImages = grid.map(person => person.img);
-        allImages.forEach(imgSrc => {
-            const img = new Image();
-            img.src = imgSrc;
-        });
 
         return (
             <div className="summary-grid">
