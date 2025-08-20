@@ -145,6 +145,10 @@ button {
 .person-bio {
   margin-top: 40px;
   font-size: smaller;
+  width: 100%;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .thumbs {
@@ -166,6 +170,14 @@ button {
   width: 200px;
   height: 100px;
   margin-right: 20px;
+}
+
+.eye-icon {
+  width: 150px;
+  height: 75px;
+  display: inline-block;
+  object-fit: contain;
+  min-height: 75px;
 }
 
 .summary-score {
@@ -237,7 +249,7 @@ button {
 
 .tutorial-slide {
   max-width: 100%;
-  height: calc(100vh - 230px);
+  height: calc(100vh - 350px);
 }
 
 .social-media {
@@ -310,10 +322,14 @@ button {
 
 .editable-bio {
   text-align: center;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
   padding: 15px;
   border-radius: 10px;
   border: 2px solid darkgrey;
+  box-sizing: border-box;
 }
 
 .display-profile-img {

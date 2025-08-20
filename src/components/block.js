@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import { eye, x, check } from '../assets/imgs';
@@ -26,7 +26,14 @@ function BlockQuadrant({ position, children }) {
 function WatchQuadrant({ n, blockInfo }) {
     return (
         <>
-            <img src={eye} alt="eye" style={{ width: "150px", margin: "15px 0px 0px 0px"}} />
+            <div style={{ height: "105px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <img
+                    src={eye}
+                    alt="eye"
+                    className="eye-icon"
+                    style={{ margin: "15px 0px 0px 0px" }}
+                />
+            </div>
             {blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
         </>
     );
@@ -42,7 +49,7 @@ const bioPillStyle = {
     padding: '2px 8px', // boxier
     margin: '2px',
     fontWeight: 500,
-    fontSize: '0.95rem',
+    fontSize: '1.2rem',
     boxShadow: '0 1px 4px rgba(0,0,0,0.07)'
 };
 
@@ -71,7 +78,7 @@ function BioPillsFromString({ bioString }) {
         }
     }
     return (
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '2px', maxWidth: 220, margin: '0 auto', rowGap: '6px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '2px', maxWidth: 350, margin: '0 auto', rowGap: '6px' }}>
             {items.map((item, i) => (
                 <span key={i} style={bioPillStyle}>{item}</span>
             ))}
@@ -81,7 +88,6 @@ function BioPillsFromString({ bioString }) {
 }
 
 function PersonQuadrant({ p, isRatee, score = null, screenType }) {
-    const [imgLoaded, setImgLoaded] = useState(false);
     const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2);
     const drawCheck = score !== null && screenType === "feedback" && (score === 3 || score === 4);
     const X = (<img src={x} alt="x" className="overlay" />);
@@ -100,19 +106,6 @@ function PersonQuadrant({ p, isRatee, score = null, screenType }) {
         <>
             <div className="person" style={{ position: "relative" }}>
                 <div style={{ width: 200, height: 200, position: "relative", margin: "0 auto" }}>
-                    <div
-                        style={{
-                            width: 200,
-                            height: 200,
-                            background: "#e0e0e0",
-                            borderRadius: "50%",
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            zIndex: 1,
-                            display: imgLoaded ? "none" : "block"
-                        }}
-                    />
                     <img
                         src={p.img}
                         width={200}
@@ -131,7 +124,6 @@ function PersonQuadrant({ p, isRatee, score = null, screenType }) {
                         alt={isRatee ? "ratee" : "rater"}
                         className="person-img"
                         id={isRatee ? "ratee-img" : "rater-img"}
-                        onLoad={() => setImgLoaded(true)}
                     />
                 </div>
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
@@ -203,23 +195,11 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
     }, []);
 
     useEffect(() => {
-        document.getElementById("app").style.cursor = (finished || (screenType !== "fixation" && clickable)) ? "auto" : "none";
+        document.getElementById("app").style.cursor = "auto";
     }, [clickable, finished, screenType]);
 
-    // Preload next trial's images during fixation/anticipation
-    useEffect(() => {
-        if (!finished && trialInd + 1 < trialsCopy.length) {
-            if (screenType === "fixation" || screenType === "anticipation") {
-                const nextTrial = trialsCopy[trialInd + 1];
-                [nextTrial.rater?.img, nextTrial.ratee?.img].forEach(src => {
-                    if (src) {
-                        const img = new window.Image();
-                        img.src = src;
-                    }
-                });
-            }
-        }
-    }, [trialInd, screenType, finished, trialsCopy]);
+    // Note: All images are now preloaded at the beginning of the task when webgazer initializes
+    // This provides much better performance and eliminates image pop-in effects
 
     if (currBlock !== blockInfo.number && finished) {
         // we started a new block and need to reset the state
@@ -315,45 +295,6 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
             makeRateBox([<span style={{ fontSize: "larger" }}>Rating: </span>, <span style={{ color: color(score), fontSize: "larger" }}>{score}</span>]);
     }
 
-    function person(p, isRatee, score = null) {
-        const drawX = score !== null && screenType === "feedback" && (score === 1 || score === 2);
-        const drawCheck = score !== null && screenType === "feedback" && (score === 3 || score === 4);
-        const X = (<img src={x} alt="x" className="overlay" />);
-        const ch = (<img src={check} alt="check" className="overlay" />);
-
-        const drawRateBox = score !== null && screenType === "feedback";
-
-        return (<div className={isRatee ? "quadrant grid-top grid-right" : "quadrant grid-bottom grid-left"}>
-            <div className="person">
-                <img src={p.img} style={{ border: drawCheck ? "10px solid " + color(score) : "none", marginTop: drawCheck ? "-10px" : "0px" }} alt={isRatee ? "ratee" : "rater"} className="person-img" id={isRatee ? "ratee-img" : "rater-img"} />
-                <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
-                <div id="ch" style={{ display: drawCheck ? "inline" : "none" }}>{isRatee ? ch : null}</div>
-                <div id="rateBox" style={{ display: drawRateBox ? "inline" : "none" }}>{isRatee ? rateBox(score) : null}</div>
-            </div>
-            <p className="person-bio">{p.bio}</p>
-        </div>);
-    }
-
-    function watch(n) {
-        return (<div className="quadrant grid-top grid-left">
-            <img src={eye} alt="eye" style={{ width: "150px", margin: "15px 0px 0px 0px"}} />
-            {blockInfo.type === "watching" ? watchText.withYou(n) : watchText.withoutYou(n)}
-        </div>);
-    }
-
-    function rate() {
-        const antRat = (blockInfo.type === "rating" && screenType === "anticipation") ? "thumb-anticipation-rating" : "";
-        return (<div className="quadrant grid-bottom grid-right">
-            {rateText}
-            <div className="thumbs">
-                <button className={"thumb thumb-down " + antRat} id="thumb-1" key={"1"} onClick={handleThumbClick}>1</button>
-                <button className={"thumb thumb-down " + antRat} id="thumb-2" key={"2"} onClick={handleThumbClick}>2</button>
-                <button className={"thumb thumb-up " + antRat} id="thumb-3" key={"3"} onClick={handleThumbClick}>3</button>
-                <button className={"thumb thumb-up " + antRat} id="thumb-4" key={"4"} onClick={handleThumbClick}>4</button>
-            </div>
-        </div>);
-    }
-
     function highlightThumb(id) {
         const score = id.split("-")[1];
         const style = document.getElementById(id).style;
@@ -398,7 +339,7 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
 
     if (!finished) {
         if (screenType === "fixation") {
-            return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />);
+            return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />);
         } else if (screenType !== "interpretation") {
             return (
                 <div className="reg-block">

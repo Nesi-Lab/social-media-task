@@ -4,13 +4,12 @@ import { check, loading } from '../assets/imgs';
 import { socialMediaText } from '../assets/text';
 import { useScreen } from './ScreenContext';
 
-
 function EmailInput({ onEmailValid, onEmailInvalid }) {
 
     function handleEmailTyped(e) {
         const email = e.target.value;
         const emailRegex = /^[^@\s]+@[^@\s]+$/;
-        
+
         if (emailRegex.test(email)) {
             if (onEmailValid) onEmailValid(email);
         } else {
@@ -19,29 +18,29 @@ function EmailInput({ onEmailValid, onEmailInvalid }) {
     }
 
     return (
-        <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             gap: '16px',
             marginBottom: '40px'
         }}>
-            <label htmlFor="email" style={{ 
-                fontSize: '18px', 
+            <label htmlFor="email" style={{
+                fontSize: '18px',
                 fontWeight: '500',
                 color: '#ffffff',
                 marginBottom: '8px'
             }}>
                 Email address: <span style={{ color: 'red' }}>*</span>
             </label>
-            <input 
-                type="email" 
-                placeholder="your.email@example.com" 
-                autoComplete="off" 
-                onInput={handleEmailTyped} 
-                id="email" 
+            <input
+                type="email"
+                placeholder="your.email@example.com"
+                autoComplete="off"
+                onInput={handleEmailTyped}
+                id="email"
                 required
-                style={{ 
+                style={{
                     width: "220px",
                     padding: "12px 16px",
                     fontSize: "16px",
@@ -71,10 +70,10 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
     function handlePhoneTyped(e) {
         // Remove all non-digit characters
         const digits = e.target.value.replace(/\D/g, '');
-        
+
         // Only allow up to 10 digits
         const limitedDigits = digits.slice(0, 10);
-        
+
         // Format as phone number
         let formatted = '';
         if (limitedDigits.length > 0) {
@@ -86,10 +85,10 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
                 formatted = `(${limitedDigits.slice(0, 3)}) ${limitedDigits.slice(3, 6)}-${limitedDigits.slice(6)}`;
             }
         }
-        
+
         // Update the input value with formatted number
         e.target.value = formatted;
-        
+
         // Check if we have exactly 10 digits
         if (limitedDigits.length === 10) {
             if (onPhoneValid) onPhoneValid(formatted);
@@ -99,29 +98,29 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
     }
 
     return (
-        <div style={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             gap: '16px',
             marginBottom: '40px'
         }}>
-            <label htmlFor="phone" style={{ 
-                fontSize: '18px', 
+            <label htmlFor="phone" style={{
+                fontSize: '18px',
                 fontWeight: '500',
                 color: '#ffffff',
                 marginBottom: '8px'
             }}>
                 Phone number: <span style={{ color: '#888' }}>(optional)</span>
             </label>
-            <input 
-                type="tel" 
-                placeholder="(XXX) XXX-XXXX" 
-                autoComplete="off" 
-                onInput={handlePhoneTyped} 
-                id="phone" 
+            <input
+                type="tel"
+                placeholder="(XXX) XXX-XXXX"
+                autoComplete="off"
+                onInput={handlePhoneTyped}
+                id="phone"
                 maxLength="14"
-                style={{ 
+                style={{
                     width: "220px",
                     padding: "12px 16px",
                     fontSize: "16px",
@@ -192,12 +191,9 @@ export default function LinkSM(props) {
         // Don't call props.next() here - let the internal flow handle the transition
     }
 
-
-
-
     console.log('LinkSM: rendering, isLoad:', isLoad, 'finished:', finished);
     if (!isLoad) {
-        return (<div style={{ 
+        return (<div style={{
             textAlign: "center",
             height: "100vh",
             width: "100%",
@@ -215,7 +211,7 @@ export default function LinkSM(props) {
                 {socialMediaText[0]}
             </div>
             <div>
-                <EmailInput 
+                <EmailInput
                     onEmailValid={() => setEmailFilled(true)}
                     onEmailInvalid={() => setEmailFilled(false)}
                 />
@@ -307,9 +303,9 @@ export function TakingToConnect(props) {
 
     useEffect(() => {
         setScreen(`taking-to-connect`);
-        
+
         console.log('TakingToConnect: auto-advancing after 5 seconds');
-        
+
         // Auto advance after 5 seconds
         const timer = setTimeout(() => {
             console.log('TakingToConnect: advancing to next screen');

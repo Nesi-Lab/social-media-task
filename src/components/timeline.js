@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import timelineConfig from './timeline.config.json';
 import { useParticipant } from './ParticipantContext';
 import trialProps from '../lib/trialProps';

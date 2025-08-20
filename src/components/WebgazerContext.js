@@ -16,4 +16,4 @@ export function useWebgazer() {
         throw new Error('useWebgazer must be used within a WebgazerProvider');
     }
     return context;
-} 
+}

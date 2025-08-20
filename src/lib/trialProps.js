@@ -69,7 +69,7 @@ function trialProps() {
     const ratedProps = (subnumMaj, blockNum) => {
         const subnum = subnumMaj.subnum, majority = subnumMaj.maj;
         const allInfo = blocks.rated[subnum][majority];
-        const lookupSumImp = p => { return {...lookupImp(allInfo.trial[p.ind].rater), score: p.mean_score}; };
+        const lookupSumImp = p => { return { ...lookupImp(allInfo.trial[p.ind].rater), score: p.mean_score }; };
         return {
             blockInfo: {
                 type: "rated",

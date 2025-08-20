@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 
 import './App.css';
 import Timeline from './components/timeline'
-import { writeData } from './lib/utils'
+import { writeData, extractAllImageUrls, preloadAllImages } from './lib/utils'
+import trialProps from './lib/trialProps';
 import { WebgazerProvider } from './components/WebgazerContext';
 import { ScreenProvider, useScreen } from './components/ScreenContext';
 import { ParticipantProvider, useParticipant } from './components/ParticipantContext';
@@ -41,6 +42,11 @@ function WebGazeLoader({ onScreenChange }) {
 
   function handleScriptLoad() {
     try {
+      // Preload all images for browser cache
+      const blockProps = trialProps();
+      const imageUrls = extractAllImageUrls(blockProps);
+      preloadAllImages(imageUrls);
+
       webgazer.setRegression('ridge')
         .setTracker('TFFacemesh')
         .setGazeListener((data, elapsedTime) => {

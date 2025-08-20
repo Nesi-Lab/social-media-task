@@ -57,7 +57,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
             subnum: blockInfo.subnum,
             majority: blockInfo.majority,
             trial: trialInd + 1,
-            rater_id: JSON.stringify({left: summariesCopy[trialInd].left.id, right: summariesCopy[trialInd].right.id}),
+            rater_id: JSON.stringify({ left: summariesCopy[trialInd].left.id, right: summariesCopy[trialInd].right.id }),
             num_watching: safeTrials[trialInd]?.watching || 0
         };
     }
@@ -98,7 +98,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
 
     function watchSummary(n) {
         return (<div className="watch-summary">
-            <img src={eye} alt="eye" className="summary-eye" />
+            <div className="eye-icon summary-eye" />
             {watchText.summary(n)}
         </div>);
     }
@@ -116,7 +116,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
     if (screenType === "loading") {
         return beforeSummaryText[1];
     } else if (screenType === "fixation") {
-        return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />);
+        return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />);
     } else if (!finished && summariesCopy.length > 0) {
         return (<div style={{ textAlign: "center" }}>
             {watchSummary(summariesCopy[trialInd].watching)}

@@ -68,4 +68,4 @@ export default function ImageCropper({ imageSrc, onSave, onCancel }) {
             </div>
         </div>
     );
-} 
+}

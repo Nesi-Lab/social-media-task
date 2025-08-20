@@ -7,7 +7,7 @@ import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
 
 const numPoints = 9;  // changing this is not as easy: careful
-const numClicksPerPoint = 5;  // changing this messes up the instructions 
+const numClicksPerPoint = 5;  // changing this messes up the instructions
 
 export default function Calibration(props) {
 
@@ -26,7 +26,7 @@ export default function Calibration(props) {
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint; }
 
     useEffect(() => {
-        // on load 
+        // on load
         writeData("metadata", {
             name: "screen-width",
             value: window.innerWidth
@@ -43,7 +43,7 @@ export default function Calibration(props) {
         }
     }, [points]);
     useEffect(() => {
-        if (done && !regressed ) {
+        if (done && !regressed) {
             setTimeout(() => {
                 console.log("Regressing");
                 const model = wg.getRegression()[0];
@@ -100,8 +100,8 @@ export default function Calibration(props) {
 
     if (!done) {
         return makePoints();
-    } else if (!regressed){
-        return (<div><p style={{textAlign: "center"}}>Please wait...</p></div>);
+    } else if (!regressed) {
+        return (<div><p style={{ textAlign: "center" }}>Please wait...</p></div>);
     }  else {
         return (<Instruction id="calibrationText" ind="2" next={props.next} prev={props.prev} curr={props.curr} />);
     }

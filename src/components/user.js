@@ -61,7 +61,7 @@ export default function User(props) {
                         onBlur={e => e.target.style.border = '2px solid #d0d7de'}
                     />
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        {usernameValue === "" ? null : prevNext(props, async () => {
+                        {usernameValue === "" ? null : prevNext(props, async() => {
                             setParticipantId(usernameValue);
                             console.log(`id: ${usernameValue}`);
                         })}

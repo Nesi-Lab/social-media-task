@@ -28,7 +28,7 @@ export default function NewCalibration(props) {
     const [animState, setAnimState] = useState(AnimationState.Moving); // Start with moving
     const [testing, setTesting] = useState([]);
     const [isSmall, setIsSmall] = useState(false);
-    const [dotLoc, setDotLoc] = useState({x: 0, y: 0}); // Start in top left
+    const [dotLoc, setDotLoc] = useState({ x: 0, y: 0 }); // Start in top left
 
     const timeRef = useRef();
     const numSamples = useRef();
@@ -79,10 +79,10 @@ export default function NewCalibration(props) {
     const moveToNextPoint = useCallback(() => {
         if (counter < props.points.length) {
             const point = props.points[counter];
-            setDotLoc({x: point[0], y: point[1]});
+            setDotLoc({ x: point[0], y: point[1] });
             setIsSmall(false); // Reset to normal size when moving
             setDotSize(NORMAL_DOT_SIZE);
-            
+
             // Wait for CSS transition to complete, then pause, then start collection
             setTimeout(() => {
                 // Pause for a moment at the position before shrinking
@@ -100,7 +100,7 @@ export default function NewCalibration(props) {
     const startCollection = useCallback(() => {
         timeRef.current = Date.now();
         numSamples.current = 0;
-        
+
         collectIntervalRef.current = setInterval(() => {
             const timestamp = Date.now();
             const realX = props.points[counter][0] * window.innerWidth;
@@ -108,7 +108,7 @@ export default function NewCalibration(props) {
             const gap = timestamp - timeRef.current;
 
             // Calibration
-            if (!props.test && gap / COLLECT_INTERVAL > numSamples.current + 2 && numSamples.current < NUM_SAMPLES){
+            if (!props.test && gap / COLLECT_INTERVAL > numSamples.current + 2 && numSamples.current < NUM_SAMPLES) {
                 wg.recordScreenPosition(realX, realY);
                 numSamples.current = numSamples.current + 1;
 
@@ -119,7 +119,7 @@ export default function NewCalibration(props) {
                 if (pred) {
                     pred.then(value => {
                         if (value && value.x && value.y) {
-                            setTesting(prev => [...prev, {x: value.x, y: value.y, realX: realX, realY: realY}]);
+                            setTesting(prev => [...prev, { x: value.x, y: value.y, realX: realX, realY: realY }]);
                         }
                     });
                 }
@@ -127,7 +127,7 @@ export default function NewCalibration(props) {
             }
 
             // Done pausing
-            if (gap >= PUASE_TIME){
+            if (gap >= PUASE_TIME) {
                 clearInterval(collectIntervalRef.current);
                 setCounter(counter + 1);
                 setDotSize(NORMAL_DOT_SIZE);
@@ -147,7 +147,7 @@ export default function NewCalibration(props) {
         if (done) {
             return;
         }
-        
+
         if (animState === AnimationState.Moving) {
             console.log('Starting move to next point'); // Debug log
             moveToNextPoint();
@@ -192,14 +192,14 @@ export default function NewCalibration(props) {
         };
     }, []);
 
-    if (!done){
+    if (!done) {
         return (
             <div>
                 <Target x={dotLoc.x} y={dotLoc.y} size={dotSize} isSmall={isSmall}/>
             </div>
         );
-    } else if (!regressed && !props.test){
-        return (<div><p style={{textAlign: "center"}}>Please wait...</p></div>);
+    } else if (!regressed && !props.test) {
+        return (<div><p style={{ textAlign: "center" }}>Please wait...</p></div>);
     } else {
         if (props.test) {
             return (<Instruction id="calibrationText" ind="3" next={props.next} prev={props.prev} curr={props.curr} />);

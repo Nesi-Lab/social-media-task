@@ -17,4 +17,4 @@ export function useScreen() {
         throw new Error('useScreen must be used within a ScreenProvider');
     }
     return context;
-} 
+}

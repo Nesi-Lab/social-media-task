@@ -24,7 +24,7 @@ export default function Profile(props) {
 
     const reader = new FileReader();
 
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         setOriginalImg(reader.result);
         setShowCropper(true);
     };
@@ -32,7 +32,7 @@ export default function Profile(props) {
     function handleUpload(input) {
         if (input.target.files && input.target.files[0]) {
             reader.readAsDataURL(input.target.files[0]);
-            
+
             // Return to fullscreen after file selection
             setTimeout(() => {
                 if (document.documentElement.requestFullscreen) {
@@ -111,7 +111,6 @@ export default function Profile(props) {
         writeData("metadata", rec, participantId);
     }
 
-
     async function save() {
         const bio = makeBioPlain(participantBio);
         props.setParticipantImgTimeline(participantImg);
@@ -174,7 +173,7 @@ export default function Profile(props) {
                     </div>
                 }
                 {showCropper && originalImg && (
-                    <ImageCropper 
+                    <ImageCropper
                         imageSrc={originalImg}
                         onSave={handleCropSave}
                         onCancel={handleCropCancel}
@@ -205,13 +204,13 @@ export default function Profile(props) {
                             ], []
                     )}
                 </div>
-                <div style={{ width: "60%", display: "flex", flexDirection: "column"}}>
-                    <div style={{flexGrow: 100}}>
+                <div style={{ width: "60%", display: "flex", flexDirection: "column" }}>
+                    <div style={{ flexGrow: 100 }}>
                         {profileText[3]}
                         {allFieldsFilled ?
                             (<div style={{ marginTop: "50px" }}>
                                 {profileText[4]}
-                                <div className="editable-bio"><PersonQuadrant p={{img: participantImg, bio: makeBioPlain(participantBio)}} isRatee={true} screenType="profile" score={null} /></div>
+                                <div className="editable-bio"><PersonQuadrant p={{ img: participantImg, bio: makeBioPlain(participantBio) }} isRatee={true} screenType="profile" score={null} /></div>
                             </div>) :
                             null
                         }
@@ -226,7 +225,7 @@ export default function Profile(props) {
         return (<div style={{ textAlign: "center", margin: "0px" }}>
             {profileText[6]}
             <div className="profile-quadrant" style={{ margin: "auto", width: "290px", height: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
-                <PersonQuadrant p={{img: participantImg, bio: makeBioPlain(participantBio)}} isRatee={true} screenType="profile" score={null} />
+                <PersonQuadrant p={{ img: participantImg, bio: makeBioPlain(participantBio) }} isRatee={true} screenType="profile" score={null} />
             </div>
             <div>
                 {profileText[5]}

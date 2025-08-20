@@ -16,11 +16,25 @@ export default function Instruction(props) {
     // Add error handling for missing text
     const textContent = text[props.id] && text[props.id][props.ind] ? text[props.id][props.ind] : <p>Error: Text not found for {props.id}[{props.ind}]</p>;
 
+    // Check if tutorial image is needed
+    const hasImage = Object.keys(props).includes("img");
+    const imageSrc = hasImage ? tutorialImgs[props.img] : null;
+
     return (<div>
-        {textContent}
-        {Object.keys(props).includes("img") ?
-            (<img src={tutorialImgs[props.img]} alt="tutorial slide" className="tutorial-slide" />)
-            : null}
-        <div style={Object.keys(props).includes("img") ? {marginTop: "-40px", marginBottom: "-50px"} : {}}>{prevNext(props)}</div>
+        <div style={{ minHeight: "120px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {textContent}
+        </div>
+        {hasImage ? (
+            <div style={{ minHeight: "calc(100vh - 350px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <img
+                    src={imageSrc}
+                    alt="tutorial slide"
+                    className="tutorial-slide"
+                />
+            </div>
+        ) : null}
+        <div style={hasImage ? { marginTop: "-40px", marginBottom: "-50px" } : {}}>
+            {prevNext(props)}
+        </div>
     </div>);
 }
