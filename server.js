@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'build'), {
   maxAge: '1d', // Cache static assets for 1 day
   lastModified: false,
+  etag: false,
   setHeaders: (res, path) => {
     // Set different cache headers based on file type
     if (path.endsWith('.html')) {
@@ -19,10 +20,12 @@ app.use(express.static(path.join(__dirname, 'build'), {
     } else if (path.endsWith('.js') || path.endsWith('.css')) {
       // JS and CSS files with hashes can be cached for 1 day
       res.setHeader('Cache-Control', 'public, max-age=86400, immutable');
+      res.removeHeader('ETag');
       res.removeHeader('Last-Modified');
     } else if (path.match(/\.(jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
       // Images and fonts can be cached for 1 day
       res.setHeader('Cache-Control', 'public, max-age=86400, immutable');
+      res.removeHeader('ETag');
       res.removeHeader('Last-Modified');
     }
   }
