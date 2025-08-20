@@ -32,8 +32,7 @@ function trialProps() {
         };
     };
 
-    const ratingOrd = shuffleArray(["1", "2"]);
-
+    // Randomly choose one acceptance and one rejection block
     const ratedOrd = shuffleArray([
         shuffleArray([{ subnum: "1", maj: "acc" }, { subnum: "1", maj: "rej" }]),
         shuffleArray([{ subnum: "2", maj: "acc" }, { subnum: "2", maj: "rej" }])
@@ -51,14 +50,14 @@ function trialProps() {
         })
     };
 
-    const ratingProps = (subnum, blockNum) => {
+    const ratingProps = (blockNum) => {
         return {
             blockInfo: {
                 type: "rating",
                 number: blockNum,
-                subnum: subnum
+                subnum: "1"
             },
-            trials: blocks.rating[subnum].map(e => {
+            trials: blocks.rating["1"].map(e => {
                 return {
                     ratee: lookupImp(e.ratee),
                     watching: e.num_watching
@@ -98,12 +97,9 @@ function trialProps() {
 
     return [
         watchingProps,
-        ratingProps(ratingOrd[0], 2),
-        ratingProps(ratingOrd[1], 3),
-        ratedProps(ratedOrd[0][0], 4),
-        ratedProps(ratedOrd[0][1], 5),
-        ratedProps(ratedOrd[1][0], 6),
-        ratedProps(ratedOrd[1][1], 7)
+        ratingProps(2),
+        ratedProps(ratedOrd[0][0], 3),
+        ratedProps(ratedOrd[0][1], 4)
     ];
 }
 

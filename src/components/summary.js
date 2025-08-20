@@ -17,9 +17,14 @@ const timerSecs = {
 const color = (score) => score < 2.5 ? "red" : "green";
 
 export default function Summary({ curr, next, blockInfo, summaries, trials, ...rest }) {
-    const { participantId } = useParticipant();
-    const participant = { img: curr.img, bio: curr.bio, id: "participant" };
-    const summariesCopy = summaries.map(e => {
+    const { participantId, img: participantImg, bio: participantBio } = useParticipant();
+    const participant = { img: participantImg, bio: participantBio, id: "participant" };
+
+    // Safety check for undefined summaries and trials - provide defaults
+    const safeSummaries = summaries || [];
+    const safeTrials = trials || [];
+
+    const summariesCopy = safeSummaries.map(e => {
         return {
             participant: { img: participant.img, score: e.participant.score },
             left: e.left, right: e.right, watching: e.watching
@@ -53,7 +58,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
             majority: blockInfo.majority,
             trial: trialInd + 1,
             rater_id: JSON.stringify({left: summariesCopy[trialInd].left.id, right: summariesCopy[trialInd].right.id}),
-            num_watching: trials[trialInd].watching
+            num_watching: safeTrials[trialInd]?.watching || 0
         };
     }
 
@@ -112,7 +117,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
         return beforeSummaryText[1];
     } else if (screenType === "fixation") {
         return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", marginTop: "365px"}} />);
-    } else if (!finished) {
+    } else if (!finished && summariesCopy.length > 0) {
         return (<div style={{ textAlign: "center" }}>
             {watchSummary(summariesCopy[trialInd].watching)}
             <div className="summary">
@@ -121,6 +126,10 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
                 {personSummary(summariesCopy[trialInd].right)}
             </div>
         </div>);
+    } else if (!finished && summariesCopy.length === 0) {
+        // No summaries to show, skip to next
+        setFinished(true);
+        return null;
     } else {
         return <Feeling loc={"after block " + JSON.stringify(blockInfo)} next={next} curr={curr} />;
     }
