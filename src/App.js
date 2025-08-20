@@ -14,6 +14,7 @@ function WebGazeLoader({ onScreenChange }) {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
+  const [loadingState, setLoadingState] = useState('loading') // 'loading', 'error', 'ready'
   const { screen } = useScreen();
   const { participantId } = useParticipant();
 
@@ -38,39 +39,45 @@ function WebGazeLoader({ onScreenChange }) {
 
 
   function handleScriptLoad() {
-    webgazer.setRegression('ridge')
-      .setTracker('TFFacemesh')
-      .setGazeListener((data, elapsedTime) => {
-        if (data == null) { return; }
-        const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
-        const now = Date.now();
-        if (initialTimestampRef.current === null) initialTimestampRef.current = now;
-        wgLogs.push({ ...webgazer.util.bound(data), timestamp: now })
-        if (wgLogs.length >= 2) {
-          // exists a previous reading
-          const prevReadingSec = calcSecond(wgLogs.length - 2)
-          if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
-            // we entered a different second from the previous reading
-            // so let's write the previous second's data 
-            const toWrite = []
-            for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
-              // for the last 20 readings (ignoring the current reading)
-              if (calcSecond(i) === prevReadingSec) { toWrite.push(wgLogs[i]) }
-              else { break }
+    try {
+      webgazer.setRegression('ridge')
+        .setTracker('TFFacemesh')
+        .setGazeListener((data, elapsedTime) => {
+          if (data == null) { return; }
+          const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
+          const now = Date.now();
+          if (initialTimestampRef.current === null) initialTimestampRef.current = now;
+          wgLogs.push({ ...webgazer.util.bound(data), timestamp: now })
+          if (wgLogs.length >= 2) {
+            // exists a previous reading
+            const prevReadingSec = calcSecond(wgLogs.length - 2)
+            if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
+              // we entered a different second from the previous reading
+              // so let's write the previous second's data 
+              const toWrite = []
+              for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
+                // for the last 20 readings (ignoring the current reading)
+                if (calcSecond(i) === prevReadingSec) { toWrite.push(wgLogs[i]) }
+                else { break }
+              }
+              toWrite.reverse()  // so indices increase with time
+              writeData("eye_tracking", makeWgRecord(toWrite), participantIdRef.current)
             }
-            toWrite.reverse()  // so indices increase with time
-            writeData("eye_tracking", makeWgRecord(toWrite), participantIdRef.current)
           }
-        }
-      })
-      .showVideo(false)
-      .showFaceOverlay(false)
-      .showFaceFeedbackBox(false)
-      .begin()
-      // .showPredictionPoints(false);
-    window.applyKalmanFilter = true;
-    setWg(webgazer)
-    console.log(webgazer)
+        })
+        .showVideo(false)
+        .showFaceOverlay(false)
+        .showFaceFeedbackBox(false)
+        .begin()
+        // .showPredictionPoints(false);
+      window.applyKalmanFilter = true;
+      setWg(webgazer)
+      setLoadingState('ready')
+      console.log(webgazer)
+    } catch (error) {
+      console.error('Error initializing WebGazer:', error);
+      setLoadingState('error')
+    }
   }
 
   useEffect(() => {
@@ -81,7 +88,8 @@ function WebGazeLoader({ onScreenChange }) {
   }, [])
 
   function handleScriptError() {
-    console.log('error');
+    console.error('Failed to load WebGazer script');
+    setLoadingState('error');
   }
 
   return (<div>
@@ -92,6 +100,85 @@ function WebGazeLoader({ onScreenChange }) {
     />
     <WebgazerProvider value={wg}>
         <Timeline onScreenChange={onScreenChange} />
+        {/* Loading overlay that blocks interaction until WebGazer is ready */}
+        {loadingState !== 'ready' && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            color: 'white',
+            fontSize: '18px',
+            textAlign: 'center'
+          }}>
+            <div style={{ marginBottom: '20px' }}>
+              {loadingState === 'loading' && (
+                <>
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    border: '4px solid #f3f3f3',
+                    borderTop: '4px solid #3498db',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite',
+                    margin: '0 auto 20px'
+                  }}></div>
+                  <p>Loading eye tracking software...</p>
+                  <p style={{ fontSize: '14px', opacity: 0.8, marginTop: '10px' }}>
+                    Please wait while we initialize the eye tracking system.
+                  </p>
+                </>
+              )}
+              {loadingState === 'error' && (
+                <>
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    border: '4px solid #e74c3c',
+                    borderRadius: '50%',
+                    margin: '0 auto 20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '24px'
+                  }}>⚠️</div>
+                  <p>Failed to load eye tracking software</p>
+                  <p style={{ fontSize: '14px', opacity: 0.8, marginTop: '10px' }}>
+                    The application will continue without eye tracking functionality.
+                  </p>
+                  <button
+                    onClick={() => setLoadingState('ready')}
+                    style={{
+                      marginTop: '20px',
+                      padding: '10px 20px',
+                      backgroundColor: '#3498db',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      fontSize: '16px'
+                    }}
+                  >
+                    Continue Anyway
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
     </WebgazerProvider>
   </div>)
 }
