@@ -19,7 +19,7 @@ export default function Target(props) {
 
     return (
         <div>
-            <div 
+            <div
                 className="target-wrapper"
                 style={dotStyle}
             >

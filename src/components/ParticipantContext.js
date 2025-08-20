@@ -19,4 +19,4 @@ export function useParticipant() {
         throw new Error('useParticipant must be used within a ParticipantProvider');
     }
     return context;
-} 
+}

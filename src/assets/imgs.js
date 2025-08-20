@@ -82,7 +82,6 @@ import t6 from '../assets/tutorial-images/tut6.jpg';
 import t7 from '../assets/tutorial-images/tut7.jpg';
 import t8 from '../assets/tutorial-images/tut8.jpg';
 
-
 export const socialMediaImgs = {
     ig: ig,
     sc: sc,

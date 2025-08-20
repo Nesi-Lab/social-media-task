@@ -31,4 +31,4 @@ export async function getCroppedImg(imageSrc, crop) {
     );
 
     return canvas.toDataURL('image/jpeg');
-} 
+}

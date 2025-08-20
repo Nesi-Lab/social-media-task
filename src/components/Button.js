@@ -25,4 +25,4 @@ export default function Button({ onClick, children, disabled = false, variant = 
             {children}
         </button>
     );
-} 
+}

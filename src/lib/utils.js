@@ -1,5 +1,6 @@
 import { sliderLabels } from '../assets/text';
 import Button from '../components/Button';
+import { x, check, logo, loading, eye, upThumb, downThumb } from '../assets/imgs';
 
 export function prevNext(props, save = null) {
     async function onPrev() {
@@ -83,15 +84,6 @@ export function multiSlider(names, update) {
     </div>);
 }
 
-// export function getTime(date = null) {
-//     const today = date ? date : new Date()
-//     let h = today.getHours()
-//     let m = today.getMinutes()
-//     if (h < 10) { h = "0" + h }
-//     if (m < 10) { m = "0" + m }
-//     return h + ":" + m
-// }
-
 export async function writeData(table, data, participant_id) {
     if (participant_id == null) {
         console.log(`not writing data to ${table} because no participant ID yet or bad participant ID`);
@@ -124,3 +116,58 @@ export async function setTimezone(tz) {
     const body = await response.text();
     console.log(body);
 }
+
+// Function to extract all image URLs from block data for preloading
+export function extractAllImageUrls(blockProps) {
+    const imageUrls = new Set();
+    
+    // Add static images used throughout the app
+    const staticImages = [
+        x,
+        check,
+        logo,
+        loading,
+        eye,
+        upThumb,
+        downThumb
+    ];
+    staticImages.forEach(img => imageUrls.add(img));
+    
+    // Add tutorial images
+    const tutorialImages = require('../assets/imgs').tutorialImgs;
+    tutorialImages.forEach(img => imageUrls.add(img));
+    
+    // Add social media images
+    const socialMediaImages = Object.values(require('../assets/imgs').socialMediaImgs);
+    socialMediaImages.forEach(img => imageUrls.add(img));
+    
+    // Extract images from all blocks
+    blockProps.forEach(block => {
+        if (block.trials) {
+            block.trials.forEach(trial => {
+                if (trial.rater?.img) imageUrls.add(trial.rater.img);
+                if (trial.ratee?.img) imageUrls.add(trial.ratee.img);
+            });
+        }
+        
+        // Also check summaries if they exist
+        if (block.summaries) {
+            block.summaries.forEach(summary => {
+                if (summary.left?.img) imageUrls.add(summary.left.img);
+                if (summary.right?.img) imageUrls.add(summary.right.img);
+            });
+        }
+    });
+    
+    return Array.from(imageUrls);
+}
+
+// Function to preload all images (now just for browser cache)
+export function preloadAllImages(imageUrls) {
+    console.log(`Preloading ${imageUrls.length} images for browser cache...`);
+    
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+};
