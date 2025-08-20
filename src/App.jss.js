@@ -59,4 +59,4 @@ export const loadingStyles = {
     cursor: 'pointer',
     fontSize: '16px'
   }
-}; 
+};

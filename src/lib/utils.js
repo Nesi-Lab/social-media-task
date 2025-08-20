@@ -29,7 +29,7 @@ export function prevNext(props, save = null) {
     // Check if prev/next should be shown based on config
     const showPrev = props.showPrev !== false;
     const showNext = props.showNext !== false;
-    
+
     // If neither button should be shown, return null
     if (!showPrev && !showNext) {
         return null;
@@ -111,7 +111,7 @@ export async function setTimezone(tz) {
     const response = await fetch('/settz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({tz: tz}),
+        body: JSON.stringify({ tz: tz }),
     });
     const body = await response.text();
     console.log(body);
@@ -120,7 +120,7 @@ export async function setTimezone(tz) {
 // Function to extract all image URLs from block data for preloading
 export function extractAllImageUrls(blockProps) {
     const imageUrls = new Set();
-    
+
     // Add static images used throughout the app
     const staticImages = [
         x,
@@ -132,15 +132,15 @@ export function extractAllImageUrls(blockProps) {
         downThumb
     ];
     staticImages.forEach(img => imageUrls.add(img));
-    
+
     // Add tutorial images
     const tutorialImages = require('../assets/imgs').tutorialImgs;
     tutorialImages.forEach(img => imageUrls.add(img));
-    
+
     // Add social media images
     const socialMediaImages = Object.values(require('../assets/imgs').socialMediaImgs);
     socialMediaImages.forEach(img => imageUrls.add(img));
-    
+
     // Extract images from all blocks
     blockProps.forEach(block => {
         if (block.trials) {
@@ -149,7 +149,7 @@ export function extractAllImageUrls(blockProps) {
                 if (trial.ratee?.img) imageUrls.add(trial.ratee.img);
             });
         }
-        
+
         // Also check summaries if they exist
         if (block.summaries) {
             block.summaries.forEach(summary => {
@@ -158,16 +158,16 @@ export function extractAllImageUrls(blockProps) {
             });
         }
     });
-    
+
     return Array.from(imageUrls);
 }
 
 // Function to preload all images (now just for browser cache)
 export function preloadAllImages(imageUrls) {
     console.log(`Preloading ${imageUrls.length} images for browser cache...`);
-    
+
     imageUrls.forEach(url => {
         const img = new Image();
         img.src = url;
     });
-};
+}

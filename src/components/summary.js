@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { eye } from '../assets/imgs';
-import { watchText, beforeSummaryText } from '../assets/text';
+import { beforeSummaryText } from '../assets/text';
 import Feeling from './feeling';
 import { writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
@@ -27,7 +26,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
     const summariesCopy = safeSummaries.map(e => {
         return {
             participant: { img: participant.img, score: e.participant.score },
-            left: e.left, right: e.right, watching: e.watching
+            raters: e.raters, watching: e.watching
         };
     });
 
@@ -57,7 +56,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
             subnum: blockInfo.subnum,
             majority: blockInfo.majority,
             trial: trialInd + 1,
-            rater_id: JSON.stringify({ left: summariesCopy[trialInd].left.id, right: summariesCopy[trialInd].right.id }),
+            rater_id: JSON.stringify({ raters: summariesCopy[trialInd].raters.slice(0, 8).map(r => r.id) }),
             num_watching: safeTrials[trialInd]?.watching || 0
         };
     }
@@ -96,15 +95,8 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
         document.getElementById("app").style.cursor = finished ? "auto" : "none";
     });
 
-    function watchSummary(n) {
-        return (<div className="watch-summary">
-            <div className="eye-icon summary-eye" />
-            {watchText.summary(n)}
-        </div>);
-    }
-
     function personSummary(p) {
-        const drawScore = p.score !== null && screenType === "feedback";
+        const drawScore = p.score !== null;
         const score = (<p className="summary-score">Average rating: <br /><span style={{ fontSize: "larger", color: color(p.score) }}>{p.score}</span></p>);
 
         return (<div className="summary-person">
@@ -113,18 +105,38 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
         </div>);
     }
 
+    function renderGrid() {
+        const raters = summariesCopy[trialInd].raters;
+        const participant = summariesCopy[trialInd].participant;
+
+        // Take first 8 raters for the 3x3 grid (8 others + 1 participant in center)
+        const selectedRaters = raters.slice(0, 8);
+
+        // Create 3x3 grid with participant in center (position 4)
+        const grid = [
+            selectedRaters[0], selectedRaters[1], selectedRaters[2],
+            selectedRaters[3], participant, selectedRaters[4],
+            selectedRaters[5], selectedRaters[6], selectedRaters[7]
+        ];
+
+        return (
+            <div className="summary-grid">
+                {grid.map((person, index) => (
+                    <div key={index} className="summary-grid-item">
+                        {personSummary(person)}
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
     if (screenType === "loading") {
         return beforeSummaryText[1];
     } else if (screenType === "fixation") {
         return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />);
     } else if (!finished && summariesCopy.length > 0) {
         return (<div style={{ textAlign: "center" }}>
-            {watchSummary(summariesCopy[trialInd].watching)}
-            <div className="summary">
-                {personSummary(summariesCopy[trialInd].left)}
-                {personSummary(summariesCopy[trialInd].participant)}
-                {personSummary(summariesCopy[trialInd].right)}
-            </div>
+            {renderGrid()}
         </div>);
     } else if (!finished && summariesCopy.length === 0) {
         // No summaries to show, skip to next

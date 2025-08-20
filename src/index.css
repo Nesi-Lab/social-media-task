@@ -187,13 +187,16 @@ button {
 
 .summary-person {
   text-align: center;
-  margin: 20px;
+  margin: 10px;
 }
 
 .summary-person-img {
-  height: 200px;
-  width: 200px;
+  height: 250px;
+  width: 250px;
   border-radius: 50%;
+  object-fit: cover;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .reg-block {
@@ -234,6 +237,24 @@ button {
 .summary {
   display: flex;
   flex-direction: row;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 40px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.summary-grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .feeling-slider {

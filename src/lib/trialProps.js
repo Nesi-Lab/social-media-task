@@ -84,14 +84,11 @@ function trialProps() {
                     score: e.score
                 };
             }),
-            summaries: allInfo.summary.raters.map(e => {
-                return {
-                    participant: { score: allInfo.summary.ratee_mean_score },
-                    left: lookupSumImp(e.raters[0]),
-                    right: lookupSumImp(e.raters[1]),
-                    watching: e.num_watching
-                };
-            })
+            summaries: [{
+                participant: { score: allInfo.summary.ratee_mean_score },
+                raters: allInfo.summary.raters.flatMap(e => e.raters.map(rater => lookupSumImp(rater))),
+                watching: allInfo.summary.raters[0].num_watching
+            }]
         };
     };
 
