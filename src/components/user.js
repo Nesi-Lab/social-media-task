@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { userID, loadingText } from '../assets/text';
+import { loadingText } from '../assets/text';
 import { prevNext, setTimezone } from '../lib/utils';
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';

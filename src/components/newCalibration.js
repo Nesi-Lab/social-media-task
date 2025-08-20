@@ -12,7 +12,6 @@ const COLLECT_INTERVAL = 200;
 const NORMAL_DOT_SIZE = 1;
 const NUM_TEST_POINTS = 5;
 const TIME = 1000;
-const SHRINK_TIME = 250;
 
 const AnimationState = {
     Shrinking: "SHRINKING",

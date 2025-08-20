@@ -4,12 +4,14 @@ import { writeData } from '../lib/utils';
 import Instruction from './instruction';
 import { useWebgazer } from './WebgazerContext';
 import { useScreen } from './ScreenContext';
+import { useParticipant } from './ParticipantContext';
 
 const staringSecs = 5;
 
 export default function Accuracy(props) {
     const wg = useWebgazer();
     const { setScreen } = useScreen();
+    const { participantId } = useParticipant();
     const [done, setDone] = useState(false);
     const [storedPoints, setStoredPoints] = useState({ x: [], y: [] });
     const [storing, setStoring] = useState(null);
@@ -73,7 +75,7 @@ export default function Accuracy(props) {
                 writeData("metadata", {
                     name: `calibration-accuracy${props.loc ? '-' + props.loc : ''}`,
                     value: acc.toString()
-                }, props.curr.id);
+                }, participantId);
             }, 1000 * staringSecs);
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer);

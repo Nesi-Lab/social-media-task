@@ -1,12 +1,72 @@
 import { useEffect, useState } from 'react';
 
-import { socialMediaImgs, check, loading } from '../assets/imgs';
+import { check, loading } from '../assets/imgs';
 import { socialMediaText } from '../assets/text';
-import { prevNext, writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
 
+
+function EmailInput({ onEmailValid, onEmailInvalid }) {
+
+    function handleEmailTyped(e) {
+        const email = e.target.value;
+        const emailRegex = /^[^@\s]+@[^@\s]+$/;
+        
+        if (emailRegex.test(email)) {
+            if (onEmailValid) onEmailValid(email);
+        } else {
+            if (onEmailInvalid) onEmailInvalid();
+        }
+    }
+
+    return (
+        <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            gap: '16px',
+            marginBottom: '40px'
+        }}>
+            <label htmlFor="email" style={{ 
+                fontSize: '18px', 
+                fontWeight: '500',
+                color: '#ffffff',
+                marginBottom: '8px'
+            }}>
+                Email address: <span style={{ color: 'red' }}>*</span>
+            </label>
+            <input 
+                type="email" 
+                placeholder="your.email@example.com" 
+                autoComplete="off" 
+                onInput={handleEmailTyped} 
+                id="email" 
+                required
+                style={{ 
+                    width: "220px",
+                    padding: "12px 16px",
+                    fontSize: "16px",
+                    borderRadius: "8px",
+                    border: "2px solid #333",
+                    backgroundColor: "#1a1a1a",
+                    color: "#ffffff",
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    boxSizing: "border-box"
+                }}
+                onFocus={(e) => {
+                    e.target.style.borderColor = "#0275ff";
+                    e.target.style.backgroundColor = "#2a2a2a";
+                }}
+                onBlur={(e) => {
+                    e.target.style.borderColor = "#333";
+                    e.target.style.backgroundColor = "#1a1a1a";
+                }}
+            />
+        </div>
+    );
+}
+
 function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
-    const [phoneFilled, setPhoneFilled] = useState(false);
 
     function handlePhoneTyped(e) {
         // Remove all non-digit characters
@@ -32,10 +92,8 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
         
         // Check if we have exactly 10 digits
         if (limitedDigits.length === 10) {
-            setPhoneFilled(true);
             if (onPhoneValid) onPhoneValid(formatted);
         } else {
-            setPhoneFilled(false);
             if (onPhoneInvalid) onPhoneInvalid();
         }
     }
@@ -54,7 +112,7 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
                 color: '#ffffff',
                 marginBottom: '8px'
             }}>
-                Phone number:
+                Phone number: <span style={{ color: '#888' }}>(optional)</span>
             </label>
             <input 
                 type="tel" 
@@ -88,22 +146,12 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
     );
 }
 
-function makeOption(socialMedia) {
-    const img = socialMediaImgs[socialMedia];
-    return (<div className="social-media">
-        <input type="checkbox" id={socialMedia} key={socialMedia} name={socialMedia} value={socialMedia} />
-        <label htmlFor={socialMedia}><img src={img} alt="social media icon" className="social-media-img" /></label>
-    </div>);
-}
-
 export default function LinkSM(props) {
 
     const { setScreen } = useScreen();
-    const [selected, setSelected] = useState(null);
     const [isLoad, setIsLoad] = useState(false);
-    const [checked, setChecked] = useState(null);
     const [finished, setFinished] = useState(false);
-    const [phoneFilled, setPhoneFilled] = useState(false);
+    const [emailFilled, setEmailFilled] = useState(false);
 
     useEffect(() => {
         setScreen(`linksm selecting`);
@@ -112,84 +160,183 @@ export default function LinkSM(props) {
     useEffect(() => {
         if (isLoad && !finished) {
             const timer = setTimeout(() => {
-                const ind = checked.findIndex(e => !e);
-                if (ind === -1) {
-                    setFinished(true);
-                    setScreen(`linksm finished`);
-                }
-                const copy = [...checked];
-                copy[ind] = true;
-                setChecked(copy);
-            }, 1000);
+                console.log('LinkSM: setting finished to true');
+                setFinished(true);
+                setScreen(`linksm finished`);
+            }, 3000);
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer);
         }
-    });
+    }, [isLoad, finished]);
+
+    useEffect(() => {
+        if (finished) {
+            // Auto advance to next screen after showing the finished state
+            const timer = setTimeout(() => {
+                console.log('LinkSM: auto-advancing to next screen');
+                props.next();
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [finished, props.next]);
 
     async function onPrev() {
-        save().then(() => props.prev(props.curr.i));
+        props.prev();
     }
 
-    function setupLoad() {
+    async function setupLoad() {
+        console.log('LinkSM: setupLoad called');
         setIsLoad(true);
-        const sel = Object.keys(socialMediaImgs).filter(
-            e => document.getElementById(e).checked
-        );
-        setSelected(sel);
-        setChecked(sel.map(_ => false));
-        setFinished(sel.length === 0);
-        setScreen(`linksm ${sel.length === 0 ? "finished" : "selecting"}`);
+        setFinished(false);
+        setScreen(`linksm selecting`);
+        // Don't call props.next() here - let the internal flow handle the transition
     }
 
-    async function save() {
-        writeData("metadata", {
-            name: "social-medias",
-            value: isLoad ?
-                selected.join(",") :
-                Object.keys(socialMediaImgs).filter(e => document.getElementById(e).checked).join(",")
-        }, props.curr.id);
-    }
 
-    function handlePhoneValid() {
-        setPhoneFilled(true);
-    }
 
-    function handlePhoneInvalid() {
-        setPhoneFilled(false);
-    }
 
+    console.log('LinkSM: rendering, isLoad:', isLoad, 'finished:', finished);
     if (!isLoad) {
-        return (<div style={{ textAlign: "center"}}>
-            {socialMediaText[0]}
-            <div style={{ margin: "60px" }}>
-                <PhoneInput 
-                    onPhoneValid={handlePhoneValid}
-                    onPhoneInvalid={handlePhoneInvalid}
-                />
-                <div className="social-medias">
-                    {Object.keys(socialMediaImgs).map(makeOption)}
-                </div>
+        return (<div style={{ 
+            textAlign: "center",
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            padding: "20px",
+            boxSizing: "border-box",
+            paddingTop: 0,
+            wordWrap: "break-word",
+            wordBreak: "break-word"
+        }}>
+            <div style={{ width: "100%" }}>
+                {socialMediaText[0]}
             </div>
-            {socialMediaText[1]}
-            <div className="prev-next">
-                {prevNext({ ...props, disableNext: !phoneFilled })}
+            <div>
+                <EmailInput 
+                    onEmailValid={() => setEmailFilled(true)}
+                    onEmailInvalid={() => setEmailFilled(false)}
+                />
+                <PhoneInput />
+            </div>
+            <div style={{ width: "100%" }}>
+                {socialMediaText[1]}
+            </div>
+            <div className="prev-next" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+                <button
+                    onClick={onPrev}
+                    disabled={!props.prev}
+                    style={{
+                        minWidth: 120,
+                        padding: '12px 24px',
+                        backgroundColor: '#333',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: props.prev ? 'pointer' : 'not-allowed',
+                        opacity: props.prev ? 1 : 0.5
+                    }}
+                >
+                    Previous
+                </button>
+                <button
+                    onClick={setupLoad}
+                    disabled={!emailFilled}
+                    style={{
+                        minWidth: 120,
+                        padding: '12px 24px',
+                        backgroundColor: emailFilled ? '#0275ff' : '#666',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: emailFilled ? 'pointer' : 'not-allowed',
+                        opacity: emailFilled ? 1 : 0.5
+                    }}
+                >
+                    Next
+                </button>
             </div>
         </div>);
     } else {
-        const imgs = selected.map((e, i) => (<img src={checked[i] ? check : socialMediaImgs[e]} alt="social media icon" key={i.toString()} style={{ width: "75px", margin: "10px" }} />));
         if (!finished) {
-            return (<div className="social-media-loading">
-                <img src={loading} alt="loading gif" className="loading-gif" />
-                {imgs}
+            return (<div style={{
+                height: "100vh",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                textAlign: "center",
+                padding: "20px",
+                boxSizing: "border-box",
+                paddingTop: 0,
+                wordWrap: "break-word",
+                wordBreak: "break-word"
+            }}>
+                <img src={loading} alt="loading gif" className="loading-gif" style={{ marginBottom: "30px" }} />
+                <h1 style={{ marginBottom: "20px" }}>Looking for matches...</h1>
+                <p style={{ fontSize: "larger", maxWidth: "600px" }}>Please wait while we find other participants for you to connect with.</p>
             </div>);
         } else {
-            return (<div>
-                <div className="social-media-loading">
-                    {imgs}
+            return (<div style={{
+                height: "100vh",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                textAlign: "center",
+                padding: "20px",
+                boxSizing: "border-box",
+                wordWrap: "break-word",
+                wordBreak: "break-word"
+            }}>
+                <div style={{ marginBottom: "40px" }}>
+                    <img src={check} alt="check mark" style={{ width: "75px", margin: "10px" }} />
                 </div>
-                {socialMediaText[2]}
-                {prevNext({ curr: props.curr, next: props.next, disableNext: !phoneFilled }, save)}
             </div>);
         }
     }
+}
+
+// New component for taking to Connect
+export function TakingToConnect(props) {
+    const { setScreen } = useScreen();
+
+    useEffect(() => {
+        setScreen(`taking-to-connect`);
+        
+        console.log('TakingToConnect: auto-advancing after 5 seconds');
+        
+        // Auto advance after 5 seconds
+        const timer = setTimeout(() => {
+            console.log('TakingToConnect: advancing to next screen');
+            props.next();
+        }, 5000);
+
+        return () => {
+            console.log('TakingToConnect: clearing timer');
+            clearTimeout(timer);
+        };
+    }, []);
+
+    return (
+        <div style={{
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            textAlign: "center",
+            padding: "20px",
+            boxSizing: "border-box"
+        }}>
+            <img src={loading} alt="loading gif" className="loading-gif" style={{ marginBottom: "30px" }} />
+            <h1 style={{ marginBottom: "20px" }}>Taking you to Connect...</h1>
+            <p style={{ fontSize: "larger" }}>Please wait while we prepare your experience.</p>
+        </div>
+    );
 }

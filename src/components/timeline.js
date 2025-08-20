@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import timelineConfig from './timeline.config.json';
 import { useParticipant } from './ParticipantContext';
 import trialProps from '../lib/trialProps';
@@ -8,7 +8,7 @@ import Instruction from './instruction';
 import Calibration from './calibration';
 import NewCalibration from "./newCalibration";
 import Feeling from './feeling';
-import LinkSM from './linkSM';
+import LinkSM, { TakingToConnect } from './linkSM';
 import Profile from './profile';
 import Block from './block';
 import Summary from './summary';
@@ -33,6 +33,7 @@ const componentMap = {
     NewCalibration,
     Feeling,
     LinkSM,
+    TakingToConnect,
     Profile,
     Block,
     Summary
@@ -82,23 +83,34 @@ const propInjectors = {
         ...props,
         curr: { i: helpers.currScreen },
     }),
+    TakingToConnect: (props, helpers) => ({
+        ...props,
+        curr: { i: helpers.currScreen },
+    }),
 };
 
-export default function Timeline() {
+export default function Timeline({ onScreenChange }) {
     const { participantId, setParticipantId } = useParticipant();
     const [currScreen, setCurrScreen] = useState(0);
     const [participantImgTimeline, setParticipantImgTimeline] = useState(null);
     const [participantBioTimeline, setParticipantBioTimeline] = useState(null);
     const [blockProps, setBlockProps] = useState(trialProps());
 
-    // Clamp navigation to valid range
+    // Notify parent component when screen changes
+    useEffect(() => {
+        if (onScreenChange) {
+            onScreenChange(currScreen);
+        }
+    }, [currScreen, onScreenChange]);
+
+    // Simple navigation functions
     const goTo = (i) => {
         if (i < 0) i = 0;
         if (i >= timelineConfig.length) i = timelineConfig.length - 1;
         setCurrScreen(i);
     };
-    const prev = (curr) => goTo(curr - 1);
-    const next = (curr) => goTo(curr + 1);
+    const prev = () => goTo(currScreen - 1);
+    const next = () => goTo(currScreen + 1);
 
     // Render a timeline step from config, using prop injectors for special cases
     function renderStep(step, i, helpers) {

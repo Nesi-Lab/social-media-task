@@ -35,49 +35,49 @@ function WatchQuadrant({ n, blockInfo }) {
 const color = (score) => score < 2.5 ? "red" : "green";
 // Add a pill style for bio items (copied from profile.js)
 const bioPillStyle = {
-  display: 'inline-block',
-  background: 'white',
-  color: 'black',
-  borderRadius: '6px', // much less rounded
-  padding: '2px 8px', // boxier
-  margin: '2px',
-  fontWeight: 500,
-  fontSize: '0.95rem',
-  boxShadow: '0 1px 4px rgba(0,0,0,0.07)'
+    display: 'inline-block',
+    background: 'white',
+    color: 'black',
+    borderRadius: '6px', // much less rounded
+    padding: '2px 8px', // boxier
+    margin: '2px',
+    fontWeight: 500,
+    fontSize: '0.95rem',
+    boxShadow: '0 1px 4px rgba(0,0,0,0.07)'
 };
 
 function BioPillsFromString({ bioString }) {
-  if (!bioString) return null;
-  // If it's an object, use its values; otherwise, split the string
-  let items = [];
-  let emoji = null;
-  if (typeof bioString === 'object') {
+    if (!bioString) return null;
+    // If it's an object, use its values; otherwise, split the string
+    let items = [];
+    let emoji = null;
+    if (typeof bioString === 'object') {
     // Assume keys are word, activity, place, artist, color, emoji
-    const { word, activity, place, artist, color, emoji: emj } = bioString;
-    items = [word, activity, place, artist, color].map(v => v && String(v).trim()).filter(Boolean);
-    if (emj) emoji = String(emj).trim();
-  } else {
-    const bio = String(bioString);
-    items = bio.split('|').map(s => s.trim()).filter(Boolean);
-    if (items.length > 0) {
-      const last = items[items.length - 1];
-      const match = last.match(/^(.*?)(\p{Emoji}+)$/u);
-      if (match) {
-        items[items.length - 1] = match[1].trim();
-        emoji = match[2];
-      } else if (/^\p{Emoji}+$/u.test(last)) {
-        emoji = items.pop();
-      }
+        const { word, activity, place, artist, color, emoji: emj } = bioString;
+        items = [word, activity, place, artist, color].map(v => v && String(v).trim()).filter(Boolean);
+        if (emj) emoji = String(emj).trim();
+    } else {
+        const bio = String(bioString);
+        items = bio.split('|').map(s => s.trim()).filter(Boolean);
+        if (items.length > 0) {
+            const last = items[items.length - 1];
+            const match = last.match(/^(.*?)(\p{Emoji}+)$/u);
+            if (match) {
+                items[items.length - 1] = match[1].trim();
+                emoji = match[2];
+            } else if (/^\p{Emoji}+$/u.test(last)) {
+                emoji = items.pop();
+            }
+        }
     }
-  }
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '2px', maxWidth: 220, margin: '0 auto', rowGap: '6px' }}>
-      {items.map((item, i) => (
-        <span key={i} style={bioPillStyle}>{item}</span>
-      ))}
-      {emoji && <span key="emoji" style={bioPillStyle}>{emoji}</span>}
-    </div>
-  );
+    return (
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '2px', maxWidth: 220, margin: '0 auto', rowGap: '6px' }}>
+            {items.map((item, i) => (
+                <span key={i} style={bioPillStyle}>{item}</span>
+            ))}
+            {emoji && <span key="emoji" style={bioPillStyle}>{emoji}</span>}
+        </div>
+    );
 }
 
 function PersonQuadrant({ p, isRatee, score = null, screenType }) {
@@ -114,24 +114,24 @@ function PersonQuadrant({ p, isRatee, score = null, screenType }) {
                         }}
                     />
                     <img
-                      src={p.img}
-                      width={200}
-                      height={200}
-                      style={{
-                        border: drawCheck ? "10px solid " + color(score) : "none",
-                        marginTop: drawCheck ? "-10px" : "0px",
-                        objectFit: "cover",
-                        width: "200px",
-                        height: "200px",
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        display: "block"
-                      }}
-                      alt={isRatee ? "ratee" : "rater"}
-                      className="person-img"
-                      id={isRatee ? "ratee-img" : "rater-img"}
-                      onLoad={() => setImgLoaded(true)}
+                        src={p.img}
+                        width={200}
+                        height={200}
+                        style={{
+                            border: drawCheck ? "10px solid " + color(score) : "none",
+                            marginTop: drawCheck ? "-10px" : "0px",
+                            objectFit: "cover",
+                            width: "200px",
+                            height: "200px",
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            display: "block"
+                        }}
+                        alt={isRatee ? "ratee" : "rater"}
+                        className="person-img"
+                        id={isRatee ? "ratee-img" : "rater-img"}
+                        onLoad={() => setImgLoaded(true)}
                     />
                 </div>
                 <div id="X" style={{ display: drawX ? "inline" : "none" }}>{isRatee ? X : null}</div>
