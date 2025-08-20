@@ -7,6 +7,7 @@ import { writeData } from './lib/utils'
 import { WebgazerProvider } from './components/WebgazerContext';
 import { ScreenProvider, useScreen } from './components/ScreenContext';
 import { ParticipantProvider, useParticipant } from './components/ParticipantContext';
+import { loadingStyles } from './App.jss';
 
 declare var webgazer;
 
@@ -102,69 +103,27 @@ function WebGazeLoader({ onScreenChange }) {
         <Timeline onScreenChange={onScreenChange} />
         {/* Loading overlay that blocks interaction until WebGazer is ready */}
         {loadingState !== 'ready' && (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 9999,
-            color: 'white',
-            fontSize: '18px',
-            textAlign: 'center'
-          }}>
-            <div style={{ marginBottom: '20px' }}>
+          <div style={loadingStyles.overlay}>
+            <div style={loadingStyles.content}>
               {loadingState === 'loading' && (
                 <>
-                  <div style={{
-                    width: '50px',
-                    height: '50px',
-                    border: '4px solid #f3f3f3',
-                    borderTop: '4px solid #3498db',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite',
-                    margin: '0 auto 20px'
-                  }}></div>
+                  <div style={loadingStyles.spinner}></div>
                   <p>Loading eye tracking software...</p>
-                  <p style={{ fontSize: '14px', opacity: 0.8, marginTop: '10px' }}>
+                  <p style={loadingStyles.subtitle}>
                     Please wait while we initialize the eye tracking system.
                   </p>
                 </>
               )}
               {loadingState === 'error' && (
                 <>
-                  <div style={{
-                    width: '50px',
-                    height: '50px',
-                    border: '4px solid #e74c3c',
-                    borderRadius: '50%',
-                    margin: '0 auto 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '24px'
-                  }}>⚠️</div>
+                  <div style={loadingStyles.errorIcon}>⚠️</div>
                   <p>Failed to load eye tracking software</p>
-                  <p style={{ fontSize: '14px', opacity: 0.8, marginTop: '10px' }}>
+                  <p style={loadingStyles.subtitle}>
                     The application will continue without eye tracking functionality.
                   </p>
                   <button
                     onClick={() => setLoadingState('ready')}
-                    style={{
-                      marginTop: '20px',
-                      padding: '10px 20px',
-                      backgroundColor: '#3498db',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '5px',
-                      cursor: 'pointer',
-                      fontSize: '16px'
-                    }}
+                    style={loadingStyles.continueButton}
                   >
                     Continue Anyway
                   </button>
@@ -173,12 +132,6 @@ function WebGazeLoader({ onScreenChange }) {
             </div>
           </div>
         )}
-        <style>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
     </WebgazerProvider>
   </div>)
 }
