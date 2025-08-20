@@ -8,7 +8,7 @@ import { useParticipant } from './ParticipantContext';
 
 export default function Feeling(props) {
 
-    // const [curr, setCurr] = useState(props.loc)
+
     const [vals, setVals] = useState(Object.fromEntries(feelingList.map(e => [e, "50"])));
     const [screenNum, setScreenNum] = useState(0);
     const { setScreen } = useScreen();

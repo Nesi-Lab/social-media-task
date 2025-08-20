@@ -9,7 +9,7 @@ import { PersonQuadrant } from './block';
 
 export default function Profile(props) {
 
-    const { screen, setScreen } = useScreen();
+    const { setScreen } = useScreen();
     const { participantId, setImg, setBio } = useParticipant();
     const [participantImg, setParticipantImg] = useState("#");
     const [participantImgScore, setParticipantImgScore] = useState("");
@@ -32,7 +32,23 @@ export default function Profile(props) {
     function handleUpload(input) {
         if (input.target.files && input.target.files[0]) {
             reader.readAsDataURL(input.target.files[0]);
+            
+            // Return to fullscreen after file selection
+            setTimeout(() => {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(err => console.log('Fullscreen request failed:', err));
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                }
+            }, 200);
         }
+    }
+
+    function handleUploadClick() {
+        // Trigger file input click
+        document.getElementById("fileUpload").click();
     }
 
     function handleCropSave(croppedImage) {
@@ -57,6 +73,16 @@ export default function Profile(props) {
     function handleUploadToBio(e) {
         setParticipantImgScore(document.getElementById("participantImgScore").value);
         setProfileStep("bio");
+        // Request fullscreen when moving to bio step
+        setTimeout(() => {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(err => console.log('Fullscreen request failed:', err));
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            }
+        }, 100);
     }
 
     function handleBioToUpload(e) {
@@ -65,6 +91,16 @@ export default function Profile(props) {
 
     function handleBioToDisplay(e) {
         setProfileStep("display");
+        // Request fullscreen when moving to display step
+        setTimeout(() => {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(err => console.log('Fullscreen request failed:', err));
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            }
+        }, 100);
     }
 
     function handleDisplayToBio(e) {
@@ -98,7 +134,19 @@ export default function Profile(props) {
 
     // Only call props.next when profile is fully complete (display screen)
     function handleFinalNext() {
-        save().then(() => props.next());
+        save().then(() => {
+            // Request fullscreen after saving with a delay
+            setTimeout(() => {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(err => console.log('Fullscreen request failed:', err));
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                }
+            }, 500);
+            props.next();
+        });
     }
 
     if (profileStep === "uploadPhoto") {
@@ -106,12 +154,12 @@ export default function Profile(props) {
             <div>
                 {profileText[0]}
                 <div className="upload">
-                    <div className="profile-quadrant quadrant-square" style={{ width: '250px', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 'auto' }}>
+                    <div className="profile-quadrant quadrant-square" style={{ width: '250px', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginRight: '20px' }}>
                         <img id="participantImg" src={participantImg} alt="participant" style={{ height: "100%", width: "100%", borderRadius: "50%", objectFit: "cover", display: participantImg === "#" ? "none" : "inline" }} />
                     </div>
                     <div>
                         {profileText[1]}
-                        <label htmlFor="fileUpload" className="upload-button">Upload Image</label>
+                        <button className="upload-button" onClick={handleUploadClick}>Upload Image</button>
                         <input type='file' id="fileUpload" style={{ display: "none" }} onChange={handleUpload} accept="image/png, image/jpeg, image/jpg" />
                     </div>
                 </div>

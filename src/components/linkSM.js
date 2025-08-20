@@ -2,22 +2,18 @@ import { useEffect, useState } from 'react';
 
 import { check, loading } from '../assets/imgs';
 import { socialMediaText } from '../assets/text';
-import { prevNext, writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
-import { useParticipant } from './ParticipantContext';
+
 
 function EmailInput({ onEmailValid, onEmailInvalid }) {
-    const [emailFilled, setEmailFilled] = useState(false);
 
     function handleEmailTyped(e) {
         const email = e.target.value;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^@\s]+@[^@\s]+$/;
         
         if (emailRegex.test(email)) {
-            setEmailFilled(true);
             if (onEmailValid) onEmailValid(email);
         } else {
-            setEmailFilled(false);
             if (onEmailInvalid) onEmailInvalid();
         }
     }
@@ -71,7 +67,6 @@ function EmailInput({ onEmailValid, onEmailInvalid }) {
 }
 
 function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
-    const [phoneFilled, setPhoneFilled] = useState(false);
 
     function handlePhoneTyped(e) {
         // Remove all non-digit characters
@@ -97,10 +92,8 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
         
         // Check if we have exactly 10 digits
         if (limitedDigits.length === 10) {
-            setPhoneFilled(true);
             if (onPhoneValid) onPhoneValid(formatted);
         } else {
-            setPhoneFilled(false);
             if (onPhoneInvalid) onPhoneInvalid();
         }
     }
@@ -156,10 +149,8 @@ function PhoneInput({ onPhoneValid, onPhoneInvalid }) {
 export default function LinkSM(props) {
 
     const { setScreen } = useScreen();
-    const { participantId } = useParticipant();
     const [isLoad, setIsLoad] = useState(false);
     const [finished, setFinished] = useState(false);
-    const [phoneFilled, setPhoneFilled] = useState(false);
     const [emailFilled, setEmailFilled] = useState(false);
 
     useEffect(() => {
@@ -169,65 +160,47 @@ export default function LinkSM(props) {
     useEffect(() => {
         if (isLoad && !finished) {
             const timer = setTimeout(() => {
+                console.log('LinkSM: setting finished to true');
                 setFinished(true);
                 setScreen(`linksm finished`);
-            }, 2000);
+            }, 3000);
             // Clear timeout if the component is unmounted
             return () => clearTimeout(timer);
         }
-    });
+    }, [isLoad, finished]);
 
     useEffect(() => {
         if (finished) {
             // Auto advance to next screen after showing the finished state
             const timer = setTimeout(() => {
+                console.log('LinkSM: auto-advancing to next screen');
                 props.next();
-            }, 3000);
+            }, 1000);
             return () => clearTimeout(timer);
         }
-    }, [finished]);
+    }, [finished, props.next]);
 
     async function onPrev() {
-        save().then(() => props.prev());
+        props.prev();
     }
 
-    function setupLoad() {
+    async function setupLoad() {
+        console.log('LinkSM: setupLoad called');
         setIsLoad(true);
         setFinished(false);
         setScreen(`linksm selecting`);
+        // Don't call props.next() here - let the internal flow handle the transition
     }
 
-    async function save() {
-        const email = document.getElementById('email')?.value || '';
-        const phone = document.getElementById('phone')?.value || '';
-        
-        writeData("metadata", {
-            name: "contact-info",
-            value: JSON.stringify({ email, phone })
-        }, participantId);
-    }
 
-    function handlePhoneValid() {
-        setPhoneFilled(true);
-    }
 
-    function handlePhoneInvalid() {
-        setPhoneFilled(false);
-    }
 
-    function handleEmailValid() {
-        setEmailFilled(true);
-    }
-
-    function handleEmailInvalid() {
-        setEmailFilled(false);
-    }
-
+    console.log('LinkSM: rendering, isLoad:', isLoad, 'finished:', finished);
     if (!isLoad) {
         return (<div style={{ 
             textAlign: "center",
             height: "100vh",
-            width: "100vw",
+            width: "100%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -238,38 +211,67 @@ export default function LinkSM(props) {
             wordWrap: "break-word",
             wordBreak: "break-word"
         }}>
-            <div style={{ maxWidth: "600px", width: "100%" }}>
+            <div style={{ width: "100%" }}>
                 {socialMediaText[0]}
             </div>
             <div>
                 <EmailInput 
-                    onEmailValid={handleEmailValid}
-                    onEmailInvalid={handleEmailInvalid}
+                    onEmailValid={() => setEmailFilled(true)}
+                    onEmailInvalid={() => setEmailFilled(false)}
                 />
-                <PhoneInput 
-                    onPhoneValid={handlePhoneValid}
-                    onPhoneInvalid={handlePhoneInvalid}
-                />
+                <PhoneInput />
             </div>
-            <div style={{ maxWidth: "600px", width: "100%" }}>
+            <div style={{ width: "100%" }}>
                 {socialMediaText[1]}
             </div>
-            <div className="prev-next">
-                {prevNext({ ...props, disableNext: !emailFilled }, setupLoad)}
+            <div className="prev-next" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+                <button
+                    onClick={onPrev}
+                    disabled={!props.prev}
+                    style={{
+                        minWidth: 120,
+                        padding: '12px 24px',
+                        backgroundColor: '#333',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: props.prev ? 'pointer' : 'not-allowed',
+                        opacity: props.prev ? 1 : 0.5
+                    }}
+                >
+                    Previous
+                </button>
+                <button
+                    onClick={setupLoad}
+                    disabled={!emailFilled}
+                    style={{
+                        minWidth: 120,
+                        padding: '12px 24px',
+                        backgroundColor: emailFilled ? '#0275ff' : '#666',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: emailFilled ? 'pointer' : 'not-allowed',
+                        opacity: emailFilled ? 1 : 0.5
+                    }}
+                >
+                    Next
+                </button>
             </div>
         </div>);
     } else {
         if (!finished) {
             return (<div style={{
                 height: "100vh",
-                width: "100vw",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 textAlign: "center",
                 padding: "20px",
                 boxSizing: "border-box",
+                paddingTop: 0,
                 wordWrap: "break-word",
                 wordBreak: "break-word"
             }}>
@@ -280,10 +282,10 @@ export default function LinkSM(props) {
         } else {
             return (<div style={{
                 height: "100vh",
-                width: "100vw",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 textAlign: "center",
                 padding: "20px",
@@ -293,9 +295,6 @@ export default function LinkSM(props) {
             }}>
                 <div style={{ marginBottom: "40px" }}>
                     <img src={check} alt="check mark" style={{ width: "75px", margin: "10px" }} />
-                </div>
-                <div style={{ maxWidth: "600px", width: "100%" }}>
-                    {socialMediaText[2]}
                 </div>
             </div>);
         }
@@ -326,10 +325,10 @@ export function TakingToConnect(props) {
     return (
         <div style={{
             height: "100vh",
-            width: "100vw",
+            width: "100%",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "center",
             textAlign: "center",
             padding: "20px",
