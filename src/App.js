@@ -39,7 +39,6 @@ function WebGazeLoader({ onScreenChange }) {
     }, { screen: screenRef.current })
   }
 
-
   function handleScriptLoad() {
     try {
       // Preload all images for browser cache
@@ -60,7 +59,7 @@ function WebGazeLoader({ onScreenChange }) {
             const prevReadingSec = calcSecond(wgLogs.length - 2)
             if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
               // we entered a different second from the previous reading
-              // so let's write the previous second's data 
+              // so let's write the previous second's data
               const toWrite = []
               for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
                 // for the last 20 readings (ignoring the current reading)
@@ -154,7 +153,7 @@ function App() {
   };
 
   // Function to enter fullscreen
-  const enterFullscreen = async () => {
+  const enterFullscreen = async() => {
     try {
       if (appRef.current) {
         console.log('Attempting to enter fullscreen...');
@@ -183,7 +182,7 @@ function App() {
 
   useEffect(() => {
     console.log('Current screen index:', currentScreenIndex, 'Fullscreen activated:', fullscreenActivated);
-    
+
     // Function to handle click and enter fullscreen (for manual activation)
     const handleClick = () => {
       if (currentScreenIndex >= 3 && !fullscreenActivated) {
@@ -201,8 +200,8 @@ function App() {
 
     // Handle fullscreen change events
     const handleFullscreenChange = () => {
-      if (!document.fullscreenElement && 
-          !document.webkitFullscreenElement && 
+      if (!document.fullscreenElement &&
+          !document.webkitFullscreenElement &&
           !document.msFullscreenElement) {
         console.log('Exited fullscreen, attempting to re-enter...');
         // Exited fullscreen, try to re-enter if we're past the feeling block
