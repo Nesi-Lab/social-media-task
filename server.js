@@ -5,9 +5,6 @@ const { Pool } = require('pg');
 
 const app = express();
 
-// Enable compression for better performance
-app.use(compression());
-
 // Serve static files with proper caching headers
 app.use(express.static(path.join(__dirname, 'build'), {
   maxAge: '1d', // Cache static assets for 1 day
