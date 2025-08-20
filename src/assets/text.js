@@ -18,8 +18,8 @@ export const introText = [
 
     (<div>
         <h1>Here’s how it works...</h1>
-        <p>Connect is a live simulation game. People are participating <i>right now</i> at multiple sites throughout Rhode Island.</p>
-        <p>Connect will search your social media networks to see if anyone you know is participating right now.</p>
+        <p>Connect is a live simulation game. People are participating <i>right now</i> at multiple sites throughout the country!</p>
+        <p>Connect will search your contacts to see if there’s anyone you might know on the platform.</p>
         <p>On Connect, you will give your first impressions of other people and they will give their first impressions of you.</p>
         <p>Let's get started!</p>
     </div>),
@@ -33,15 +33,14 @@ export const introText = [
 ];
 
 export const socialMediaText = [
-    (<p style={{textAlign: "left"}}>Please enter your phone number and check any social media sites you use. <b>Connect</b> will search your contacts to see if anyone you know is participating...</p>),
+    (<p style={{textAlign: "left"}}>Please enter your phone number and email. <b>Connect</b> will search your contacts to see if anyone you know is participating...</p>),
     
-    (<p style={{ color: "red", textAlign: "left" }}>Remember: Connect is totally private. We will <i>never</i> access your personal information, post anything on your account, or notify your contacts.</p>),
+    (<p style={{ color: "red", textAlign: "left" }}>Remember: Connect is totally private. We will <i>never</i> access your personal information or notify your contacts.</p>),
     
     (<div>
-        <p>There are a total of <span style={{ color: "lightgreen", fontSize: "larger" }}>68</span> users on Connect.</p>
-        <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>3</span> friends on Connect right now!</p>
-        <p>You have <span style={{ color: "lightgreen", fontSize: "larger" }}>15</span> friends-of-friends on Connect right now!</p>
-        <p>Connect will randomly pair users with each other. You may or may not be paired up with friends or friends-of-friends.</p>
+        <p>There are a total of <span style={{ color: "lightgreen", fontSize: "larger" }}>168</span> users on Connect right now.</p>
+        <p>There are <span style={{ color: "lightgreen", fontSize: "larger" }}>14</span> people you may know on Connect right now!</p>
+        <p>Connect will randomly pair users with each other. You may or may not be paired up with mutual friends.</p>
     </div>)
 ];
 

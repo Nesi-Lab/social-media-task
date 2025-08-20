@@ -98,7 +98,7 @@ export default function Profile(props) {
 
     // Only call props.next when profile is fully complete (display screen)
     function handleFinalNext() {
-        save().then(() => props.next(props.curr.i));
+        save().then(() => props.next());
     }
 
     if (profileStep === "uploadPhoto") {

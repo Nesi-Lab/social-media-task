@@ -1,12 +1,28 @@
 import { sliderLabels } from '../assets/text';
 import Button from '../components/Button';
 
-export function prevNext(props, save = (async function () { })) {
+export function prevNext(props, save = null) {
     async function onPrev() {
-        save().then(() => props.prev(props.curr.i));
+        try {
+            if (save && typeof save === 'function') {
+                await save();
+            }
+            props.prev();
+        } catch (error) {
+            console.error('Error in save function:', error);
+            props.prev();
+        }
     }
     async function onNext() {
-        save().then(() => props.next(props.curr.i));
+        try {
+            if (save && typeof save === 'function') {
+                await save();
+            }
+            props.next();
+        } catch (error) {
+            console.error('Error in save function:', error);
+            props.next();
+        }
     }
 
     // Check if prev/next should be shown based on config

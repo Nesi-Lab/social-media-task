@@ -10,7 +10,7 @@ import { ParticipantProvider, useParticipant } from './components/ParticipantCon
 
 declare var webgazer;
 
-function WebGazeLoader() {
+function WebGazeLoader({ onScreenChange }) {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
@@ -91,17 +91,100 @@ function WebGazeLoader() {
       onError={handleScriptError}
     />
     <WebgazerProvider value={wg}>
-        <Timeline />
+        <Timeline onScreenChange={onScreenChange} />
     </WebgazerProvider>
   </div>)
 }
 
 function App() {
+  const appRef = useRef(null);
+  const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
+  const [fullscreenActivated, setFullscreenActivated] = useState(false);
+
+  // Callback to handle screen changes
+  const handleScreenChange = (screenIndex) => {
+    console.log('Screen changed to index:', screenIndex);
+    setCurrentScreenIndex(screenIndex);
+  };
+
+  // Function to enter fullscreen
+  const enterFullscreen = async () => {
+    try {
+      if (appRef.current) {
+        console.log('Attempting to enter fullscreen...');
+        if (appRef.current.requestFullscreen) {
+          await appRef.current.requestFullscreen();
+        } else if (appRef.current.webkitRequestFullscreen) {
+          await appRef.current.webkitRequestFullscreen();
+        } else if (appRef.current.msRequestFullscreen) {
+          await appRef.current.msRequestFullscreen();
+        }
+        console.log('Fullscreen request sent');
+      }
+    } catch (error) {
+      console.log('Fullscreen request failed:', error);
+    }
+  };
+
+  // Callback to trigger fullscreen on final feeling next
+  const handleFinalNext = () => {
+    console.log('Final feeling next clicked, entering fullscreen...');
+    if (!fullscreenActivated) {
+      enterFullscreen();
+      setFullscreenActivated(true);
+    }
+  };
+
+  useEffect(() => {
+    console.log('Current screen index:', currentScreenIndex, 'Fullscreen activated:', fullscreenActivated);
+    
+    // Function to handle click and enter fullscreen (for manual activation)
+    const handleClick = () => {
+      if (currentScreenIndex >= 3 && !fullscreenActivated) {
+        console.log('Click detected, entering fullscreen...');
+        enterFullscreen();
+        setFullscreenActivated(true);
+      }
+    };
+
+    // Add click listener to the entire app
+    const appElement = appRef.current;
+    if (appElement) {
+      appElement.addEventListener('click', handleClick);
+    }
+
+    // Handle fullscreen change events
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && 
+          !document.webkitFullscreenElement && 
+          !document.msFullscreenElement) {
+        console.log('Exited fullscreen, attempting to re-enter...');
+        // Exited fullscreen, try to re-enter if we're past the feeling block
+        if (currentScreenIndex >= 2) {
+          setTimeout(enterFullscreen, 100);
+        }
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      if (appElement) {
+        appElement.removeEventListener('click', handleClick);
+      }
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, [currentScreenIndex, fullscreenActivated]);
+
   return (
-    <div className="App" id="app" style={{ display: "flex", justifyContent: "center" }}>
+    <div className="App" id="app" ref={appRef} style={{ display: "flex", justifyContent: "center" }}>
       <ScreenProvider>
         <ParticipantProvider>
-          <WebGazeLoader />
+          <WebGazeLoader onScreenChange={handleScreenChange} />
         </ParticipantProvider>
       </ScreenProvider>
     </div>

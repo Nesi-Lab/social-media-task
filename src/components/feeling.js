@@ -40,7 +40,21 @@ export default function Feeling(props) {
     }
 
     async function onNext() {
-        save().then(() => props.next(props.curr.i));
+        save().then(() => {
+            // Trigger fullscreen on final next click
+            const appElement = document.getElementById('app');
+            if (appElement && !document.fullscreenElement) {
+                console.log('Final feeling next clicked, entering fullscreen...');
+                if (appElement.requestFullscreen) {
+                    appElement.requestFullscreen();
+                } else if (appElement.webkitRequestFullscreen) {
+                    appElement.webkitRequestFullscreen();
+                } else if (appElement.msRequestFullscreen) {
+                    appElement.msRequestFullscreen();
+                }
+            }
+            props.next();
+        });
     }
 
     return (<div>
