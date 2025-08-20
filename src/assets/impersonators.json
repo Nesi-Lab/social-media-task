@@ -8,14 +8,7 @@
       {"rater": "W - 33b", "ratee": "W - 47b", "score": 3, "num_watching": 14},
       {"rater": "W - 70o", "ratee": "W - 76b", "score": 4, "num_watching": 10},
       {"rater": "W - 75b", "ratee": "W - 22g", "score": 2, "num_watching": 54},
-      {"rater": "A - 996b", "ratee": "W - 1001b", "score": 2, "num_watching": 7},
-      {"rater": "H - 13g", "ratee": "B - 38g", "score": 4, "num_watching": 13},
-      {"rater": "W - 23g", "ratee": "A - 991b", "score": 4, "num_watching": 52},
-      {"rater": "W - 21g", "ratee": "H - 51g", "score": 3, "num_watching": 58},
-      {"rater": "W - 25g", "ratee": "W - 78b", "score": 4, "num_watching": 58},
-      {"rater": "W - 8g", "ratee": "W - 31g", "score": 1, "num_watching": 12},
-      {"rater": "H - 999b", "ratee": "W - 1g", "score": 3, "num_watching": 54},
-      {"rater": "W - 45b", "ratee": "H - 43b", "score": 3, "num_watching": 9}
+      {"rater": "A - 996b", "ratee": "W - 1001b", "score": 2, "num_watching": 7}
     ],
     "rating": {
       "1": [
@@ -34,23 +27,6 @@
         {"ratee": "A - 24g", "num_watching": 11},
         {"ratee": "W - 80b", "num_watching": 14},
         {"ratee": "W - 4g", "num_watching": 12}
-      ],
-      "2": [
-        {"ratee": "B - 72b", "num_watching": 8},
-        {"ratee": "W - 19b", "num_watching": 56},
-        {"ratee": "W - 14g", "num_watching": 10},
-        {"ratee": "A - 46g", "num_watching": 49},
-        {"ratee": "W - 20g", "num_watching": 45},
-        {"ratee": "H - 50g", "num_watching": 10},
-        {"ratee": "W - 9g", "num_watching": 56},
-        {"ratee": "B - 54g", "num_watching": 11},
-        {"ratee": "W - 27b", "num_watching": 12},
-        {"ratee": "W - 74b", "num_watching": 42},
-        {"ratee": "W - 3g", "num_watching": 7},
-        {"ratee": "W - 30g", "num_watching": 11},
-        {"ratee": "W - 66b", "num_watching": 55},
-        {"ratee": "H - 73b", "num_watching": 58},
-        {"ratee": "W - 28b", "num_watching": 12}
       ]
     },
     "rated": {
