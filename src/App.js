@@ -7,6 +7,7 @@ import { writeData } from './lib/utils'
 import { WebgazerProvider } from './components/WebgazerContext';
 import { ScreenProvider, useScreen } from './components/ScreenContext';
 import { ParticipantProvider, useParticipant } from './components/ParticipantContext';
+import { loadingStyles } from './App.jss';
 
 declare var webgazer;
 
@@ -14,6 +15,7 @@ function WebGazeLoader({ onScreenChange }) {
 
   const [wg, setWg] = useState(null)
   const [wgLogs, setWgLogs] = useState([])
+  const [loadingState, setLoadingState] = useState('loading') // 'loading', 'error', 'ready'
   const { screen } = useScreen();
   const { participantId } = useParticipant();
 
@@ -38,39 +40,45 @@ function WebGazeLoader({ onScreenChange }) {
 
 
   function handleScriptLoad() {
-    webgazer.setRegression('ridge')
-      .setTracker('TFFacemesh')
-      .setGazeListener((data, elapsedTime) => {
-        if (data == null) { return; }
-        const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
-        const now = Date.now();
-        if (initialTimestampRef.current === null) initialTimestampRef.current = now;
-        wgLogs.push({ ...webgazer.util.bound(data), timestamp: now })
-        if (wgLogs.length >= 2) {
-          // exists a previous reading
-          const prevReadingSec = calcSecond(wgLogs.length - 2)
-          if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
-            // we entered a different second from the previous reading
-            // so let's write the previous second's data 
-            const toWrite = []
-            for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
-              // for the last 20 readings (ignoring the current reading)
-              if (calcSecond(i) === prevReadingSec) { toWrite.push(wgLogs[i]) }
-              else { break }
+    try {
+      webgazer.setRegression('ridge')
+        .setTracker('TFFacemesh')
+        .setGazeListener((data, elapsedTime) => {
+          if (data == null) { return; }
+          const calcSecond = log_ind => Math.floor(wgLogs[log_ind].timestamp / 1000)
+          const now = Date.now();
+          if (initialTimestampRef.current === null) initialTimestampRef.current = now;
+          wgLogs.push({ ...webgazer.util.bound(data), timestamp: now })
+          if (wgLogs.length >= 2) {
+            // exists a previous reading
+            const prevReadingSec = calcSecond(wgLogs.length - 2)
+            if ((calcSecond(wgLogs.length - 1) !== prevReadingSec) || (wgLogs[wgLogs.length - 2].screen !== wgLogs[wgLogs.length - 1].screen)) {
+              // we entered a different second from the previous reading
+              // so let's write the previous second's data 
+              const toWrite = []
+              for (let i = wgLogs.length - 2; i >= 0 && i > wgLogs.length - 22; i--) {
+                // for the last 20 readings (ignoring the current reading)
+                if (calcSecond(i) === prevReadingSec) { toWrite.push(wgLogs[i]) }
+                else { break }
+              }
+              toWrite.reverse()  // so indices increase with time
+              writeData("eye_tracking", makeWgRecord(toWrite), participantIdRef.current)
             }
-            toWrite.reverse()  // so indices increase with time
-            writeData("eye_tracking", makeWgRecord(toWrite), participantIdRef.current)
           }
-        }
-      })
-      .showVideo(false)
-      .showFaceOverlay(false)
-      .showFaceFeedbackBox(false)
-      .begin()
-      // .showPredictionPoints(false);
-    window.applyKalmanFilter = true;
-    setWg(webgazer)
-    console.log(webgazer)
+        })
+        .showVideo(false)
+        .showFaceOverlay(false)
+        .showFaceFeedbackBox(false)
+        .begin()
+        // .showPredictionPoints(false);
+      window.applyKalmanFilter = true;
+      setWg(webgazer)
+      setLoadingState('ready')
+      console.log(webgazer)
+    } catch (error) {
+      console.error('Error initializing WebGazer:', error);
+      setLoadingState('error')
+    }
   }
 
   useEffect(() => {
@@ -81,7 +89,8 @@ function WebGazeLoader({ onScreenChange }) {
   }, [])
 
   function handleScriptError() {
-    console.log('error');
+    console.error('Failed to load WebGazer script');
+    setLoadingState('error');
   }
 
   return (<div>
@@ -92,6 +101,37 @@ function WebGazeLoader({ onScreenChange }) {
     />
     <WebgazerProvider value={wg}>
         <Timeline onScreenChange={onScreenChange} />
+        {/* Loading overlay that blocks interaction until WebGazer is ready */}
+        {loadingState !== 'ready' && (
+          <div style={loadingStyles.overlay}>
+            <div style={loadingStyles.content}>
+              {loadingState === 'loading' && (
+                <>
+                  <div style={loadingStyles.spinner}></div>
+                  <p>Loading eye tracking software...</p>
+                  <p style={loadingStyles.subtitle}>
+                    Please wait while we initialize the eye tracking system.
+                  </p>
+                </>
+              )}
+              {loadingState === 'error' && (
+                <>
+                  <div style={loadingStyles.errorIcon}>⚠️</div>
+                  <p>Failed to load eye tracking software</p>
+                  <p style={loadingStyles.subtitle}>
+                    The application will continue without eye tracking functionality.
+                  </p>
+                  <button
+                    onClick={() => setLoadingState('ready')}
+                    style={loadingStyles.continueButton}
+                  >
+                    Continue Anyway
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
     </WebgazerProvider>
   </div>)
 }
