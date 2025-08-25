@@ -153,8 +153,8 @@ export default function Profile(props) {
             <div>
                 {profileText[0]}
                 <div className="upload">
-                    <div className="profile-quadrant quadrant-square" style={{ width: '250px', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 'auto', marginRight: '20px' }}>
-                        <img id="participantImg" src={participantImg} alt="participant" style={{ height: "100%", width: "100%", borderRadius: "50%", objectFit: "cover", display: participantImg === "#" ? "none" : "inline" }} />
+                    <div className="profile-quadrant quadrant-square profile-quadrant-centered">
+                        <img id="participantImg" src={participantImg} alt="participant" style={{ display: participantImg === "#" ? "none" : "inline" }} />
                     </div>
                     <div>
                         {profileText[1]}
@@ -208,7 +208,7 @@ export default function Profile(props) {
                     <div style={{ flexGrow: 100 }}>
                         {profileText[3]}
                         {allFieldsFilled ?
-                            (<div style={{ marginTop: "50px" }}>
+                            (<div className="profile-text-margin" style={{ marginTop: "50px" }}>
                                 {profileText[4]}
                                 <div className="editable-bio"><PersonQuadrant p={{ img: participantImg, bio: makeBioPlain(participantBio) }} isRatee={true} screenType="profile" score={null} /></div>
                             </div>) :
@@ -224,7 +224,7 @@ export default function Profile(props) {
     } else {  // display
         return (<div style={{ textAlign: "center", margin: "0px" }}>
             {profileText[6]}
-            <div className="profile-quadrant" style={{ margin: "auto", width: "290px", height: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+            <div className="profile-quadrant profile-quadrant-display">
                 <PersonQuadrant p={{ img: participantImg, bio: makeBioPlain(participantBio) }} isRatee={true} screenType="profile" score={null} />
             </div>
             <div>

@@ -25,7 +25,7 @@ export default function Instruction(props) {
             {textContent}
         </div>
         {hasImage ? (
-            <div style={{ minHeight: "calc(100vh - 350px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="instruction-container">
                 <img
                     src={imageSrc}
                     alt="tutorial slide"

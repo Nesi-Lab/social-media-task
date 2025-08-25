@@ -104,22 +104,15 @@ function PersonQuadrant({ p, isRatee, score = null, screenType }) {
     };
     return (
         <>
-            <div className="person" style={{ position: "relative" }}>
-                <div style={{ width: 200, height: 200, position: "relative", margin: "0 auto" }}>
+            <div className="person">
+                <div className="person-container">
                     <img
                         src={p.img}
                         width={200}
                         height={200}
                         style={{
                             border: drawCheck ? "10px solid " + color(score) : "none",
-                            marginTop: drawCheck ? "-10px" : "0px",
-                            objectFit: "cover",
-                            width: "200px",
-                            height: "200px",
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            display: "block"
+                            marginTop: drawCheck ? "-10px" : "0px"
                         }}
                         alt={isRatee ? "ratee" : "rater"}
                         className="person-img"
