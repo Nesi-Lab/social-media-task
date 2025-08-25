@@ -276,7 +276,7 @@ button {
   transition: box-shadow 0.2s, transform 0.2s;
 }
 
-.summary-person-img {
+.summary-grid-person-img {
   width: min(calc(90vh / 4), calc(90vw / 4));
   height: min(calc(90vh / 4), calc(90vw / 4));
   aspect-ratio: 1;
@@ -354,12 +354,19 @@ button {
 
 .profile-quadrant-centered {
   width: 250px;
-  height: 20px;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
   margin-right: 20px;
+}
+
+#participantImg {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .profile-quadrant-display {

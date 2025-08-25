@@ -121,7 +121,7 @@ export const interpretationText = (<div>
 </div>);
 
 export const watchText = {
-    withYou: (n) => (<p style={{ marginTop: "40px" }}><b>You</b> and <br /><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> other people are watching</p>),
+    withYou: (n) => (<p style={{ marginTop: "40px", fontSize: "larger" }}><b>You</b> and <br /><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> other people are watching</p>),
     withoutYou: (n) => (<p style={{ marginTop: "40px", fontSize: "larger" }}><span style={{ fontSize: "50px" }}><b>{n}</b></span><br /> people are <br />watching</p>),
     summary: (n) => [
         (<p style={{ fontSize: "60px" }}><b>{n}</b></p>),

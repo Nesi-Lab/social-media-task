@@ -44,7 +44,7 @@ export default function FaceCheck(props) {
             </details>
         </div>);
     } else {
-        return (<div>
+        return (<div style={{ margin: 'auto' }}>
             {text["faceCheckText"]}
             <div>{prevNext(props, save)}</div>
         </div>);

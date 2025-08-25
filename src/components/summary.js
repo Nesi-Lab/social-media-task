@@ -100,7 +100,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
         const score = (<p className="summary-score">Average rating: <br /><span style={{ fontSize: "larger", color: color(p.score) }}>{p.score}</span></p>);
 
         return (<div className="summary-person">
-            <img src={p.img} alt="person summary" className="summary-person-img" />
+            <img src={p.img} alt="person summary" className="summary-grid-person-img" />
             {drawScore ? score : null}
         </div>);
     }
