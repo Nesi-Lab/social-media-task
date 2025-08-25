@@ -188,6 +188,12 @@ button {
 .summary-person {
   text-align: center;
   margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .summary-person-img {
@@ -241,20 +247,42 @@ button {
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 40px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   width: 100vw;
   height: 100vh;
   margin: 0;
-  padding: 60px;
+  padding: 20px;
   box-sizing: border-box;
+  gap: 10px;
 }
 
 .summary-grid-item {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.summary-quadrant {
+  /* width: 100%;
+  height: 100%;
+  max-width: min(calc((100vh - 60px) / 3), calc((100vw - 60px) / 3));
+  max-height: min(calc((100vh - 60px) / 3), calc((100vw - 60px) / 3)); */
+  margin: auto;
+  text-align: center;
+  border: 3px solid #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.summary-person-img {
+  width: min(calc(90vh / 4), calc(90vw / 4));
+  height: min(calc(90vh / 4), calc(90vw / 4));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .feeling-slider {
