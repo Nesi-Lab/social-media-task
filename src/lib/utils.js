@@ -102,9 +102,7 @@ export async function writeData(table, data, participant_id, relativeTimestamp =
     }
 
     for (const k in data) {
-        if (typeof data[k] === 'string' || data[k] instanceof String) {
-            data[k] = "'" + data[k] + "'";
-        } else if (data[k] == null) {
+        if (data[k] == null) {
             delete data[k];
         }
     }
