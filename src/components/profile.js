@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 
 import { profileText, bioQuestions, emojis, makeBio, makeBioPlain } from '../assets/text';
-import { prevNext, slider, writeData } from '../lib/utils';
+import { prevNext, slider } from '../lib/utils';
+import { useWriteData } from '../hooks/useWriteData';
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
 import ImageCropper from './ImageCropper';
@@ -17,6 +18,9 @@ export default function Profile(props) {
     const [showCropper, setShowCropper] = useState(false);
     const [originalImg, setOriginalImg] = useState(null);
     const [profileStep, setProfileStep] = useState("uploadPhoto"); // 'uploadPhoto', 'bio', 'display'
+
+    // Use the custom hook for automatic timestamp handling
+    const writeDataWithTimestamp = useWriteData();
 
     useEffect(() => {
         setScreen(`profile ${profileStep}`);
@@ -108,7 +112,7 @@ export default function Profile(props) {
     }
 
     async function saveRow(rec) {
-        writeData("metadata", rec, participantId);
+        writeDataWithTimestamp("metadata", rec, participantId);
     }
 
     async function save() {

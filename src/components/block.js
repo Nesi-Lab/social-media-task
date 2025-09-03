@@ -4,7 +4,8 @@ import ReactDOMServer from 'react-dom/server';
 import { eye, x, check } from '../assets/imgs';
 import { rateText, interpretationText, watchText } from '../assets/text';
 import Feeling from './feeling';
-import { slider, writeData, prevNext } from '../lib/utils';
+import { slider, prevNext } from '../lib/utils';
+import { useWriteData } from '../hooks/useWriteData';
 import Instruction from "./instruction";
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
@@ -166,6 +167,9 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
     const { participantId, img, bio } = useParticipant();
     const participant = { img, bio, id: "participant" };
 
+    // Use the custom hook for automatic timestamp handling
+    const writeDataWithTimestamp = useWriteData();
+
     // add participant into props where appropriate
     let trialsCopy = trials;
     if (blockInfo.type === "rating") {
@@ -217,7 +221,8 @@ function Block({ curr, next, blockInfo, trials, ...rest }) {
             score: (blockInfo.type === "rating") ? selectedThumb : trialsCopy[trialInd].score
         };
         if (interpretationScore) { record["interpretation_score"] = interpretationScore; }
-        writeData("trials", record, participantId);
+
+        writeDataWithTimestamp("trials", record, participantId);
 
         if (trialInd + 1 === trialsCopy.length) {
             setFinished(true);

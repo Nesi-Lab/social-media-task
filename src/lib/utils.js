@@ -84,12 +84,23 @@ export function multiSlider(names, update) {
     </div>);
 }
 
-export async function writeData(table, data, participant_id) {
+export async function writeData(table, data, participant_id, relativeTimestamp = null) {
     if (participant_id == null) {
         console.log(`not writing data to ${table} because no participant ID yet or bad participant ID`);
         return;
     }
     data["participant_id"] = participant_id.toString();
+
+    // Store relative timestamps as datetime values in the existing timestamp field
+    if (table !== "eye_tracking" && relativeTimestamp !== null) {
+        // Convert milliseconds to relative datetime (starting from epoch)
+        const relativeDate = new Date(relativeTimestamp);
+        data["timestamp"] = relativeDate.toISOString();
+        console.log(`Adding relative timestamp ${relativeTimestamp}ms (${relativeDate.toISOString()}) to ${table} data`);
+    } else if (table !== "eye_tracking") {
+        data["timestamp"] = new Date(1).toISOString();
+    }
+
     for (const k in data) {
         if (typeof data[k] === 'string' || data[k] instanceof String) {
             data[k] = "'" + data[k] + "'";
@@ -97,7 +108,7 @@ export async function writeData(table, data, participant_id) {
             delete data[k];
         }
     }
-    if (table !== "eye_tracking") { data["timestamp"] = "NOW()"; }
+
     const response = await fetch('/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

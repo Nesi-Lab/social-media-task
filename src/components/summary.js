@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { beforeSummaryText } from '../assets/text';
+import { useWriteData } from '../hooks/useWriteData';
 import Feeling from './feeling';
-import { writeData } from '../lib/utils';
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
 
@@ -16,6 +15,7 @@ const timerSecs = {
 const color = (score) => score < 2.5 ? "red" : "green";
 
 export default function Summary({ curr, next, blockInfo, summaries, trials, ...rest }) {
+    const writeDataWithTimestamp = useWriteData();
     const { participantId, img: participantImg, bio: participantBio } = useParticipant();
     const participant = { img: participantImg, bio: participantBio, id: "participant" };
 
@@ -62,7 +62,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
     }
 
     function nextTrial() {
-        writeData("trials", blockDescription(), participantId);
+        writeDataWithTimestamp("trials", blockDescription(), participantId);
         if (trialInd + 1 === summariesCopy.length) {
             setFinished(true);
         } else {
@@ -131,7 +131,7 @@ export default function Summary({ curr, next, blockInfo, summaries, trials, ...r
     }
 
     if (screenType === "loading") {
-        return beforeSummaryText[1];
+        return null; // beforeSummaryText[1] removed
     } else if (screenType === "fixation") {
         return (<input type="button" className="calibration" disabled="true" style={{ backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />);
     } else if (!finished && summariesCopy.length > 0) {

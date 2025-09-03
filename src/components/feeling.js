@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
 import { feelingText, feelingList } from '../assets/text';
-import { multiSlider, writeData, prevNext } from '../lib/utils';
+import { multiSlider, prevNext } from '../lib/utils';
+import { useWriteData } from '../hooks/useWriteData';
 import { pick } from 'lodash';
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
@@ -12,6 +13,9 @@ export default function Feeling(props) {
     const [screenNum, setScreenNum] = useState(0);
     const { setScreen } = useScreen();
     const { participantId } = useParticipant();
+
+    // Use the custom hook for automatic timestamp handling
+    const writeDataWithTimestamp = useWriteData();
 
     const splitInd = Math.floor(feelingList.length / 2);
     const feelingsToDisplay = feelingList.slice(...(screenNum === 0 ? [0, splitInd] : [splitInd]));
@@ -27,7 +31,7 @@ export default function Feeling(props) {
     }
 
     async function save() {
-        writeData("feelings", Object.keys(vals).reduce(
+        writeDataWithTimestamp("feelings", Object.keys(vals).reduce(
             (a, c) => { return { ...a, [c.toLowerCase()]: vals[c] }; },
             { "location": props.loc }
         ), participantId);

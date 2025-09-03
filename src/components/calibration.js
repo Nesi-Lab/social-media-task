@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { writeData } from '../lib/utils';
+import { useWriteData } from '../hooks/useWriteData';
 import Instruction from './instruction';
 import { useWebgazer } from './WebgazerContext';
 import { useScreen } from './ScreenContext';
@@ -19,6 +19,9 @@ export default function Calibration(props) {
     const { setScreen } = useScreen();
     const { participantId } = useParticipant();
 
+    // Use the custom hook for automatic timestamp handling
+    const writeDataWithTimestamp = useWriteData();
+
     useEffect(() => {
         setScreen("calibration");
     }, []);
@@ -26,16 +29,18 @@ export default function Calibration(props) {
     function opacity(clicksLeft) { return clicksLeft === 0 ? 1 : clicksLeft / numClicksPerPoint; }
 
     useEffect(() => {
-        // on load
-        writeData("metadata", {
-            name: "screen-width",
-            value: window.innerWidth
-        }, participantId);
-        writeData("metadata", {
-            name: "screen-height",
-            value: window.innerHeight
-        }, participantId);
-    }, []);
+        // on load - only run once when component mounts
+        if (participantId) {
+            writeDataWithTimestamp("metadata", {
+                name: "screen-width",
+                value: window.innerWidth
+            }, participantId);
+            writeDataWithTimestamp("metadata", {
+                name: "screen-height",
+                value: window.innerHeight
+            }, participantId);
+        }
+    }, [participantId, writeDataWithTimestamp]);
 
     useEffect(() => {
         if (!done && !regressed && Object.values(points).every(v => v === 0)) {
