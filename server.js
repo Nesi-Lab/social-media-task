@@ -153,11 +153,11 @@ app.post('/add', jsonParser, async (req, res) => {
           
           // Check for special characters that could cause SQL issues
           if (!safeCharRegex.test(value)) {
-            console.log(`Suspicious characters detected key: ${key}, value: ${value}`);
-            continue; // Skip values with suspicious characters
+            continue;
           }
           
           if (value.length > 0) {
+            const cleanedValue = value.trim();
             sanitizedData[key] = cleanedValue;
           }
         } else if (typeof value === 'number') {
@@ -189,8 +189,11 @@ app.post('/add', jsonParser, async (req, res) => {
       `Added to ${req.body.table}: ${JSON.stringify(sanitizedData)}`
     );
   } catch (err) {
-    console.log("err inserting data", err.stack);
-    res.status(500).json({ error: "Error inserting data" });
+    // Log detailed error information server-side
+    console.error(`Error inserting data into table "${req.body.table}":`, err);
+    res.status(500).json({
+      error: "An internal server error occurred. Please try again later."
+    });
   }
 });
 
