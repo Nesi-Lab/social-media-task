@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { writeData } from '../lib/utils';
+import { useWriteData } from '../hooks/useWriteData';
 import Instruction from './instruction';
 import { useWebgazer } from './WebgazerContext';
 import { useScreen } from './ScreenContext';
@@ -15,6 +15,9 @@ export default function Accuracy(props) {
     const [done, setDone] = useState(false);
     const [storedPoints, setStoredPoints] = useState({ x: [], y: [] });
     const [storing, setStoring] = useState(null);
+
+    // Use the custom hook for automatic timestamp handling
+    const writeDataWithTimestamp = useWriteData();
 
     useEffect(() => {
         setScreen("accuracy");
@@ -72,7 +75,8 @@ export default function Accuracy(props) {
                 // const acc = accuracy(wg.getStoredPoints())
                 const acc = accuracy(storedPoints);
                 console.log("wg acc", acc);
-                writeData("metadata", {
+
+                writeDataWithTimestamp("metadata", {
                     name: `calibration-accuracy${props.loc ? '-' + props.loc : ''}`,
                     value: acc.toString()
                 }, participantId);

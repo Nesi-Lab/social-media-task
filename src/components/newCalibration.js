@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Instruction from './instruction';
 import Target from './target';
-import { writeData } from '../lib/utils';
+import { useWriteData } from '../hooks/useWriteData';
 import { useWebgazer } from './WebgazerContext';
 import { useScreen } from './ScreenContext';
 import { useParticipant } from './ParticipantContext';
@@ -39,6 +39,9 @@ export default function NewCalibration(props) {
     const { setScreen } = useScreen();
     const { participantId } = useParticipant();
 
+    // Use the custom hook for automatic timestamp handling
+    const writeDataWithTimestamp = useWriteData();
+
     // Set screen for logging
     useEffect(() => {
         if (props.test) {
@@ -46,18 +49,20 @@ export default function NewCalibration(props) {
         } else {
             setScreen("calibration");
 
-            writeData("metadata", {
-                name: "screen-width",
-                value: window.innerWidth
-            }, participantId);
-            writeData("metadata", {
-                name: "screen-height",
-                value: window.innerHeight
-            }, participantId);
+            if (participantId) {
+                writeDataWithTimestamp("metadata", {
+                    name: "screen-width",
+                    value: window.innerWidth
+                }, participantId);
+                writeDataWithTimestamp("metadata", {
+                    name: "screen-height",
+                    value: window.innerHeight
+                }, participantId);
+            }
 
             wg.clearData();
         }
-    }, []);
+    }, [props.test, participantId, writeDataWithTimestamp, wg]);
 
     /**
      * Computes the accuracy of webgazer given a set of prediction and ground truth points
@@ -166,7 +171,7 @@ export default function NewCalibration(props) {
             if (props.test) {
                 const acc = computeAccuracy();
                 console.log("acc:", acc);
-                writeData("metadata", {
+                writeDataWithTimestamp("metadata", {
                     name: `calibration-accuracy${props.loc ? '-' + props.loc : ''}`,
                     value: acc.toString()
                 }, participantId);
@@ -181,7 +186,7 @@ export default function NewCalibration(props) {
                 }, 0);
             }
         }
-    }, [counter, done, props.test, props.loc, participantId, wg]);
+    }, [counter, done, props.test, props.loc, participantId, wg, writeDataWithTimestamp]);
 
     // Cleanup intervals on unmount
     useEffect(() => {

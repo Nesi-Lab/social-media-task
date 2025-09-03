@@ -9,6 +9,7 @@ import { WebgazerProvider } from './components/WebgazerContext';
 import { ScreenProvider, useScreen } from './components/ScreenContext';
 import { ParticipantProvider, useParticipant } from './components/ParticipantContext';
 import { loadingStyles } from './App.jss';
+import { InitialTimeProvider } from './components/InitialTimeContext';
 
 declare var webgazer;
 
@@ -23,7 +24,7 @@ function WebGazeLoader({ onScreenChange }) {
   // Refs for latest values
   const screenRef = useRef(screen);
   const participantIdRef = useRef(participantId);
-  const initialTimestampRef = useRef(null);
+  const initialTimestampRef = useRef(Date.now());
 
   useEffect(() => { screenRef.current = screen; }, [screen]);
   useEffect(() => { participantIdRef.current = participantId; }, [participantId]);
@@ -105,38 +106,40 @@ function WebGazeLoader({ onScreenChange }) {
       onError={handleScriptError}
     />
     <WebgazerProvider value={wg}>
-        <Timeline onScreenChange={onScreenChange} />
-        {/* Loading overlay that blocks interaction until WebGazer is ready */}
-        {loadingState !== 'ready' && (
-          <div style={loadingStyles.overlay}>
-            <div style={loadingStyles.content}>
-              {loadingState === 'loading' && (
-                <>
-                  <div style={loadingStyles.spinner}></div>
-                  <p>Loading eye tracking software...</p>
-                  <p style={loadingStyles.subtitle}>
-                    Please wait while we initialize the eye tracking system.
-                  </p>
-                </>
-              )}
-              {loadingState === 'error' && (
-                <>
-                  <div style={loadingStyles.errorIcon}>⚠️</div>
-                  <p>Failed to load eye tracking software</p>
-                  <p style={loadingStyles.subtitle}>
-                    The application will continue without eye tracking functionality.
-                  </p>
-                  <button
-                    onClick={() => setLoadingState('ready')}
-                    style={loadingStyles.continueButton}
-                  >
-                    Continue Anyway
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
+        <InitialTimeProvider initialTimestampRef={initialTimestampRef}>
+            <Timeline onScreenChange={onScreenChange} />
+            {/* Loading overlay that blocks interaction until WebGazer is ready */}
+            {loadingState !== 'ready' && (
+              <div style={loadingStyles.overlay}>
+                <div style={loadingStyles.content}>
+                  {loadingState === 'loading' && (
+                    <>
+                      <div style={loadingStyles.spinner}></div>
+                      <p>Loading eye tracking software...</p>
+                      <p style={loadingStyles.subtitle}>
+                        Please wait while we initialize the eye tracking system.
+                      </p>
+                    </>
+                  )}
+                  {loadingState === 'error' && (
+                    <>
+                      <div style={loadingStyles.errorIcon}>⚠️</div>
+                      <p>Failed to load eye tracking software</p>
+                      <p style={loadingStyles.subtitle}>
+                        The application will continue without eye tracking functionality.
+                      </p>
+                      <button
+                        onClick={() => setLoadingState('ready')}
+                        style={loadingStyles.continueButton}
+                      >
+                        Continue Anyway
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+        </InitialTimeProvider>
     </WebgazerProvider>
   </div>)
 }
