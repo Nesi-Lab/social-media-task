@@ -157,7 +157,8 @@ app.post('/add', jsonParser, async (req, res) => {
           }
           
           if (value.length > 0) {
-            sanitizedData[key] = value;
+            const cleanedValue = value.trim();
+            sanitizedData[key] = cleanedValue;
           }
         } else if (typeof value === 'number') {
      
