@@ -157,13 +157,7 @@ app.post('/add', jsonParser, async (req, res) => {
             continue; // Skip values with suspicious characters
           }
           
-          // Remove any remaining potentially dangerous characters
-          const cleanedValue = value
-            .replace(/[;'"`\\]/g, '') // Remove SQL injection characters
-            .replace(/[<>]/g, '')      // Remove HTML/XML characters
-            .trim();                   // Remove leading/trailing whitespace
-          
-          if (cleanedValue.length > 0) {
+          if (value.length > 0) {
             sanitizedData[key] = cleanedValue;
           }
         } else if (typeof value === 'number') {
