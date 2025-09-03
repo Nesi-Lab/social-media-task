@@ -32,11 +32,8 @@ function trialProps() {
         };
     };
 
-    // Randomly choose one acceptance and one rejection block
-    const ratedOrd = shuffleArray([
-        shuffleArray([{ subnum: "1", maj: "acc" }, { subnum: "1", maj: "rej" }]),
-        shuffleArray([{ subnum: "2", maj: "acc" }, { subnum: "2", maj: "rej" }])
-    ]);
+    // Permanently choose one acceptance and one rejection block (first option for each)
+    const ratedOrd = shuffleArray([{ subnum: "1", maj: "acc" }, { subnum: "1", maj: "rej" }]);
 
     const watchingProps = {
         blockInfo: { type: "watching", number: 1 },
@@ -95,8 +92,8 @@ function trialProps() {
     return [
         watchingProps,
         ratingProps(2),
-        ratedProps(ratedOrd[0][0], 3),
-        ratedProps(ratedOrd[0][1], 4)
+        ratedProps(ratedOrd[0], 3),
+        ratedProps(ratedOrd[1], 4)
     ];
 }
 

@@ -249,10 +249,10 @@ button {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(3, minmax(0, 1fr));
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 20px;
+  width: calc(100vw - 80px);
+  height: calc(100vh - 80px);
+  margin: 0 auto;
+  padding: 40px;
   box-sizing: border-box;
   gap: 10px;
 }
@@ -277,8 +277,8 @@ button {
 }
 
 .summary-grid-person-img {
-  width: min(calc(90vh / 4), calc(90vw / 4));
-  height: min(calc(90vh / 4), calc(90vw / 4));
+  width: min(calc(70vh / 4), calc(70vw / 4));
+  height: min(calc(70vh / 4), calc(70vw / 4));
   aspect-ratio: 1;
   border-radius: 50%;
   object-fit: cover;
