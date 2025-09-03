@@ -189,10 +189,10 @@ app.post('/add', jsonParser, async (req, res) => {
       `Added to ${req.body.table}: ${JSON.stringify(sanitizedData)}`
     );
   } catch (err) {
+    // Log detailed error information server-side
+    console.error(`Error inserting data into table "${req.body.table}":`, err);
     res.status(500).json({
-      error: "Error inserting data",
-      message: err.message,
-      table: req.body.table
+      error: "An internal server error occurred. Please try again later."
     });
   }
 });
