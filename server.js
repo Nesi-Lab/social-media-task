@@ -129,7 +129,7 @@ app.post('/add', jsonParser, async (req, res) => {
       'participant_id', 'timestamp', 'location', 'screen',
       'excited', 'upset', 'included', 'excluded', 'mad', 'worried', 
       'relaxed', 'sad', 'happy', 'unpopular', 'popular', 'embarrassed', 
-      'bored', 'proud', 'block', 'subnum', 'majority', 'trial', 
+      'bored', 'proud', 'block', 'subnum', 'majority', 'trial', 'type',
       'rater_id', 'ratee_id', 'num_watching', 'score', 'interpretation_score',
       'name', 'value',
       // Eye tracking coordinates x0-x20, y0-y20
@@ -139,8 +139,8 @@ app.post('/add', jsonParser, async (req, res) => {
       'y11', 'y12', 'y13', 'y14', 'y15', 'y16', 'y17', 'y18', 'y19', 'y20'
     ]);
 
-    // Safe character regex - only alphanumeric, spaces, hyphens, underscores, dots, and basic punctuation
-    const safeCharRegex = /^[a-zA-Z0-9\s\-_.,!?()@#$%&*+=<>:;'"`~[\]{}|\\\/]+$/;
+    // Safe character regex - only alphanumeric, spaces, hyphens, underscores, dots, basic punctuation, and specific allowed emojis
+    const safeCharRegex = /^[a-zA-Z0-9\s\-_.,!?()+@$#&:|🙃🐳✨🎉🌸🏆😍🌎]+$/u;
 
     for (const [key, value] of Object.entries(req.body.data)) {
       if (allowedKeys.has(key)) {
@@ -194,6 +194,7 @@ app.post('/add', jsonParser, async (req, res) => {
     res.status(500).json({
       error: "An internal server error occurred. Please try again later."
     });
+    console.log("error inserting data", err.message);
   }
 });
 
