@@ -140,7 +140,7 @@ app.post('/add', jsonParser, async (req, res) => {
     ]);
 
     // Safe character regex - only alphanumeric, spaces, hyphens, underscores, dots, basic punctuation, and specific allowed emojis
-    const safeCharRegex = /^[a-zA-Z0-9\s\-_.,!?()+@$#&:|{}'\"🙃🐳✨🎉🌸🏆😍🌎]+$/u;
+    const safeCharRegex = /^[a-zA-Z0-9\s\-_.,!?()+@$#&:|{}'"\u{1F643}\u{1F433}\u{2728}\u{1F389}\u{1F338}\u{1F3C6}\u{1F60D}\u{1F30E}]+$/u;
 
     for (const [key, value] of Object.entries(req.body.data)) {
       if (allowedKeys.has(key)) {
