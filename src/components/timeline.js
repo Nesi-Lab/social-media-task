@@ -13,6 +13,10 @@ import Profile from './profile';
 import Block from './block';
 import Summary from './summary';
 
+// Timeline and config for the experiment
+
+export const NUM_TRIALS_PER_BLOCK = 15;
+
 // Points arrays for calibration steps
 const fourPoints = [
     [.25, .25],
